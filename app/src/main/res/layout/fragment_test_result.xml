@@ -1,0 +1,313 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fillViewport="true"
+            tools:context="com.talentsprint.fragments.TestResultFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/horns"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="20dp"
+            android:src="@drawable/test_result_horns"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/testResultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/test_result"
+            android:textColor="@color/white"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/testResultText"
+            android:layout_below="@+id/testResultText"
+            android:layout_marginTop="2dp"
+            android:background="@color/white"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/testTopic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/testResultText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Quantitative Aptitude"
+            android:textColor="@color/white"
+            android:textSize="17dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/testSubTopic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/testTopic"
+            android:layout_centerHorizontal="true"
+            android:text="Arithmetic | Averages"
+            android:textColor="@color/white"
+            android:textSize="17dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/horns"
+            android:scaleType="fitXY"
+            android:src="@drawable/semi_circle"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/percentage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@+id/horns"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15dp"
+            android:background="@drawable/color_accent_circle"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="56%"
+            android:textColor="@color/gray_dark"
+            android:textSize="40dp"/>
+
+        <ImageView
+            android:id="@+id/circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/percentage"
+            android:layout_alignTop="@+id/percentage"
+            android:layout_marginBottom="-15dp"
+            android:layout_marginTop="-15dp"
+            android:src="@drawable/circle_transparent"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/timeTakenText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/timeTaken"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/percentage"
+            android:layout_marginRight="20dp"
+            android:text="Time Taken"
+            android:textColor="#5a5a5a"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/timeTaken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/timeTakenText"
+            android:layout_marginRight="20dp"
+            android:text="01:13:17"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/timeTaken"
+            android:layout_alignTop="@+id/timeTakenText"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/timeTaken"
+            android:src="@drawable/clock"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/countsLyt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeTaken"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp">
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/totalTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/total"
+                android:textColor="@color/gray_dark"
+                android:textSize="11dp"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/correctlTxt"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/correctlTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/correct"
+                android:textColor="@color/gray_dark"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toRightOf="@+id/totalTxt"
+                app:layout_constraintRight_toLeftOf="@+id/wrongTxt"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/wrongTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/wrong"
+                android:textColor="@color/gray_dark"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toRightOf="@+id/correctlTxt"
+                app:layout_constraintRight_toLeftOf="@+id/skippedTxt"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/skippedTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/skipped"
+                android:textColor="@color/gray_dark"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toRightOf="@+id/wrongTxt"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="20"
+                android:textColor="@color/gray_dark"
+                android:textSize="30dp"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/correctl"
+                app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/correctl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="11"
+                android:textColor="@color/colorAccent"
+                android:textSize="30dp"
+                app:layout_constraintLeft_toRightOf="@+id/total"
+                app:layout_constraintRight_toLeftOf="@+id/wrong"
+                app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/wrong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="@color/gray_dark"
+                android:textSize="30dp"
+                app:layout_constraintLeft_toRightOf="@+id/correctl"
+                app:layout_constraintRight_toLeftOf="@+id/skipped"
+                app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
+
+            <com.talentsprint.views.OpenSansTextView
+                android:id="@+id/skipped"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/gray_dark"
+                android:textSize="30dp"
+                app:layout_constraintLeft_toRightOf="@+id/wrong"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/countsLyt"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/gray_dark20Opc"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/extraTakenText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/extra_taken"
+            android:textColor="#5a5a5a"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/extraTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/extraTakenText"
+            android:layout_centerHorizontal="true"
+            android:text="00:13:27"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17dp"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/extraTime"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="60dp"
+            android:text="Improve Speed"
+            android:textColor="@color/black"
+            android:textSize="17dp"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/dividercentre"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:paddingBottom="5dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="5dp"
+            android:text="@string/done"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/reviewAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_toLeftOf="@+id/dividercentre"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/review_answers"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <View
+            android:id="@+id/dividercentre"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</ScrollView>

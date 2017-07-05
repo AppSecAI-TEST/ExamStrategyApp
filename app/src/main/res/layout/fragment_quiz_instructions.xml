@@ -1,0 +1,148 @@
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.talentsprint.fragments.QuizInstructionsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:paddingTop="30dp">
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/examsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/daily_quiz"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/examsText"
+            android:layout_below="@+id/examsText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:text="1 hr"
+            android:textColor="@color/gray_dark"
+            android:textSize="14dp"/>
+
+        <ImageView
+            android:id="@+id/timerImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/time"
+            android:src="@drawable/clock_tilt"
+            android:tint="#9b9a9a"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/questionsTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/timerImage"
+            android:gravity="center"
+            android:text="Questions"
+            android:textColor="@color/gray_dark"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/questionsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/questionsTxt"
+            android:gravity="center"
+            android:text="20"
+            android:textColor="@color/gray_dark"
+            android:textSize="14dp"/>
+
+        <ImageView
+            android:id="@+id/tickImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@+id/questionsCount"
+            android:src="@drawable/side_tick"
+            android:tint="#9b9a9a"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/typeRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/examsText"
+            android:layout_margin="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/emptyView"
+            android:layout_below="@+id/typeRecycler"
+            android:background="@color/activityBgGray"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/instructionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/typeRecycler"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/instructions"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/examsText"
+            android:layout_below="@+id/instructionsText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/instructionsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/instructionsText"
+            android:layout_margin="20dp"/>
+
+        <Button
+            android:id="@+id/startExam"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/instructionsRecycler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/start_test"
+            android:textColor="#2c2b2b"
+            android:textSize="14dp"/>
+
+        <View
+            android:id="@+id/emptyView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@+id/startExam"/>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

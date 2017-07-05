@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.talentsprint.activities.DashboardActivity">
+
+    <ImageView
+        android:id="@+id/header_curve"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/semi_circle"/>
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"/>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="57dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:padding="20dp"
+            android:src="@drawable/back"
+            android:tint="@color/white"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_toLeftOf="@+id/alentSprintLogo"
+            android:layout_toRightOf="@+id/back"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="@string/bank_po"
+            android:textColor="@color/white"
+            android:textSize="15dp"/>
+
+        <ImageView
+            android:id="@+id/alentSprintLogo"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/logo_color"
+            android:tint="@color/white"/>
+
+    </RelativeLayout>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/subjectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_curve"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:text="QUANTITATIVE APTITUDE"
+        android:textColor="@color/textTitleColor"
+        android:textSize="15dp"/>
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="5dp"
+        android:layout_alignLeft="@+id/subjectText"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimary"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/subjectTopicText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Topic"
+        android:textColor="@color/gray_dark"
+        android:textSize="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/subjectTopicText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#b5b3b3"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/subjectTopicText"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="20dp"/>
+
+
+</RelativeLayout>

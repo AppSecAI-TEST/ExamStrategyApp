@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/book"
+        android:id="@+id/typeImage"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="15dp"
+        android:tint="#9b9a9a"/>
+    <com.talentsprint.views.OpenSansTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11dp"
+        android:textColor="#5a5a5a"
+        android:layout_toRightOf="@+id/typeImage"
+        android:id="@+id/titleTxt"
+        android:text="@string/subject"/>
+    <com.talentsprint.views.OpenSansTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="#454141"
+        android:layout_below="@+id/titleTxt"
+        android:layout_toRightOf="@+id/typeImage"
+        android:text="Quantitative Aptitude"/>
+
+</RelativeLayout>

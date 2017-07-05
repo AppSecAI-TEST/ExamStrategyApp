@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/examCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:text="1"
+        android:textColor="#80454141"
+        android:textSize="34dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/examText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/examCount"
+        android:paddingTop="5dp"
+        android:text="@string/exam_name"
+        android:textColor="#5a5a5a"
+        android:textSize="11dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/examName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/examText"
+        android:layout_toLeftOf="@+id/delete"
+        android:layout_toRightOf="@+id/examCount"
+        android:text="@string/bank_po"
+        android:textColor="@color/gray_dark"
+        android:textSize="14dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/examName"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/delete"
+        android:layout_toRightOf="@+id/examCount"
+        android:background="@color/black30opc"/>
+
+    <ImageView
+        android:id="@+id/calender"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_below="@+id/divider"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/examCount"
+        android:padding="1dp"
+        android:src="@drawable/calender"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/calender"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/calender"
+        android:gravity="bottom"
+        android:text="@string/select_date"
+        android:textColor="@color/gray_dark"
+        android:textSize="13dp"/>
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/delete"/>
+</RelativeLayout>

@@ -1,0 +1,211 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fillViewport="true"
+            tools:context="com.talentsprint.fragments.ProfileFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/subjectText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_curve"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:gravity="bottom"
+            android:text="@string/profile"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignBottom="@+id/subjectText"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/subjectText"
+            android:src="@drawable/edit"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/subjectText"
+            android:layout_below="@+id/subjectText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <ImageView
+            android:id="@+id/profilePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/subjectText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/color_accent_circle"
+            android:backgroundTint="@color/activityBgGray"
+            android:padding="10dp"
+            android:src="@drawable/logo_color"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/profilePic"
+            android:layout_alignTop="@+id/profilePic"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@+id/profilePic"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.talentsprint.views.LatoTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amit Goel"
+                android:textColor="@color/gray_dark"
+                android:textSize="17dp"/>
+
+            <com.talentsprint.views.LatoTextView
+                android:id="@+id/customerType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SD Card Platinum"
+                android:textColor="@color/gray_dark"
+                android:textSize="12dp"/>
+
+            <com.talentsprint.views.LatoTextView
+                android:id="@+id/joinDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="21 Feb 2017"
+                android:textColor="@color/gray_dark"
+                android:textSize="12dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/profilePic"
+            android:layout_marginTop="40dp"
+            android:background="@color/activityBgGray"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/settingsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profilePic"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:gravity="bottom"
+            android:text="@string/settings"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/settingsText"
+            android:layout_below="@+id/settingsText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/languageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settingsText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:text="@string/language"
+            android:textColor="@color/gray_dark"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/languageText"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:text="@string/english"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/notificationsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/language"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:text="@string/notifications_small"
+            android:textColor="@color/gray_dark"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notificationsText"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:text="@string/on"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/storageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notifications"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:text="@string/storage"
+            android:textColor="@color/gray_dark"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/storageText"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:text="@string/internal"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <ImageView
+            android:id="@+id/settingsImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/logout"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/settings_edited"/>
+
+        <com.talentsprint.views.LatoTextView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="30dp"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:paddingBottom="5dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="5dp"
+            android:text="@string/logout"
+            android:textSize="13dp"/>
+    </RelativeLayout>
+</ScrollView>

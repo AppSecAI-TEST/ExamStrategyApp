@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/dateDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="21"
+        android:textColor="@color/gray_dark"
+        android:textSize="30dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/dateMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateDay"
+        android:layout_marginLeft="2dp"
+        android:text="Mar"
+        android:textColor="#5a5a5a"
+        android:textSize="11dp"/>
+
+    <View
+        android:id="@+id/lineTop"
+        android:layout_width="1dp"
+        android:layout_height="17dp"
+        android:layout_marginLeft="27dp"
+        android:layout_toRightOf="@+id/dateDay"
+        android:background="#b5b3b3"/>
+
+
+    <View
+        android:id="@+id/lineBottom"
+        android:layout_width="1dp"
+        android:layout_height="65dp"
+        android:layout_below="@+id/circle"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="-15dp"
+        android:layout_toRightOf="@+id/dateDay"
+        android:background="#b5b3b3"/>
+
+    <View
+        android:id="@+id/circle"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/lineTop"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/dateDay"
+        android:background="@drawable/color_accent_circle"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/circle"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/indicator"
+        android:layout_toRightOf="@+id/lineBottom"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Watch video: Module 1"
+        android:textColor="@color/gray_dark"
+        android:textSize="15dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/indicator"
+        android:layout_toRightOf="@+id/lineBottom"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="Loreipsum is simply dummy"
+        android:textColor="@color/gray_dark"
+        android:textSize="11dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subTitle"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/indicator"
+        android:layout_toRightOf="@+id/lineBottom"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="1 hr"
+        android:textColor="#5a5a5a"
+        android:textSize="11dp"/>
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/error_dialogue"/>
+</RelativeLayout>

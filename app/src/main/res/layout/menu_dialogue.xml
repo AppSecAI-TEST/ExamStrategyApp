@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mainView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/content"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/menu_background_gradient"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/content"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo_run"/>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/cancel"/>
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="-50dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/logo_color"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/home"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/examStratergy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/exam_stratergy"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/studyMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/study_material"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/currentAffairs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/current_affairs"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/examAlerts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/exam_alerts"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/notifications"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/myProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="@string/my_profile"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="20dp"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/nextExamDate"
+            android:background="@drawable/semi_circle"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/nextExam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/nextExamDate"
+            android:drawableLeft="@drawable/star"
+            android:drawablePadding="10dp"
+            android:text="@string/next_exam"
+            android:textColor="@color/white"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/nextExamDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nextExam"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="30dp"
+            android:text="Bank PO, 21 Mar 2017"
+            android:textColor="@color/white"
+            android:textSize="13dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

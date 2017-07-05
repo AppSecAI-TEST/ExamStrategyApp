@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.talentsprint.activities.DashboardActivity">
+
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/subjectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:text="YOUR EXAM STRATERGY"
+        android:textColor="@color/textTitleColor"
+        android:textSize="15dp"/>
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="5dp"
+        android:layout_alignLeft="@+id/subjectText"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimary"/>
+
+    <ImageView
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/subjectText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/subjectText"
+        android:src="@drawable/filter"/>
+
+    <ImageView
+        android:id="@+id/calender"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/subjectText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/filter"
+        android:src="@drawable/calender"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stratergyRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="20dp"/>
+</RelativeLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="15dp"
+              android:layout_marginTop="15dp"
+              android:orientation="horizontal">
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/topicName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="10dp"
+        android:drawableTop="@drawable/affairs_everything"
+        android:gravity="center"
+        android:text="World Politics"
+        android:textColor="@color/gray_dark"
+        android:textSize="13dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#a9a9a9"/>
+</LinearLayout>

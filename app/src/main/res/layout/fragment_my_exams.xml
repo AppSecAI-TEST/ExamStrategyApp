@@ -1,0 +1,133 @@
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.talentsprint.fragments.MyExamsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:paddingTop="30dp">
+
+        <com.talentsprint.views.OpenSansTextView
+            android:id="@+id/examsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/my_exams"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/examsText"
+            android:layout_below="@+id/examsText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/examsText"
+            android:src="@drawable/plus"/>
+
+        <RelativeLayout
+            android:id="@+id/noExams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/examsText"
+            android:layout_marginTop="100dp">
+
+            <ImageView
+                android:id="@+id/addInfoGraphic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/calender_edited"/>
+
+            <com.talentsprint.views.LatoTextView
+                android:id="@+id/setDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addInfoGraphic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/add_exams_text"
+                android:textColor="@color/textTitleColor70Opc"
+                android:textSize="14dp"/>
+
+            <Button
+                android:id="@+id/setExam"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/setDateText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/color_accent_rounded_rectangle"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="@string/add_now"
+                android:textColor="#2c2b2b"
+                android:textSize="14dp"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/examsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/examsText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <View
+            android:id="@+id/centerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/examsRecycler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toLeftOf="@+id/centerView"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/save"
+            android:textColor="#2c2b2b"
+            android:layout_marginBottom="30dp"
+            android:textSize="14dp"/>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/examsRecycler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/centerView"
+            android:background="@android:color/transparent"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/cancel"
+            android:textColor="#2c2b2b"
+            android:textSize="14dp"/>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

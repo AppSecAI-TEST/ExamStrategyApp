@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff6443</color>
+    <color name="colorPrimaryDark">#ff6443</color>
+    <color name="colorAccent">#50d4bd</color>
+    <color name="colorPrimary40Opc">#66ff6443</color>
+    <color name="white">#ffffff</color>
+    <color name="textTitleColor">#0a1e3c</color>
+    <color name="textTitleColor40Opc">#660a343c</color>
+    <color name="textTitleColor70Opc">#b30a343c</color>
+    <color name="activityBgGray">#eceeef</color>
+    <color name="indicatorFillColor">#a5a6a7</color>
+    <color name="blue">#3366ff</color>
+    <color name="black30opc">#B3000000</color>
+    <color name="gray_dark">#454141</color>
+    <color name="gray_dark40Opc">#66454141</color>
+    <color name="gray_dark20Opc">#33454141</color>
+    <color name="green">#62bc49</color>
+    <color name="grayLight">#a0a0a0</color>
+    <color name="black">#2c2b2b</color>
+
+    <!--pager Indicator colors-->
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>
