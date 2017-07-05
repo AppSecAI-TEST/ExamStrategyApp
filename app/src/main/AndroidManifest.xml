@@ -25,20 +25,27 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.StudyMaterialActivity">
-        </activity>
-        <activity android:name=".activities.StudyMaterialTopicActivity">
-        </activity>
-        <activity android:name=".activities.StudyMaterialSubtopicActivity">
-        </activity>
-        <activity android:name=".activities.StudyMaterialArticlesListActivity">
-        </activity>
-        <activity android:name=".activities.CurrentAffairsActivity">
-        </activity>
-        <activity android:name=".activities.CurrentAffairsTopicsActivity">
-        </activity>
-        <activity android:name=".activities.TermsAndConditionsActivity">
-        </activity>
+        <activity
+            android:name=".activities.StudyMaterialActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.StudyMaterialTopicActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.StudyMaterialSubtopicActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.StudyMaterialArticlesListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.CurrentAffairsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.CurrentAffairsTopicsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.TermsAndConditionsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
