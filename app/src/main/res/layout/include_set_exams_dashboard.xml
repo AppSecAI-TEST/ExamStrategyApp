@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/calInfoGraphic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/calender_edited"/>
+
+    <com.talentsprint.views.LatoTextView
+        android:id="@+id/setDateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calInfoGraphic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/set_exam_strategy"
+        android:textColor="@color/textTitleColor70Opc"
+        android:textSize="14dp"/>
+
+    <com.talentsprint.views.OpenSansTextView
+        android:id="@+id/setExam"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/setDateText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/color_accent_rounded_rectangle"
+        android:gravity="center"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="SET EXAM DETAILS"
+        android:textColor="#2c2b2b"
+        android:textSize="14dp"/>
+</RelativeLayout>

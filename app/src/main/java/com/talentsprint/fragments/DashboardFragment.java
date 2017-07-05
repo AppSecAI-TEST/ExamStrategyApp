@@ -11,18 +11,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.onesignal.OSPermissionSubscriptionState;
+import com.onesignal.OneSignal;
 import com.talentsprint.R;
 import com.talentsprint.interfaces.DashboardActivityInterface;
+import com.talentsprint.models.CurrentAffairsObject;
+import com.talentsprint.models.HomeObject;
+import com.talentsprint.utils.ApiClient;
 import com.talentsprint.utils.AppConstants;
+import com.talentsprint.utils.TalentSprintApi;
 import com.talentsprint.views.CirclePageIndicator;
-import com.talentsprint.views.OpenSansTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,12 +42,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private RelativeLayout tasks;
     private RelativeLayout todaysTasksLyt;
     private ViewPager currentAffairsViewPager;
-    private RecyclerView alertsRecyclerView;
-    private OpenSansTextView nextExam;
-    private OpenSansTextView nextExamDate;
+    private RecyclerView alertsRecyclerView, tasksRecycler;
+    private TextView nextExam;
+    private TextView nextExamDate;
     private CirclePageIndicator indicator;
-    private Button setExam;
     private DashboardActivityInterface dashboardInterface;
+    private ImageView calenderView;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -55,14 +65,64 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         View fragmentView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         findViews(fragmentView);
         dashboardInterface.setCurveVisibility(false);
-        TestFragmentAdapter adapter = new TestFragmentAdapter(getFragmentManager());
+        getDashBoard();
+        return fragmentView;
+    }
+
+    private void getDashBoard() {
+        dashboardInterface.showProgress(true);
+        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
+        String oneSignalId = status.getSubscriptionStatus().getUserId();
+        TalentSprintApi apiService =
+                ApiClient.getClient().create(TalentSprintApi.class);
+        Call<HomeObject> getHomeDetails = apiService.getHome(oneSignalId);
+        getHomeDetails.enqueue(new Callback<HomeObject>() {
+            @Override
+            public void onResponse(Call<HomeObject> call, Response<HomeObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful())
+                    setValues(response);
+            }
+
+            @Override
+            public void onFailure(Call<HomeObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setValues(Response<HomeObject> response) {
+        HomeObject homeObject = response.body();
+        CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getFragmentManager(), homeObject
+                .getCurrentAffairs());
         currentAffairsViewPager.setAdapter(adapter);
         indicator.setViewPager(currentAffairsViewPager);
         AlertsAdapter alertsAdapter = new AlertsAdapter(new ArrayList<String>());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         alertsRecyclerView.setLayoutManager(mLayoutManager);
         alertsRecyclerView.setAdapter(alertsAdapter);
-        return fragmentView;
+        String status = homeObject.getStatus();
+        if (status == null || status.equalsIgnoreCase(AppConstants.EXAM_NOT_SET)) {
+            nextExamDate.setText("Not Set");
+            View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_set_exams_dashboard, null, false);
+            todaysTasksLyt.addView(inflatedLayout);
+            inflatedLayout.findViewById(R.id.setExam).setOnClickListener(this);
+        } else {
+            nextExamDate.setText(homeObject.getNextExam() + ", " + homeObject.getNextExamDate());
+            if (status.equalsIgnoreCase(AppConstants.ASESMENT_NOT_TAKEN)) {
+                View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_assesment_dashboard, null,
+                        false);
+                todaysTasksLyt.addView(inflatedLayout);
+                inflatedLayout.findViewById(R.id.assessYourself).setOnClickListener(this);
+            } else if (status.equalsIgnoreCase(AppConstants.PREPARING_STRATERGY)) {
+                View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_intermediate_dashboard, null,
+                        false);
+                todaysTasksLyt.addView(inflatedLayout);
+            } else if (status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
+                calenderView.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void findViews(View fragmentView) {
@@ -73,47 +133,48 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         nextExam = fragmentView.findViewById(R.id.nextExam);
         nextExamDate = fragmentView.findViewById(R.id.nextExamDate);
         indicator = fragmentView.findViewById(R.id.indicator);
-        setExam = fragmentView.findViewById(R.id.setExam);
-        setExam.setOnClickListener(this);
-        setExam.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, new QuizInstructionsFragment(), AppConstants.QUIZ_INSTRUCTIONS)
-                        .addToBackStack(null).commit();
-                return true;
-            }
-        });
+        calenderView = fragmentView.findViewById(R.id.calenderView);
+        tasksRecycler = fragmentView.findViewById(R.id.tasksRecycler);
+        nextExamDate.setText("");
+        calenderView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onClick(View view) {
-        if (view == setExam) {
+        if (view.getId() == R.id.setExam) {
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+        } else if (view.getId() == R.id.assessYourself) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new QuizInstructionsFragment(), AppConstants.QUIZ_INSTRUCTIONS)
+                    .addToBackStack(null).commit();
         }
     }
 
-    class TestFragmentAdapter extends FragmentPagerAdapter {
+    class CurrentAffairsFragmentAdapter extends FragmentPagerAdapter {
 
-        public TestFragmentAdapter(FragmentManager fm) {
+        ArrayList<CurrentAffairsObject> currentAffairs;
+
+        public CurrentAffairsFragmentAdapter(FragmentManager fm, ArrayList<CurrentAffairsObject> currentAffairs) {
             super(fm);
+            if (currentAffairs != null)
+                this.currentAffairs = currentAffairs;
+            else
+                this.currentAffairs = new ArrayList<CurrentAffairsObject>();
         }
 
         @Override
         public Fragment getItem(int position) {
             CurrentAffairsViewPagerItem item = new CurrentAffairsViewPagerItem();
             Bundle bundle = new Bundle();
-            bundle.putString(AppConstants.CONTENT, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                    "Lorem Ihas been the printing and typesettinand types Lorem Ipsum is simply dummy text of the printing and " +
-                    "typesetting industry. Lorem Ihas been the printing and typesettinand types ...");
+            bundle.putString(AppConstants.CONTENT, currentAffairs.get(position).getShortDescription());
             item.setArguments(bundle);
             return item;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return currentAffairs.size();
         }
     }
 

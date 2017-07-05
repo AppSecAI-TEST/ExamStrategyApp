@@ -5,8 +5,9 @@ package com.talentsprint.utils;
  */
 
 public class ApiUrls {
-    public static final String BASE_URL = "https://test-api.tsprint.com/api/";
+    public static final String BASE_URL = "https://esa.talentsprint.com/";
 
+    public static final String ONE_SIGNAL = "onesignalId";
     public static final String HOME = "home";
     public static final String GET_EXAMS = "getExams";
     public static final String SET_EXAMS = "setExams";

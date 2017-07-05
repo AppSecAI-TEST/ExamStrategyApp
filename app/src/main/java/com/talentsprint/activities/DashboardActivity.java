@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.talentsprint.R;
@@ -27,6 +28,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
 
     private ImageView header_curve;
     private ImageView menu;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,10 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     private void findViews() {
         menu = findViewById(R.id.menu);
         header_curve = findViewById(R.id.header_curve);
+        progressBar = findViewById(R.id.progressBar);
         header_curve.setVisibility(View.GONE);
         menu.setOnClickListener(this);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -51,6 +55,15 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             header_curve.setVisibility(View.VISIBLE);
         } else {
             header_curve.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showProgress(boolean isShow) {
+        if (isShow) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
         }
     }
 

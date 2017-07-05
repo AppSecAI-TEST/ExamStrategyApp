@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/calInfoGraphic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/intermediate_design"/>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/calInfoGraphic"
+        android:layout_alignTop="@+id/calInfoGraphic"
+        android:indeterminateTint="@color/colorPrimary"
+        android:padding="5dp"/>
+
+    <com.talentsprint.views.LatoTextView
+        android:id="@+id/setDateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calInfoGraphic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="@string/generating_stratergy"
+        android:textColor="@color/textTitleColor70Opc"
+        android:textSize="14dp"/>
+
+</RelativeLayout>

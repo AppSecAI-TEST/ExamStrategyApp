@@ -12,7 +12,7 @@ public final class PreferenceManager {
     /**
      * Name for shared preferences file.
      */
-    private static final String PREF_NAME = "GivHeroSharedPreferences";
+    private static final String PREF_NAME = "TsptintSharedPreferences";
 
     /**
      * Hidden constructor.

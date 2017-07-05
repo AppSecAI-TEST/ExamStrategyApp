@@ -6,4 +6,6 @@ package com.talentsprint.interfaces;
 
 public interface DashboardActivityInterface {
     public void setCurveVisibility(boolean isShow);
+
+    public void showProgress(boolean isShow);
 }

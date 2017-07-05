@@ -12,6 +12,7 @@
     <color name="indicatorFillColor">#a5a6a7</color>
     <color name="blue">#3366ff</color>
     <color name="black30opc">#B3000000</color>
+    <color name="black90opc">#1A000000</color>
     <color name="gray_dark">#454141</color>
     <color name="gray_dark40Opc">#66454141</color>
     <color name="gray_dark20Opc">#33454141</color>
