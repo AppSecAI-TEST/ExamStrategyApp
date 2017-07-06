@@ -22,6 +22,7 @@ import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
+import com.talentsprint.android.esa.models.TaskObject;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
@@ -208,6 +209,46 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             public MyViewHolder(View view) {
                 super(view);
                 title = (TextView) view;
+            }
+        }
+    }
+
+    public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder> {
+
+        private List<TaskObject> tasksList;
+
+        public TasksAdapter(List<TaskObject> tasksList) {
+            this.tasksList = tasksList;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_tasks, parent, false);
+            return new MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position) {
+            TaskObject taskObject = tasksList.get(position);
+            holder.subTopicName.setText(taskObject.getTitle());
+            holder.topicName.setText(taskObject.getType());
+        }
+
+        @Override
+        public int getItemCount() {
+            return 5;
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView topicName, subTopicName;
+            public ImageView topicImage;
+
+            public MyViewHolder(View view) {
+                super(view);
+                topicName = view.findViewById(R.id.topicName);
+                subTopicName = view.findViewById(R.id.subTopicName);
+                topicImage = view.findViewById(R.id.topicImage);
             }
         }
     }
