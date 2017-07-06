@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.talentsprint.android.esa.views.OpenSansTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/examName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/bank_po"
+    android:textColor="@color/gray_dark"
+    android:textSize="14dp"/>

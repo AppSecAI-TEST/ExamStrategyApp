@@ -22,13 +22,16 @@ import com.talentsprint.android.esa.fragments.DashboardFragment;
 import com.talentsprint.android.esa.fragments.ProfileFragment;
 import com.talentsprint.android.esa.fragments.StratergyFragment;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 public class DashboardActivity extends FragmentActivity implements DashboardActivityInterface, View.OnClickListener {
 
     private ImageView header_curve;
     private ImageView menu;
     private ProgressBar progressBar;
+    private TalentSprintApi apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_dashboard);
         findViews();
+        apiService =
+                ApiClient.getClient().create(TalentSprintApi.class);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new DashboardFragment(), AppConstants.DASHBOARD).commit();
     }
@@ -65,6 +70,14 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public TalentSprintApi getApiService() {
+        if (apiService == null)
+            apiService =
+                    ApiClient.getClient().create(TalentSprintApi.class);
+        return apiService;
     }
 
     @Override

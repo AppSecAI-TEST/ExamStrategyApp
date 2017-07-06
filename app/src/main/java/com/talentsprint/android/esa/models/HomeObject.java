@@ -1,13 +1,12 @@
 package com.talentsprint.android.esa.models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Anudeep Reddy on 7/5/2017.
  */
 
-public class HomeObject implements Serializable {
+public class HomeObject {
     private String nextExam;
     private String nextExamDate;
     private String status;

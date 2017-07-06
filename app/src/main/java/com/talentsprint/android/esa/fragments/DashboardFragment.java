@@ -23,7 +23,6 @@ import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.TaskObject;
-import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.CirclePageIndicator;
@@ -75,14 +74,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
         String oneSignalId = status.getSubscriptionStatus().getUserId();
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                dashboardInterface.getApiService();
         Call<HomeObject> getHomeDetails = apiService.getHome(oneSignalId);
         getHomeDetails.enqueue(new Callback<HomeObject>() {
             @Override
             public void onResponse(Call<HomeObject> call, Response<HomeObject> response) {
                 dashboardInterface.showProgress(false);
-                if (response.isSuccessful())
+                if (response.isSuccessful()) {
                     setValues(response);
+                }
             }
 
             @Override
@@ -104,6 +104,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         alertsRecyclerView.setLayoutManager(mLayoutManager);
         alertsRecyclerView.setAdapter(alertsAdapter);
         String status = homeObject.getStatus();
+        //Conditions as per the API document provided by talent sprint
         if (status == null || status.equalsIgnoreCase(AppConstants.EXAM_NOT_SET)) {
             nextExamDate.setText("Not Set");
             View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_set_exams_dashboard, null, false);
@@ -122,6 +123,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 todaysTasksLyt.addView(inflatedLayout);
             } else if (status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
                 calenderView.setVisibility(View.VISIBLE);
+                TasksAdapter tasksAdapter = new TasksAdapter(homeObject.getTasklist());
+                RecyclerView.LayoutManager mtaskLayoutManager = new LinearLayoutManager(getActivity());
+                tasksRecycler.setLayoutManager(mtaskLayoutManager);
+                tasksRecycler.setAdapter(tasksAdapter);
             }
         }
     }
@@ -232,12 +237,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         public void onBindViewHolder(MyViewHolder holder, int position) {
             TaskObject taskObject = tasksList.get(position);
             holder.subTopicName.setText(taskObject.getTitle());
-            holder.topicName.setText(taskObject.getType());
+            switch (taskObject.getType()) {
+                case AppConstants.NON_VIDEO:
+                    holder.topicName.setText("Non-Video");
+                    holder.topicImage.setImageResource(R.drawable.word_of_the_day);
+                    break;
+                case AppConstants.VIDEO:
+                    holder.topicName.setText("Video");
+                    holder.topicImage.setImageResource(R.drawable.video);
+                    break;
+                case AppConstants.TEST:
+                    holder.topicName.setText("Quiz");
+                    holder.topicImage.setImageResource(R.drawable.quiz);
+                    break;
+                case AppConstants.WORD_OF_THE_DAY:
+                    holder.topicName.setText("Word of the day");
+                    holder.topicImage.setImageResource(R.drawable.word_of_the_day);
+                    break;
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 5;
+            return tasksList.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {

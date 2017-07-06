@@ -17,4 +17,9 @@ public class AppConstants {
     public static final String ASESMENT_NOT_TAKEN = "Assessment not Taken";
     public static final String PREPARING_STRATERGY = "Preparing Strategy";
     public static final String STRATERGY_IS_READY = " Strategy is ready";
+    public static final String NON_VIDEO = "non-video";
+    public static final String VIDEO = "video";
+    public static final String TEST = "test";
+    public static final String WORD_OF_THE_DAY = "word-of-the-day";
+    public static final String COOKIES = "cookies";
 }

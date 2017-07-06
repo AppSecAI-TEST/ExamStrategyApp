@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.utils;
 
+import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 
 import retrofit2.Call;
@@ -14,4 +15,7 @@ public interface TalentSprintApi {
 
     @GET(ApiUrls.HOME)
     Call<HomeObject> getHome(@Query(ApiUrls.ONE_SIGNAL) String oneSignalId);
+
+    @GET(ApiUrls.GET_EXAMS)
+    Call<GetExamsObject> getExams();
 }

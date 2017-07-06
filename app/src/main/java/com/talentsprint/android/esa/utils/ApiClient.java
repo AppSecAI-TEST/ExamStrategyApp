@@ -30,6 +30,8 @@ public class ApiClient {
                     .build();
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectionSpecs(Collections.singletonList(spec))
+                    .addInterceptor(new InterceptorAddCookies())
+                    .addInterceptor(new InterceptorReceivedCookies())
                     .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

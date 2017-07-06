@@ -8,6 +8,8 @@ public class CurrentAffairsObject {
     private String shortDescription;
     private String contentUrl;
     private String id;
+    private String title;
+    private String imageUrl;
 
     public String getShortDescription() {
         return shortDescription;
@@ -31,5 +33,21 @@ public class CurrentAffairsObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -24,22 +24,21 @@
         android:textColor="#5a5a5a"
         android:textSize="11dp"/>
 
-    <com.talentsprint.android.esa.views.OpenSansTextView
-        android:id="@+id/examName"
-        android:layout_width="wrap_content"
+
+    <Spinner
+        android:id="@+id/examNameSpinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/examText"
         android:layout_toLeftOf="@+id/delete"
         android:layout_toRightOf="@+id/examCount"
-        android:text="@string/bank_po"
-        android:textColor="@color/gray_dark"
-        android:textSize="14dp"/>
+        android:overlapAnchor="false"/>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/examName"
+        android:layout_below="@+id/examNameSpinner"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/delete"
         android:layout_toRightOf="@+id/examCount"
@@ -56,13 +55,14 @@
         android:src="@drawable/calender"/>
 
     <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/examDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/calender"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/calender"
         android:gravity="bottom"
-        android:text="@string/select_date"
+        android:text=""
         android:textColor="@color/gray_dark"
         android:textSize="13dp"/>
 

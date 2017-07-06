@@ -2,22 +2,36 @@ package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.models.ExamObject;
+import com.talentsprint.android.esa.models.GetExamsObject;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +43,9 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
     private Button setExam, save, cancel;
     private RecyclerView examsRecycler;
     private DashboardActivityInterface dashboardInterface;
+    private ArrayList<ExamObject> addedExams;
+    private HashMap<String, Integer> examsMap = new HashMap<String, Integer>();
+    private AddExamsAdapter alertsAdapter;
 
     public MyExamsFragment() {
         // Required empty public constructor
@@ -43,15 +60,47 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_my_exams, container, false);
         findViews(fragmentView);
         dashboardInterface.setCurveVisibility(true);
-        AddExamsAdapter alertsAdapter = new AddExamsAdapter(new ArrayList<String>());
+        getExams();
+        return fragmentView;
+    }
+
+    private void getExams() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        Call<GetExamsObject> getExams = apiService.getExams();
+        getExams.enqueue(new Callback<GetExamsObject>() {
+            @Override
+            public void onResponse(Call<GetExamsObject> call, Response<GetExamsObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    setValues(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetExamsObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setValues(Response<GetExamsObject> response) {
+        ArrayList<ExamObject> exams = response.body().getExams();
+        ExamObject selectExam = new ExamObject();
+        selectExam.setDate("");
+        selectExam.setName("Select Exam");
+        exams.add(0, selectExam);
+        for (int i = 0; i < exams.size(); i++) {
+            examsMap.put(exams.get(i).getName(), i);
+        }
+        alertsAdapter = new AddExamsAdapter(exams);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         examsRecycler.setLayoutManager(mLayoutManager);
         examsRecycler.setAdapter(alertsAdapter);
-        return fragmentView;
     }
 
     private void findViews(View fragmentView) {
@@ -67,24 +116,64 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
         setExam.setOnClickListener(this);
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        add.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == setExam) {
-            examsRecycler.setVisibility(View.VISIBLE);
-            save.setVisibility(View.VISIBLE);
-            cancel.setVisibility(View.VISIBLE);
-            noExams.setVisibility(View.GONE);
+            setRecyclerVisible();
+            if (addedExams == null || addedExams.size() == 0) {
+                addedExams = new ArrayList<ExamObject>();
+                AddNewExam();
+            }
+        } else if (v == add) {
+            if (save.getVisibility() == View.GONE) {
+                setRecyclerVisible();
+            } else if (addedExams.size() < 4) {
+                AddNewExam();
+                alertsAdapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getActivity(), "Only 4 exams can be added", Toast.LENGTH_SHORT).show();
+            }
+        } else if (v == cancel) {
+            getActivity().onBackPressed();
         }
+    }
+
+    private void AddNewExam() {
+        ExamObject emptyObject = new ExamObject();
+        addedExams.add(emptyObject);
+    }
+
+    private void setRecyclerVisible() {
+        examsRecycler.setVisibility(View.VISIBLE);
+        save.setVisibility(View.VISIBLE);
+        cancel.setVisibility(View.VISIBLE);
+        noExams.setVisibility(View.GONE);
+    }
+
+    private void setRecyclerInvisible() {
+        examsRecycler.setVisibility(View.GONE);
+        save.setVisibility(View.GONE);
+        cancel.setVisibility(View.GONE);
+        noExams.setVisibility(View.VISIBLE);
     }
 
     public class AddExamsAdapter extends RecyclerView.Adapter<AddExamsAdapter.MyViewHolder> {
 
-        private List<String> alertssList;
+        private List<ExamObject> examsList;
+        private ExamsAdapter spinnerAdapter;
 
-        public AddExamsAdapter(List<String> alertssList) {
-            this.alertssList = alertssList;
+        public AddExamsAdapter(ArrayList<ExamObject> examsList) {
+            this.examsList = examsList;
+            if (addedExams == null || addedExams.size() == 0) {
+                addedExams = new ArrayList<ExamObject>();
+                AddNewExam();
+            }
+            spinnerAdapter = new ExamsAdapter(getActivity(), R.layout.drop_down_item_select_exam,
+                    examsList);
+            spinnerAdapter.setDropDownViewResource(R.layout.drop_down_item_select_exam);
         }
 
         @Override
@@ -95,33 +184,114 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
+        public void onBindViewHolder(final MyViewHolder holder, final int position) {
             holder.examCount.setText(Integer.toString(position + 1));
+            holder.examNameSpinner.setAdapter(spinnerAdapter);
+            final ExamObject addedExamObject = addedExams.get(position);
+            if (addedExamObject.getName() != null) {
+                holder.examDate.setText(addedExamObject.getDate());
+                holder.examNameSpinner.setSelection(examsMap.get(addedExamObject.getName()));
+            }
+            holder.examNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int spinnerPosition, long l) {
+                    ExamObject selectedExam = examsList.get(spinnerPosition);
+                    holder.examDate.setText(selectedExam.getDate());
+                    addedExamObject.setId(selectedExam.getId());
+                    addedExamObject.setName(selectedExam.getName());
+                    addedExamObject.setDate(selectedExam.getDate());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addedExams.remove(addedExamObject);
+                    notifyDataSetChanged();
+                    if (addedExams.size() == 0) {
+                        setRecyclerInvisible();
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return 4;
+            if (addedExams.size() > 0) return addedExams.size();
+            else return 1;
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView examCount;
-            public TextView examText;
+            public TextView examDate;
             public TextView examName;
             public View divider;
             public ImageView calender;
             public ImageView delete;
+            public Spinner examNameSpinner;
 
             public MyViewHolder(View view) {
                 super(view);
                 examCount = view.findViewById(R.id.examCount);
-                examText = view.findViewById(R.id.examText);
+                examDate = view.findViewById(R.id.examDate);
                 examName = view.findViewById(R.id.examName);
                 divider = view.findViewById(R.id.divider);
                 calender = view.findViewById(R.id.calender);
                 delete = view.findViewById(R.id.delete);
+                examNameSpinner = view.findViewById(R.id.examNameSpinner);
+
             }
         }
     }
 
+    public class ExamsAdapter extends ArrayAdapter<ExamObject> {
+
+        public ExamsAdapter(Context context, int textViewResourceId, ArrayList<ExamObject> items) {
+            super(context, textViewResourceId, items);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(this.getContext())
+                        .inflate(R.layout.drop_down_item_select_exam, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.examName = convertView.findViewById(R.id.examName);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            ExamObject item = getItem(position);
+            if (item != null) {
+                viewHolder.examName.setText(item.getName());
+            }
+            return convertView;
+        }
+
+        @Override
+        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(this.getContext())
+                        .inflate(R.layout.drop_down_item_select_exam_list_item, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.examName = convertView.findViewById(R.id.examName);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            ExamObject item = getItem(position);
+            if (item != null) {
+                viewHolder.examName.setText(item.getName());
+            }
+            return convertView;
+        }
+
+        public class ViewHolder {
+            private TextView examName;
+        }
+    }
 }
