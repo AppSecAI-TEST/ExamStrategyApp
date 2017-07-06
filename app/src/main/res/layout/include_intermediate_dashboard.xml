@@ -19,7 +19,7 @@
         android:indeterminateTint="@color/colorPrimary"
         android:padding="5dp"/>
 
-    <com.talentsprint.views.LatoTextView
+    <com.talentsprint.android.esa.views.LatoTextView
         android:id="@+id/setDateText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

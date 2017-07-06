@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context="com.talentsprint.fragments.MyExamsFragment">
+    tools:context=".android.esa.fragments.MyExamsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:paddingTop="30dp">
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/examsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/calender_edited"/>
 
-            <com.talentsprint.views.LatoTextView
+            <com.talentsprint.android.esa.views.LatoTextView
                 android:id="@+id/setDateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,6 +101,7 @@
             android:layout_height="30dp"
             android:layout_below="@id/examsRecycler"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/centerView"
@@ -109,7 +110,6 @@
             android:paddingRight="25dp"
             android:text="@string/save"
             android:textColor="#2c2b2b"
-            android:layout_marginBottom="30dp"
             android:textSize="14dp"/>
 
         <Button

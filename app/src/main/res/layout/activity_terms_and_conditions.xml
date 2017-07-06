@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.talentsprint.activities.TermsAndConditionsActivity">
+    tools:context=".android.esa.activities.TermsAndConditionsActivity">
 
     <View
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:src="@drawable/logo_color"
         android:tint="@color/white"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/termsConditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimary"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/privacyPolicy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         android:layout_below="@+id/privacyPolicy"
         android:layout_margin="20dp">
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/contentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

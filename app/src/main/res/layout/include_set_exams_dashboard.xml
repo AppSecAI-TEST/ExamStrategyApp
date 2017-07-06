@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/calender_edited"/>
 
-    <com.talentsprint.views.LatoTextView
+    <com.talentsprint.android.esa.views.LatoTextView
         android:id="@+id/setDateText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:textColor="@color/textTitleColor70Opc"
         android:textSize="14dp"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/setExam"
         android:layout_width="wrap_content"
         android:layout_height="30dp"

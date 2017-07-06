@@ -6,7 +6,7 @@
               android:layout_marginTop="15dp"
               android:orientation="horizontal">
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/topicName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

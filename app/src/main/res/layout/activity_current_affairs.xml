@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.talentsprint.activities.DashboardActivity">
+    tools:context=".android.esa.activities.DashboardActivity">
 
     <ImageView
         android:id="@+id/header_curve"
@@ -47,7 +47,7 @@
 
     </RelativeLayout>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/subjectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimary"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/everything"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

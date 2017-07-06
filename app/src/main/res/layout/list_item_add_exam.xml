@@ -5,7 +5,7 @@
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp">
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/examCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:textColor="#80454141"
         android:textSize="34dp"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/examText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:textColor="#5a5a5a"
         android:textSize="11dp"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/examName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:padding="1dp"
         android:src="@drawable/calender"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/calender"

@@ -12,7 +12,7 @@
         android:layout_height="22dp"
         android:src="@drawable/radio_disable"/>
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/optionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

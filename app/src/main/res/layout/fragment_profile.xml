@@ -4,13 +4,13 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:fillViewport="true"
-            tools:context="com.talentsprint.fragments.ProfileFragment">
+            tools:context=".android.esa.fragments.ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/subjectText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <com.talentsprint.views.LatoTextView
+            <com.talentsprint.android.esa.views.LatoTextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:textColor="@color/gray_dark"
                 android:textSize="17dp"/>
 
-            <com.talentsprint.views.LatoTextView
+            <com.talentsprint.android.esa.views.LatoTextView
                 android:id="@+id/customerType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:textColor="@color/gray_dark"
                 android:textSize="12dp"/>
 
-            <com.talentsprint.views.LatoTextView
+            <com.talentsprint.android.esa.views.LatoTextView
                 android:id="@+id/joinDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             android:layout_marginTop="40dp"
             android:background="@color/activityBgGray"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/settingsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
             android:layout_marginTop="2dp"
             android:background="@color/colorPrimary"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/languageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="15dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/notificationsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/notifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="15dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/storageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/storage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/settings_edited"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:fillViewport="true"
-            tools:context="com.talentsprint.fragments.TestResultFragment">
+            tools:context=".android.esa.fragments.TestResultFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:paddingBottom="20dp"
             android:src="@drawable/test_result_horns"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/testResultText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_marginTop="2dp"
             android:background="@color/white"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/testTopic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:textColor="@color/white"
             android:textSize="17dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/testSubTopic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/semi_circle"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/percentage"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -90,7 +90,7 @@
             android:layout_marginTop="-15dp"
             android:src="@drawable/circle_transparent"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/timeTakenText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             android:textColor="#5a5a5a"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/timeTaken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp">
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/totalTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/correctlTxt"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/correctlTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/wrongTxt"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/wrongTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/skippedTxt"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/skippedTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/total"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/correctl"
                 app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/correctl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/wrong"
                 app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/wrong"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/skipped"
                 app:layout_constraintTop_toBottomOf="@+id/totalTxt"/>
 
-            <com.talentsprint.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansTextView
                 android:id="@+id/skipped"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -240,7 +240,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/gray_dark20Opc"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/extraTakenText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -251,7 +251,7 @@
             android:textColor="#5a5a5a"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/extraTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="17dp"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -272,7 +272,7 @@
             android:textColor="@color/black"
             android:textSize="17dp"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
             android:textColor="@color/black"
             android:textSize="13dp"/>
 
-        <com.talentsprint.views.LatoTextView
+        <com.talentsprint.android.esa.views.LatoTextView
             android:id="@+id/reviewAnswers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

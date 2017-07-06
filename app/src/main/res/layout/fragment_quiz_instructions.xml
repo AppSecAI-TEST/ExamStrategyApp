@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.talentsprint.fragments.QuizInstructionsFragment">
+    tools:context=".android.esa.fragments.QuizInstructionsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:paddingTop="30dp">
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/examsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_marginTop="2dp"
             android:background="@color/colorPrimary"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -50,7 +50,7 @@
             android:src="@drawable/clock_tilt"
             android:tint="#9b9a9a"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/questionsTxt"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -62,7 +62,7 @@
             android:textColor="@color/gray_dark"
             android:textSize="11dp"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/questionsCount"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -98,7 +98,7 @@
             android:layout_below="@+id/typeRecycler"
             android:background="@color/activityBgGray"/>
 
-        <com.talentsprint.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

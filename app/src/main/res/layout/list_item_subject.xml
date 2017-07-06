@@ -6,13 +6,13 @@
               android:background="@drawable/gray_rounded_rectangle_stroke_min"
               android:orientation="horizontal">
 
-    <com.talentsprint.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/subjectName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:layout_marginLeft="20dp"
+        android:layout_weight="1"
         android:text="Quantitative Aptitude"
         android:textColor="@color/gray_dark"
         android:textSize="15dp"/>
