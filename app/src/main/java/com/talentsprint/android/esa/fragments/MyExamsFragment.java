@@ -95,7 +95,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
         selectExam.setName("Select Exam");
         exams.add(0, selectExam);
         for (int i = 0; i < exams.size(); i++) {
-            examsMap.put(exams.get(i).getName(), i);
+            examsMap.put(exams.get(i).getId(), i);
         }
         alertsAdapter = new AddExamsAdapter(exams);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -190,7 +190,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
             final ExamObject addedExamObject = addedExams.get(position);
             if (addedExamObject.getName() != null) {
                 holder.examDate.setText(addedExamObject.getDate());
-                holder.examNameSpinner.setSelection(examsMap.get(addedExamObject.getName()));
+                holder.examNameSpinner.setSelection(examsMap.get(addedExamObject.getId()));
             }
             holder.examNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

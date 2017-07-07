@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.onesignal.OSPermissionSubscriptionState;
 import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
@@ -142,7 +143,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         calenderView = fragmentView.findViewById(R.id.calenderView);
         tasksRecycler = fragmentView.findViewById(R.id.tasksRecycler);
         nextExamDate.setText("");
-        calenderView.setVisibility(View.INVISIBLE);
+        calenderView.setOnClickListener(this);
+        //calenderView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -154,6 +156,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new QuizInstructionsFragment(), AppConstants.QUIZ_INSTRUCTIONS)
                     .addToBackStack(null).commit();
+        } else if (view == calenderView) {
+            Bundle bundle = new Bundle();
+            bundle.putFloat(AppConstants.X_VALUE, calenderView.getX());
+            int[] postions = new int[2];
+            calenderView.getLocationInWindow(postions);
+            bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
+            CalenderDialogue dialogue = new CalenderDialogue();
+            dialogue.setArguments(bundle);
+            dialogue.show(getFragmentManager(), null);
         }
     }
 

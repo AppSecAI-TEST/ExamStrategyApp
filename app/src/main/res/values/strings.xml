@@ -61,4 +61,7 @@
     <string name="assess_yourself">ASSESS YOURSELF</string>
     <string name="generating_stratergy">Generating your personalized exam stratergy.\nIt may take a few minutes, please
         wait</string>
+    <string name="title_activity_date_dev">DateDevActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

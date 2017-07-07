@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StratergyFragment extends Fragment {
+public class StratergyFragment extends Fragment implements View.OnClickListener {
     private DashboardActivityInterface dashboardInterface;
     private ImageView filter;
     private ImageView calender;
@@ -53,6 +55,21 @@ public class StratergyFragment extends Fragment {
         filter = fragmentView.findViewById(R.id.filter);
         calender = fragmentView.findViewById(R.id.calender);
         stratergyRecycler = fragmentView.findViewById(R.id.stratergyRecycler);
+        calender.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == calender) {
+            Bundle bundle = new Bundle();
+            bundle.putFloat(AppConstants.X_VALUE, calender.getX());
+            int[] postions = new int[2];
+            calender.getLocationInWindow(postions);
+            bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
+            CalenderDialogue dialogue = new CalenderDialogue();
+            dialogue.setArguments(bundle);
+            dialogue.show(getFragmentManager(), null);
+        }
     }
 
     public class StratergyAdapter extends RecyclerView.Adapter<StratergyAdapter.MyViewHolder> {

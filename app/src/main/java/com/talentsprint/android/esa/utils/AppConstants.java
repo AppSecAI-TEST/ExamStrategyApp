@@ -22,4 +22,8 @@ public class AppConstants {
     public static final String TEST = "test";
     public static final String WORD_OF_THE_DAY = "word-of-the-day";
     public static final String COOKIES = "cookies";
+    public static final int CALENDER_TODAYS_PAGE_NUMBER = 300;
+    public static final int CALENDER_TOTAL_PAGES = 600;
+    public static final String X_VALUE = "x_value";
+    public static final String Y_VALUE = "y_value";
 }

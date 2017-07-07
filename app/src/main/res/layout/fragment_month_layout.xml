@@ -1,0 +1,167 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mainView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/monthText"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"/>
+
+    <View
+        android:id="@+id/pointerView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/white"
+        android:rotation="45"/>
+
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/monthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:text="JANUARY"
+        android:textColor="#003333"
+        android:textSize="26dp"/>
+
+    <ImageView
+        android:id="@+id/moveLeft"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/monthText"
+        android:layout_alignTop="@+id/monthText"
+        android:layout_marginTop="25dp"
+        android:layout_toLeftOf="@+id/monthText"
+        android:scaleType="centerInside"
+        android:src="@drawable/back"
+        android:tint="#999999"/>
+
+    <ImageView
+        android:id="@+id/moveRight"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/monthText"
+        android:layout_alignTop="@+id/monthText"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@+id/monthText"
+        android:rotation="180"
+        android:scaleType="centerInside"
+        android:src="@drawable/back"
+        android:tint="#999999"/>
+
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/yearText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monthText"
+        android:layout_centerHorizontal="true"
+        android:text="2017"
+        android:textColor="#003333"
+        android:textSize="20dp"/>
+
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/todayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yearText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/color_accent_rounded_rectangle"
+        android:paddingBottom="5dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="5dp"
+        android:text="TODAY"
+        android:textColor="@color/black"
+        android:textSize="13dp"/>
+
+    <LinearLayout
+        android:id="@+id/weeksLyt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todayText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="SUN"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="MON"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TUE"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="WED"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="THU"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="FRI"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="SAT"
+            android:textColor="#e66b6b"
+            android:textSize="13dp"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/monthRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weeksLyt"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+</RelativeLayout>
