@@ -24,4 +24,7 @@ public class ApiUrls {
     public static final String REGISTER = "register";
     public static final String GET_PROFILE = "getProfile";
     public static final String LOGOUT = "logout";
+
+    //parameters
+    public static final String EXAM = "exam";
 }

@@ -1,10 +1,11 @@
 package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,9 @@ import android.widget.Toast;
 import com.onesignal.OSPermissionSubscriptionState;
 import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
+import com.talentsprint.android.esa.interfaces.CurrentAffairsInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
@@ -38,7 +41,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener {
+public class DashboardFragment extends Fragment implements View.OnClickListener, CurrentAffairsInterface {
 
     private RelativeLayout tasks;
     private RelativeLayout todaysTasksLyt;
@@ -49,6 +52,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private CirclePageIndicator indicator;
     private DashboardActivityInterface dashboardInterface;
     private ImageView calenderView;
+    private HomeObject homeObject;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -82,7 +86,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             public void onResponse(Call<HomeObject> call, Response<HomeObject> response) {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
-                    setValues(response);
+                    homeObject = response.body();
+                    if (isAdded())
+                        setValues();
                 }
             }
 
@@ -94,9 +100,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void setValues(Response<HomeObject> response) {
-        HomeObject homeObject = response.body();
-        CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getFragmentManager(), homeObject
+    private void setValues() {
+        CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getChildFragmentManager(), homeObject
                 .getCurrentAffairs());
         currentAffairsViewPager.setAdapter(adapter);
         indicator.setViewPager(currentAffairsViewPager);
@@ -168,7 +173,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    class CurrentAffairsFragmentAdapter extends FragmentPagerAdapter {
+    @Override
+    public void currentAffairsSelected() {
+        Intent navigate = new Intent(getActivity(), CurrentAffairsTopicsActivity.class);
+        navigate.putExtra(AppConstants.CURRENT_AFFAIRS, homeObject.getCurrentAffairs());
+        navigate.putExtra(AppConstants.POSITION, currentAffairsViewPager.getCurrentItem());
+        startActivity(navigate);
+    }
+
+    class CurrentAffairsFragmentAdapter extends FragmentStatePagerAdapter {
 
         ArrayList<CurrentAffairsObject> currentAffairs;
 

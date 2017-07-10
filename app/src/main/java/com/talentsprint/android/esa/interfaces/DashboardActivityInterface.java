@@ -8,7 +8,10 @@ import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 public interface DashboardActivityInterface {
     public void setCurveVisibility(boolean isShow);
+
     public void showProgress(boolean isShow);
+
+    public void examAdded();
 
     public TalentSprintApi getApiService();
 }

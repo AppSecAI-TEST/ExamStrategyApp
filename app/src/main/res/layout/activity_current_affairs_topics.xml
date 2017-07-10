@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".android.esa.activities.DashboardActivity">
+    android:background="@color/white"
+    tools:context=".activities.DashboardActivity">
 
     <ImageView
         android:id="@+id/header_curve"
@@ -122,13 +123,12 @@
         android:layout_toRightOf="@+id/dateText"
         android:background="@color/green"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/topicsRecyclerView"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/dateText"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:layout_marginTop="20dp"/>
 
 

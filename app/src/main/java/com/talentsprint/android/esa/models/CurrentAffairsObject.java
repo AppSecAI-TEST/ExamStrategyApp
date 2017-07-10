@@ -1,10 +1,12 @@
 package com.talentsprint.android.esa.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Anudeep Reddy on 7/5/2017.
  */
 
-public class CurrentAffairsObject {
+public class CurrentAffairsObject implements Serializable {
     private String shortDescription;
     private String contentUrl;
     private String id;

@@ -2,11 +2,13 @@ package com.talentsprint.android.esa.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Anudeep Reddy on 7/5/2017.
  */
 
-public class TaskObject {
+public class TaskObject implements Serializable {
     private String taskId;
     private String title;
     private String type;

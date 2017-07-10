@@ -23,6 +23,7 @@ import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ExamObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
+import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import java.util.ArrayList;
@@ -77,6 +78,9 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     setValues(response);
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
                 }
             }
 
@@ -86,6 +90,40 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setExams() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        ArrayList<String> examsToAdd = new ArrayList<String>();
+        for (int i = 0; i < addedExams.size(); i++) {
+            ExamObject examObject = addedExams.get(i);
+            if (examObject.getId() != null) {
+                examsToAdd.add(examObject.getName() + "," + examObject.getDate() + "," + examObject.getId());
+            }
+        }
+        if (examsToAdd.size() > 0) {
+            Call<GetExamsObject> getExams = apiService.setExams(examsToAdd);
+            getExams.enqueue(new Callback<GetExamsObject>() {
+                @Override
+                public void onResponse(Call<GetExamsObject> call, Response<GetExamsObject> response) {
+                    dashboardInterface.showProgress(false);
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getActivity(), AppConstants.EXAMS_ADDED, Toast.LENGTH_SHORT).show();
+                        dashboardInterface.examAdded();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetExamsObject> call, Throwable t) {
+                    dashboardInterface.showProgress(false);
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            dashboardInterface.showProgress(false);
+            Toast.makeText(getActivity(), AppConstants.NO_EXAMS_ERROR, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setValues(Response<GetExamsObject> response) {
@@ -132,12 +170,15 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
                 setRecyclerVisible();
             } else if (addedExams.size() < 4) {
                 AddNewExam();
-                alertsAdapter.notifyDataSetChanged();
+                if (alertsAdapter != null)
+                    alertsAdapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(getActivity(), "Only 4 exams can be added", Toast.LENGTH_SHORT).show();
             }
         } else if (v == cancel) {
             getActivity().onBackPressed();
+        } else if (v == save) {
+            setExams();
         }
     }
 
@@ -220,8 +261,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public int getItemCount() {
-            if (addedExams.size() > 0) return addedExams.size();
-            else return 1;
+            return addedExams.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {

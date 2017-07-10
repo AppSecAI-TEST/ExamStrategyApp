@@ -27,6 +27,8 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private float x_value, y_value;
+    private View main_content;
+    private View pointerView;
 
     public CalenderDialogue() {
     }
@@ -38,11 +40,15 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         y_value = getArguments().getFloat(AppConstants.Y_VALUE);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = view.findViewById(R.id.container);
+        main_content = view.findViewById(R.id.main_content);
+        pointerView = view.findViewById(R.id.pointerView);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
+        main_content.setY(y_value);
+        pointerView.setX(x_value);
         return view;
     }
 
@@ -52,7 +58,6 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         Dialog dialog = getDialog();
         if (dialog != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 

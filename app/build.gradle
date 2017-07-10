@@ -40,5 +40,6 @@ dependencies {
     compile 'com.onesignal:OneSignal:[3.5.3,4.0.0)'
     compile 'com.android.support:customtabs:26.+'
     compile 'com.android.support:design:26.+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }

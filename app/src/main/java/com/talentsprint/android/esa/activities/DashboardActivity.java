@@ -73,6 +73,20 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     }
 
     @Override
+    public void examAdded() {
+        popAllFragments();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new DashboardFragment(), AppConstants.DASHBOARD).commit();
+    }
+
+    private void popAllFragments() {
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+    }
+
+    @Override
     public TalentSprintApi getApiService() {
         if (apiService == null)
             apiService =
@@ -115,6 +129,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         final TextView studyMaterial = menuItem.findViewById(R.id.studyMaterial);
         final TextView currentAffairs = menuItem.findViewById(R.id.currentAffairs);
         final TextView myProfile = menuItem.findViewById(R.id.myProfile);
+        final TextView home = menuItem.findViewById(R.id.home);
         mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +163,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             public void onClick(View view) {
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
+                        .replace(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
                         .commit();
                 menuItem.dismiss();
             }
@@ -158,8 +173,16 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             public void onClick(View view) {
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null).commit();
+                        .replace(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null)
+                        .commit();
                 menuItem.dismiss();
+            }
+        });
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuItem.dismiss();
+                examAdded();
             }
         });
         menuItem.setOnShowListener(new DialogInterface.OnShowListener() {

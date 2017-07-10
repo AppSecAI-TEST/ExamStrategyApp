@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
@@ -31,8 +30,6 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
     private TextView yearText;
     private TextView todayText;
     private RecyclerView monthRecycler;
-    private RelativeLayout mainView;
-    private View pointerView;
     private int selectedPosition = -1;
     private int todaysPosition = -1;
     private boolean isShowTodaysText = false;
@@ -70,8 +67,6 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
         monthRecycler.setLayoutManager(mLayoutManager);
         monthRecycler.setAdapter(adapter);
         Bundle arguments = getArguments();
-        mainView.setY(arguments.getFloat(AppConstants.Y_VALUE));
-        pointerView.setX(arguments.getFloat(AppConstants.X_VALUE));
         return rootView;
     }
 
@@ -135,8 +130,6 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
         moveRight = rootView.findViewById(R.id.moveRight);
         yearText = rootView.findViewById(R.id.yearText);
         todayText = rootView.findViewById(R.id.todayText);
-        mainView = rootView.findViewById(R.id.mainView);
-        pointerView = rootView.findViewById(R.id.pointerView);
         moveLeft.setOnClickListener(this);
         moveRight.setOnClickListener(this);
     }
@@ -145,8 +138,7 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view == moveLeft) {
             calenderInterface.movePrevious();
-        }
-        if (view == moveRight) {
+        } else if (view == moveRight) {
             calenderInterface.moveNext();
         }
     }

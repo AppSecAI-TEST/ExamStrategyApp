@@ -10,16 +10,6 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"/>
 
-    <View
-        android:id="@+id/pointerView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="@color/white"
-        android:rotation="45"/>
-
     <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/monthText"
         android:layout_width="wrap_content"

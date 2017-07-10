@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="15dp"
-              android:layout_marginTop="15dp"
-              android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/topicImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:src="@drawable/affairs_everything"/>
 
     <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/topicName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawablePadding="10dp"
-        android:drawableTop="@drawable/affairs_everything"
+        android:layout_below="@+id/topicImage"
         android:gravity="center"
         android:text="World Politics"
         android:textColor="@color/gray_dark"
@@ -22,5 +28,8 @@
         android:id="@+id/divider"
         android:layout_width="1dp"
         android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/topicName"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/topicImage"
         android:background="#a9a9a9"/>
-</LinearLayout>
+</RelativeLayout>

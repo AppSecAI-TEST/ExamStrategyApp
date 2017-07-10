@@ -26,4 +26,9 @@ public class AppConstants {
     public static final int CALENDER_TOTAL_PAGES = 600;
     public static final String X_VALUE = "x_value";
     public static final String Y_VALUE = "y_value";
+    public static final String NO_EXAMS_ERROR = "No exams to add";
+    public static final String EXAMS_ADDED = "Exams added successfully";
+    public static final String CURRENT_AFFAIRS = "currentAffairs";
+    public static final String URL = "url";
+    public static final String POSITION = "position";
 }
