@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ProfileObject;
+import com.talentsprint.android.esa.utils.CircleTransform;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import org.json.JSONObject;
@@ -92,6 +94,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         name.setText(profileObject.getName());
         customerType.setText(profileObject.getPlanName());
         joinDate.setText(profileObject.getActiveSince());
+        Picasso.with(getActivity()).load(profileObject.getProfilePic()).transform(new CircleTransform()).into(profilePic);
     }
 
     @Override

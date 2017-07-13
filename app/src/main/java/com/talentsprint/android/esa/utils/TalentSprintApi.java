@@ -3,6 +3,11 @@ package com.talentsprint.android.esa.utils;
 import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.ProfileObject;
+import com.talentsprint.android.esa.models.QuestionsObject;
+import com.talentsprint.android.esa.models.StratergyObject;
+import com.talentsprint.android.esa.models.TestPropertiesObject;
+import com.talentsprint.android.esa.models.TestResultsObject;
+import com.talentsprint.android.esa.models.TestReviewObject;
 
 import org.json.JSONObject;
 
@@ -26,6 +31,23 @@ public interface TalentSprintApi {
 
     @GET(ApiUrls.SET_EXAMS)
     Call<GetExamsObject> setExams(@Query(ApiUrls.EXAM) ArrayList<String> exams);
+
+    @GET(ApiUrls.GET_TEST_PROPERTIES)
+    Call<TestPropertiesObject> getTestProperties(@Query(ApiUrls.TASK_ID) String taskId);
+
+    @GET(ApiUrls.GET_TEST_QUESTIONS)
+    Call<QuestionsObject> getTestQuestions(@Query(ApiUrls.TASK_ID) String taskId);
+
+    @GET(ApiUrls.GET_TEST_RESULTS)
+    Call<TestResultsObject> getTestResults(@Query(ApiUrls.TASK_ID) String taskId,
+                                           @Query(ApiUrls.TOTAL_TIME_TAKEN) long totalTimeTaken,
+                                           @Query(ApiUrls.QUESTION) ArrayList<String> exams);
+
+    @GET(ApiUrls.GET_REVIEW_ANSWERS)
+    Call<TestReviewObject> getReviewAnswers(@Query(ApiUrls.TASK_ID) String taskId);
+
+    @GET(ApiUrls.GET_STRATERGY)
+    Call<StratergyObject> getStratergy();
 
     @GET(ApiUrls.GET_PROFILE)
     Call<ProfileObject> getProfile();

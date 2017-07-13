@@ -1,40 +1,41 @@
-package com.talentsprint.android.esa.activities;
+package com.talentsprint.android.esa.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudyMaterialArticlesListActivity extends Activity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class StudyMaterialSubTopicFragment extends Fragment {
     private RecyclerView topicsRecyclerView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-        setContentView(R.layout.activity_study_material_articles_list);
-        topicsRecyclerView = findViewById(R.id.topicsRecyclerView);
-        SubjectsAdapter adapter = new SubjectsAdapter(new ArrayList<String>());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        topicsRecyclerView.setLayoutManager(mLayoutManager);
-        topicsRecyclerView.setAdapter(adapter);
+    public StudyMaterialSubTopicFragment() {
+        // Required empty public constructor
     }
 
     @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_enter, R.anim.slide_exit);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View fragmentView = inflater.inflate(R.layout.fragment_study_material_sub_topic, container, false);
+        topicsRecyclerView = fragmentView.findViewById(R.id.topicsRecyclerView);
+        SubjectsAdapter adapter = new SubjectsAdapter(new ArrayList<String>());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        topicsRecyclerView.setLayoutManager(mLayoutManager);
+        topicsRecyclerView.setAdapter(adapter);
+        return fragmentView;
     }
+
     public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyViewHolder> {
 
         private List<String> alertssList;
@@ -46,7 +47,7 @@ public class StudyMaterialArticlesListActivity extends Activity {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_subject_article, parent, false);
+                    .inflate(R.layout.list_item_subject_sub_topic, parent, false);
             return new MyViewHolder(itemView);
         }
 
@@ -66,6 +67,9 @@ public class StudyMaterialArticlesListActivity extends Activity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragment_container, new StudyMaterialArticlesListFragment(), AppConstants.DASHBOARD)
+                                .addToBackStack(null).commit();
                     }
                 });
             }

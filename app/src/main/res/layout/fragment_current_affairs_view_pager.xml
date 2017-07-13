@@ -5,9 +5,20 @@
                 android:background="@color/white"
                 tools:context="com.talentsprint.android.esa.fragments.CurrentAffairsViewPagerFragment">
 
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/counterTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="3/20"
+        android:textColor="@color/gray_dark40Opc"
+        android:textSize="12dp"/>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/contentViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/counterTxt"/>
 
 </RelativeLayout>

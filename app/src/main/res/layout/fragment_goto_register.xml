@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.DashboardActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
+            android:id="@+id/subjectTopicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:text="Topic | "
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansBoldTextView
+            android:id="@+id/subjectSubTopicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectText"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/subjectTopicText"
+            android:text="Sub Topic"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/subjectTopicText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#b5b3b3"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectSubTopicText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="35dp"
+            android:text="Mutiline"
+            android:textColor="@color/gray_dark"
+            android:textSize="22dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/teacher_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/teacher_icon"
+            android:drawablePadding="3dp"
+            android:gravity="center_vertical"
+            android:text="Teacher Name"
+            android:textColor="@color/gray_dark"
+            android:textSize="13dp"/>
+
+        <ImageView
+            android:id="@+id/infoGraphic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/teacher_name"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:src="@drawable/article_animated"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/registerContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoGraphic"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="@string/register_content"
+            android:textColor="@color/gray_dark"
+            android:textSize="12dp"/>
+
+        <com.talentsprint.android.esa.views.LatoTextView
+            android:id="@+id/registerNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerContent"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="8dp"
+            android:text="REGISTER NOW"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.LatoTextView
+            android:id="@+id/alreadyRegistered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerNow"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Already Registered?"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.LatoTextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alreadyRegistered"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="LOGIN"
+            android:textColor="@color/black"
+            android:textSize="15dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/login"
+            android:layout_alignRight="@+id/login"
+            android:layout_below="@+id/login"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="true"
+                tools:context=".fragments.QuizQuestionsFragment">
+
+    <FrameLayout
+        android:id="@+id/fragment_child_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/results"
+        android:layout_marginBottom="20dp"/>
+
+
+    <com.talentsprint.android.esa.views.LatoTextView
+        android:id="@+id/results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/color_accent_rounded_rectangle"
+        android:paddingBottom="8dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="8dp"
+        android:text="@string/results"
+        android:textColor="@color/black"
+        android:textSize="13dp"/>
+
+    <ImageView
+        android:id="@+id/moveLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/results"
+        android:layout_alignTop="@+id/results"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:rotation="180"
+        android:scaleType="fitStart"
+        android:src="@drawable/arrow"/>
+
+    <ImageView
+        android:id="@+id/moveRight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/results"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/results"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@drawable/arrow"/>
+
+</RelativeLayout>

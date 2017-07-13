@@ -27,7 +27,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="home">HOME</string>
-    <string name="exam_stratergy">EXAM STRATERGY</string>
+    <string name="exam_stratergy">EXAM STRATEGY</string>
     <string name="study_material">STUDY MATERIAL</string>
     <string name="current_affairs">CURRENT AFFAIRS</string>
     <string name="exam_alerts">EXAM ALERTS</string>
@@ -57,12 +57,19 @@
     <string name="storage">Storage</string>
     <string name="internal">Internal</string>
     <string name="logout">LOGOUT</string>
-    <string name="assess_text">Know your current status by taking an\nassessment.\nHelps you identify your strengths and\nweeknesses</string>
+    <string name="assess_text">Know your current status by taking an\nassessment.\nHelps you identify your strengths and\nweaknesses</string>
     <string name="assess_yourself">ASSESS YOURSELF</string>
-    <string name="generating_stratergy">Generating your personalized exam stratergy.\nIt may take a few minutes, please
+    <string name="generating_stratergy">Generating your personalized exam strategy.\nIt may take a few minutes, please
         wait</string>
     <string name="title_activity_date_dev">DateDevActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="filters">FILTERS</string>
+    <string name="register_content">This content can be accessed FREE only by\nregistered users. Sign Up now for a new
+        account\nor Login if already registered</string>
+    <string name="login_with">Login with</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="register_tc_pp">By registering a new account, you agree with our\nTerms and Conditions AND our Privacy policy</string>
+    <string name="results">RESULTS</string>
+    <string name="explanation">EXPLANATION</string>
 </resources>

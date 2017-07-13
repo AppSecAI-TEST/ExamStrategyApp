@@ -26,6 +26,7 @@ import com.talentsprint.android.esa.utils.AppConstants;
 public class CalenderDialogue extends DialogFragment implements CalenderInterface {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private View movableContent;
     private float x_value, y_value;
     private View main_content;
     private View pointerView;
@@ -41,14 +42,26 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = view.findViewById(R.id.container);
         main_content = view.findViewById(R.id.main_content);
+        movableContent = view.findViewById(R.id.movableContent);
         pointerView = view.findViewById(R.id.pointerView);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
-        main_content.setY(y_value);
+        movableContent.setY(y_value);
         pointerView.setX(x_value);
+        main_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        movableContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         return view;
     }
 

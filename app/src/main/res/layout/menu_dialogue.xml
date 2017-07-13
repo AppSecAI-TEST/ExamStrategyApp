@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/mainView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
     <View
@@ -51,7 +51,7 @@
             android:scaleType="fitEnd"
             android:src="@drawable/logo_color"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +61,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/homeSelector"
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/examStratergy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +78,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/stratergySelector"
+            android:layout_width="130dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/studyMaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +95,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/studySelector"
+            android:layout_width="125dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/currentAffairs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +112,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/affairsSelector"
+            android:layout_width="130dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/examAlerts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +129,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/alertsSelector"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,7 +146,14 @@
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <View
+            android:id="@+id/notificationSelector"
+            android:layout_width="115dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/myProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +162,13 @@
             android:text="@string/my_profile"
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
+
+        <View
+            android:id="@+id/profileSelector"
+            android:layout_width="90dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
 
         <View
             android:layout_width="match_parent"
@@ -146,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/nextExamDate"
             android:drawableLeft="@drawable/star"
-            android:drawablePadding="10dp"
+            android:drawablePadding="3dp"
             android:text="@string/next_exam"
             android:textColor="@color/white"
             android:textSize="11dp"/>

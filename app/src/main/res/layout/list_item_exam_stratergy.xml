@@ -7,20 +7,20 @@
 
     <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/dateDay"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="21"
-        android:textColor="@color/gray_dark"
+        android:textColor="@color/gray_dark40Opc"
         android:textSize="30dp"/>
 
     <com.talentsprint.android.esa.views.OpenSansTextView
-        android:id="@+id/dateMonth"
+        android:id="@+id/dateWeekday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateDay"
         android:layout_marginLeft="2dp"
-        android:text="Mar"
+        android:text="Mon"
         android:textColor="#5a5a5a"
         android:textSize="11dp"/>
 
@@ -36,10 +36,10 @@
     <View
         android:id="@+id/lineBottom"
         android:layout_width="1dp"
-        android:layout_height="65dp"
+        android:layout_height="55dp"
         android:layout_below="@+id/circle"
         android:layout_marginLeft="27dp"
-        android:layout_marginTop="-15dp"
+        android:layout_marginTop="-15.5dp"
         android:layout_toRightOf="@+id/dateDay"
         android:background="#b5b3b3"/>
 
@@ -61,30 +61,30 @@
         android:layout_toLeftOf="@+id/indicator"
         android:layout_toRightOf="@+id/lineBottom"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:text="Watch video: Module 1"
         android:textColor="@color/gray_dark"
         android:textSize="15dp"/>
 
-    <com.talentsprint.android.esa.views.OpenSansTextView
-        android:id="@+id/subTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="20dp"
-        android:layout_toLeftOf="@+id/indicator"
-        android:layout_toRightOf="@+id/lineBottom"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="Loreipsum is simply dummy"
-        android:textColor="@color/gray_dark"
-        android:textSize="11dp"/>
+    <!-- <com.talentsprint.android.esa.views.OpenSansTextView
+         android:id="@+id/subTitle"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/title"
+         android:layout_marginLeft="20dp"
+         android:layout_toLeftOf="@+id/indicator"
+         android:layout_toRightOf="@+id/lineBottom"
+         android:ellipsize="end"
+         android:maxLines="3"
+         android:text="Loreipsum is simply dummy"
+         android:textColor="@color/gray_dark"
+         android:textSize="11dp"/>-->
 
     <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/subTitle"
+        android:layout_below="@+id/title"
         android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@+id/indicator"
         android:layout_toRightOf="@+id/lineBottom"

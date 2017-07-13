@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.talentsprint.android.esa.fragments.SignInMobileFragment">
+
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
+        android:id="@+id/subjectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="LOGIN"
+        android:textColor="@color/textTitleColor"
+        android:textSize="15dp"/>
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="5dp"
+        android:layout_alignLeft="@+id/subjectText"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimary"/>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/mobileLyt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subjectText"
+        android:layout_marginTop="15dp">
+
+        <com.talentsprint.android.esa.views.OpenSansEditTextView
+            android:id="@+id/mobileEdtTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="100dp"
+            android:hint="Mobile Number"
+            android:inputType="number"
+            android:maxLength="10"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <com.talentsprint.android.esa.views.LatoTextView
+        android:id="@+id/singUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mobileLyt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/color_accent_rounded_rectangle"
+        android:paddingBottom="8dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="8dp"
+        android:text="SEND OTP"
+        android:textColor="@color/black"
+        android:textSize="13dp"/>
+
+</RelativeLayout>

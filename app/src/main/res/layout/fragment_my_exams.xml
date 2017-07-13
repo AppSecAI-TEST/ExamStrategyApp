@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:paddingTop="30dp">
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/examsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -21,9 +21,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:paddingBottom="15dp"
                 android:paddingTop="80dp">
 
-                <com.talentsprint.android.esa.views.OpenSansTextView
+                <com.talentsprint.android.esa.views.OpenSansStrongTextView
                     android:id="@+id/titleTodaysTasks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,7 +76,7 @@
                 android:layout_below="@+id/tasks"
                 android:layout_marginTop="15dp">
 
-                <com.talentsprint.android.esa.views.OpenSansTextView
+                <com.talentsprint.android.esa.views.OpenSansStrongTextView
                     android:id="@+id/titleCurrentAffairs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +116,7 @@
             </RelativeLayout>
 
 
-            <com.talentsprint.android.esa.views.OpenSansTextView
+            <com.talentsprint.android.esa.views.OpenSansStrongTextView
                 android:id="@+id/titleAlerts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -167,7 +168,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/star"
-            android:drawablePadding="10dp"
+            android:drawablePadding="3dp"
             android:text="@string/next_exam"
             android:textColor="@color/white"
             android:textSize="11dp"/>

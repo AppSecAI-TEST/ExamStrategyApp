@@ -149,7 +149,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         tasksRecycler = fragmentView.findViewById(R.id.tasksRecycler);
         nextExamDate.setText("");
         calenderView.setOnClickListener(this);
-        //calenderView.setVisibility(View.INVISIBLE);
+        calenderView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -158,8 +158,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
         } else if (view.getId() == R.id.assessYourself) {
+            Bundle bundle = new Bundle();
+            bundle.putString(AppConstants.TASK_ID, "0");
+            QuizInstructionsFragment quizInstructionsFragment = new QuizInstructionsFragment();
+            quizInstructionsFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new QuizInstructionsFragment(), AppConstants.QUIZ_INSTRUCTIONS)
+                    .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.QUIZ_INSTRUCTIONS)
                     .addToBackStack(null).commit();
         } else if (view == calenderView) {
             Bundle bundle = new Bundle();

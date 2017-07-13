@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".android.esa.fragments.QuizInstructionsFragment">
+    android:fillViewport="true"
+    tools:context=".fragments.QuizInstructionsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,7 +12,7 @@
         android:background="@color/white"
         android:paddingTop="30dp">
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/examsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
-            android:text="1 hr"
+            android:text=""
             android:textColor="@color/gray_dark"
             android:textSize="14dp"/>
 
@@ -70,7 +71,7 @@
             android:layout_marginTop="30dp"
             android:layout_toLeftOf="@+id/questionsTxt"
             android:gravity="center"
-            android:text="20"
+            android:text=""
             android:textColor="@color/gray_dark"
             android:textSize="14dp"/>
 
@@ -84,25 +85,85 @@
             android:src="@drawable/side_tick"
             android:tint="#9b9a9a"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/typeRecycler"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/subjectImage"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/examsText"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/book"
+            android:tint="#9b9a9a"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/subjectTxt"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/examsText"
-            android:layout_margin="20dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/subjectImage"
+            android:text="@string/subject"
+            android:textColor="#5a5a5a"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/subjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectTxt"
+            android:layout_toRightOf="@+id/subjectImage"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#454141"
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:id="@+id/topicImage"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/subjectImage"
+            android:layout_marginBottom="23dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/message"
+            android:tint="#9b9a9a"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/topicTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectImage"
+            android:layout_marginTop="23dp"
+            android:layout_toRightOf="@+id/topicImage"
+            android:text="Topic"
+            android:textColor="#5a5a5a"
+            android:textSize="11dp"/>
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/topicName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topicTxt"
+            android:layout_toRightOf="@+id/topicImage"
+            android:text=""
+            android:textColor="#454141"
+            android:textSize="16dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/emptyView"
-            android:layout_below="@+id/typeRecycler"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/topicImage"
             android:background="@color/activityBgGray"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/typeRecycler"
+            android:layout_below="@+id/topicImage"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:text="@string/instructions"

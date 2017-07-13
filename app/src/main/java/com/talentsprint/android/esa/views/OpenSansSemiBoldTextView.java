@@ -28,7 +28,7 @@ public class OpenSansSemiBoldTextView extends TextView {
     private void setFont() {
         Typeface font = Typeface.createFromAsset(getContext().getAssets(),
                 "fonts/OpenSans-SemiBold.ttf");
-        setTypeface(font, Typeface.NORMAL);
+        setTypeface(font, Typeface.BOLD);
         setLineSpacing(10, 1);
     }
 }

@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         android:src="@drawable/calender_edited"/>
 
     <com.talentsprint.android.esa.views.LatoTextView
@@ -17,13 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/calInfoGraphic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/set_exam_strategy"
         android:textColor="@color/textTitleColor70Opc"
         android:textSize="14dp"/>
 
-    <com.talentsprint.android.esa.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
         android:id="@+id/setExam"
         android:layout_width="wrap_content"
         android:layout_height="30dp"

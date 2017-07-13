@@ -3,96 +3,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                tools:context=".android.esa.fragments.QuizQuestionsFragment">
+                android:clickable="true"
+                tools:context=".fragments.QuizQuestionsFragment">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/questionsScroll"
+    <FrameLayout
+        android:id="@+id/fragment_child_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/submit">
+        android:layout_above="@+id/progressBar"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <com.talentsprint.android.esa.views.LatoTextView
+        android:id="@+id/percentageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="0%"
+        android:textColor="@color/black"
+        android:textSize="10dp"/>
 
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/questionsCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_toLeftOf="@+id/questionTimer"
-                android:drawableLeft="@drawable/clock_tilt"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/grayLight"
-                android:text="7/15"
-                android:textColor="@color/gray_dark"
-                android:textSize="14dp"/>
-
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/questionTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="50dp"
-                android:drawableLeft="@drawable/clock_tilt"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/grayLight"
-                android:text="0:15"
-                android:textColor="@color/gray_dark"
-                android:textSize="14dp"/>
-
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/questionNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/questionTimer"
-                android:layout_marginLeft="20dp"
-                android:text="7"
-                android:textColor="@color/gray_dark40Opc"
-                android:textSize="40dp"/>
-
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/questionNumber"
-                android:layout_marginBottom="6dp"
-                android:layout_toRightOf="@+id/questionNumber"
-                android:text="@string/question"
-                android:textColor="@color/gray_dark"
-                android:textSize="16dp"/>
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/questionNumber"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/gray_dark"/>
-
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/lore_ipsum_short"
-                android:textColor="@color/gray_dark"
-                android:textSize="16dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/optionsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/question"
-                android:layout_margin="20dp"
-                android:paddingLeft="15dp"/>
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/CustomProgressBarHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/footerView"
+        android:maxHeight="3dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/questions_progress"
+        />
 
     <View
         android:id="@+id/footerView"
@@ -108,7 +48,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="20dp"
-        android:text="00:20:15"
+        android:text="00:00:00"
         android:textColor="@color/black"
         android:textSize="17dp"/>
 
@@ -133,37 +73,4 @@
         android:textColor="@color/colorPrimary"
         android:textSize="17dp"/>
 
-    <com.talentsprint.android.esa.views.LatoTextView
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_above="@+id/footerView"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@+id/centreDivider"
-        android:background="@drawable/color_accent_rounded_rectangle"
-        android:gravity="center"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:text="@string/submit"
-        android:textColor="@color/black"/>
-
-    <com.talentsprint.android.esa.views.LatoTextView
-        android:id="@+id/skip"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_above="@+id/footerView"
-        android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@+id/centreDivider"
-        android:gravity="center"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:text="SKIP"
-        android:textColor="@color/black"/>
-
-    <View
-        android:id="@+id/centreDivider"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"/>
 </RelativeLayout>

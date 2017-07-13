@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.talentsprint.android.esa.fragments.LoginHomeFragment">
+
+    <com.talentsprint.android.esa.views.LatoTextView
+        android:id="@+id/loginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/login_with"
+        android:textColor="#333333"
+        android:textSize="16dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/loginText"
+        android:layout_alignRight="@+id/loginText"
+        android:layout_below="@+id/loginText"
+        android:layout_marginTop="5dp"
+        android:background="@color/black30opc"/>
+
+    <ImageView
+        android:id="@+id/googleLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginText"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="25dp"
+        android:src="@drawable/google"/>
+
+    <ImageView
+        android:id="@+id/fbLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginText"
+        android:layout_marginTop="25dp"
+        android:layout_toLeftOf="@+id/googleLogin"
+        android:src="@drawable/fb"/>
+
+    <ImageView
+        android:id="@+id/emailLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginText"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@+id/googleLogin"
+        android:src="@drawable/email"/>
+
+    <com.talentsprint.android.esa.views.LatoTextView
+        android:id="@+id/notRegisteredText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fbLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="@string/not_registered"
+        android:textColor="#333333"
+        android:textSize="14dp"/>
+
+    <com.talentsprint.android.esa.views.LatoStrongTextView
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notRegisteredText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="SIGN UP"
+        android:textColor="#333333"
+        android:textSize="17dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/signup"
+        android:layout_alignRight="@+id/signup"
+        android:layout_below="@+id/signup"
+        android:layout_marginTop="2dp"
+        android:background="#333333"/>
+</RelativeLayout>

@@ -58,7 +58,7 @@ public class CurrentAffairsActivity extends Activity {
         topicsList.add(art);
         AffairsTopicObject sports = new AffairsTopicObject();
         sports.setTopicName("Sports");
-        sports.setTopicImage(R.drawable.affairs_everything);
+        sports.setTopicImage(R.drawable.sports);
         topicsList.add(sports);
         AffairsTopicObject awards = new AffairsTopicObject();
         awards.setTopicName("Awards & Honors");

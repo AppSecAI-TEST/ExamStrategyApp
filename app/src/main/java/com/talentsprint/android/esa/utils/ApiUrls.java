@@ -25,6 +25,9 @@ public class ApiUrls {
     public static final String GET_PROFILE = "getProfile";
     public static final String LOGOUT = "logout";
 
-    //parameters
+    //quer parameters
     public static final String EXAM = "exam";
+    public static final String TASK_ID = "taskId";
+    public static final String QUESTION = "question";
+    public static final String TOTAL_TIME_TAKEN = "timeTaken";
 }

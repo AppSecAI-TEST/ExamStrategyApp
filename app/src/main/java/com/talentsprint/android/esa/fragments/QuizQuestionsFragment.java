@@ -1,37 +1,55 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.interfaces.QuizInterface;
+import com.talentsprint.android.esa.models.QuestionsObject;
+import com.talentsprint.android.esa.models.TestResultsObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuizQuestionsFragment extends Fragment implements View.OnClickListener {
+public class QuizQuestionsFragment extends Fragment implements View.OnClickListener, QuizInterface {
 
     private DashboardActivityInterface dashboardInterface;
-    private TextView questionsCount;
-    private TextView questionTimer;
-    private TextView questionNumber;
-    private TextView question;
-    private RecyclerView optionsRecycler;
+
     private TextView totalTimer;
     private TextView finishTest;
-    private TextView submit;
-    private TextView skip;
+    private QuestionsObject questionsObject;
+    private ProgressBar progressBar;
+    private TextView percentageText;
+    private int currentQuestion = 0;
+    private int totalQuestionsSize = 0;
+    private String taskId;
+    private ArrayList<String> answersList = new ArrayList<String>();
+    private long totalTimeForQuestions = 0;
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     public QuizQuestionsFragment() {
         // Required empty public constructor
@@ -43,10 +61,8 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         View fragmentView = inflater.inflate(R.layout.fragment_quiz_questions, container, false);
         dashboardInterface.setCurveVisibility(true);
         findViews(fragmentView);
-        OptionsAdapter optionsAdapter = new OptionsAdapter(new ArrayList<String>());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        optionsRecycler.setLayoutManager(mLayoutManager);
-        optionsRecycler.setAdapter(optionsAdapter);
+        taskId = getArguments().getString(AppConstants.TASK_ID);
+        getQuestions();
         return fragmentView;
     }
 
@@ -56,57 +72,199 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         dashboardInterface = (DashboardActivityInterface) context;
     }
 
+    private void getQuestions() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        Call<QuestionsObject> stratergy = apiService.getTestQuestions(taskId);
+        stratergy.enqueue(new Callback<QuestionsObject>() {
+            @Override
+            public void onResponse(Call<QuestionsObject> call, Response<QuestionsObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    questionsObject = response.body();
+                    setValues();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuestionsObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setValues() {
+        totalTimeForQuestions = questionsObject.getTestTime();
+        if (questionsObject.getQuestions().size() > 0) {
+            totalQuestionsSize = questionsObject.getQuestions().size();
+            progressBar.setMax(totalQuestionsSize);
+            moveToNextQuestion();
+        } else {
+            Toast.makeText(getActivity(), "No Questions", Toast.LENGTH_SHORT).show();
+        }
+        final NumberFormat twoDigitFormater = new DecimalFormat("00");
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                totalTimeForQuestions--;
+                if (totalTimeForQuestions < 0) {
+                    totalTimer.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                }
+                long roundedNumber = Math.abs(totalTimeForQuestions);
+                if (roundedNumber < 60) {
+                    totalTimer.setText("00:00:" + twoDigitFormater.format(roundedNumber));
+                } else if (roundedNumber < 3600) {
+                    totalTimer.setText("00:" + twoDigitFormater.format(roundedNumber / 60) + ":" + twoDigitFormater
+                            .format(roundedNumber % 60));
+                } else {
+                    long minutes = roundedNumber % 3600;
+                    totalTimer.setText(twoDigitFormater.format(roundedNumber / 3600) + ":" + twoDigitFormater.format(
+                            minutes / 60) + ":" + twoDigitFormater.format
+                            (minutes % 60));
+                }
+                handler.postDelayed(runnable, 1000);
+            }
+        };
+        handler.post(runnable);
+    }
+
+    private void stopTimer() {
+        if (runnable != null && handler != null)
+            handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopTimer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (runnable != null && handler != null)
+            handler.post(runnable);
+    }
+
+    protected void moveToNextQuestion() {
+        progressBar.setProgress(currentQuestion);
+        percentageText.setText(Integer.toString((int) (((float) (currentQuestion) / totalQuestionsSize) * 100)) + "%");
+        QuestionItemFragment questionItemFragment = new QuestionItemFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.QUIZ_QUESTIONS, questionsObject.getQuestions().get(currentQuestion));
+        bundle.putInt(AppConstants.POSITION, currentQuestion);
+        bundle.putInt(AppConstants.TOTAL_QUESTIONS, totalQuestionsSize);
+        questionItemFragment.setArguments(bundle);
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_child_container, questionItemFragment, AppConstants.QUIZ_QUESTIONS).commit();
+    }
+
     private void findViews(View fragmentView) {
-        questionsCount = fragmentView.findViewById(R.id.questionsCount);
-        questionTimer = fragmentView.findViewById(R.id.questionTimer);
-        questionNumber = fragmentView.findViewById(R.id.questionNumber);
-        question = fragmentView.findViewById(R.id.question);
-        optionsRecycler = fragmentView.findViewById(R.id.optionsRecycler);
         totalTimer = fragmentView.findViewById(R.id.totalTimer);
         finishTest = fragmentView.findViewById(R.id.finishTest);
-        submit = fragmentView.findViewById(R.id.submit);
-        skip = fragmentView.findViewById(R.id.skip);
+        progressBar = fragmentView.findViewById(R.id.progressBar);
+        percentageText = fragmentView.findViewById(R.id.percentageText);
         finishTest.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view == finishTest) {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new TestResultFragment(), AppConstants.QUIZ_RESULT)
-                    .addToBackStack(null).commit();
+            showFinishDialogue();
         }
     }
 
-    public class OptionsAdapter extends RecyclerView.Adapter<OptionsAdapter.MyViewHolder> {
-
-        private List<String> instructionsList;
-
-        public OptionsAdapter(List<String> instructionsList) {
-            this.instructionsList = instructionsList;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_question_option, parent, false);
-            return new MyViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-        }
-
-        @Override
-        public int getItemCount() {
-            return 4;
-        }
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-            public MyViewHolder(View view) {
-                super(view);
+    private void showFinishDialogue() {
+        final Dialog finishDialogue;
+        finishDialogue = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar);
+        finishDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(150, 0, 0, 0)));
+        finishDialogue.setContentView(R.layout.dialogue_exam_finish);
+        TextView yes = finishDialogue.findViewById(R.id.yes);
+        TextView cancel = finishDialogue.findViewById(R.id.cancel);
+        View mainView = finishDialogue.findViewById(R.id.mainView);
+        finishDialogue.show();
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishDialogue.dismiss();
+                submitAnswers();
             }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishDialogue.dismiss();
+            }
+        });
+        mainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishDialogue.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void skipQuestion() {
+        if (currentQuestion < questionsObject.getQuestions().size() - 1) {
+            currentQuestion++;
+            moveToNextQuestion();
+        } else {
+            submitAnswers();
+        }
+    }
+
+    private void submitAnswers() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        long totalTime = 0;
+        if (totalTimeForQuestions > 0) {
+            totalTime = questionsObject.getTestTime() - totalTimeForQuestions;
+        } else {
+            totalTime = questionsObject.getTestTime() + totalTimeForQuestions;
+        }
+        Call<TestResultsObject> stratergy = apiService.getTestResults(taskId, totalTime, answersList);
+        stratergy.enqueue(new Callback<TestResultsObject>() {
+            @Override
+            public void onResponse(Call<TestResultsObject> call, Response<TestResultsObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    TestResultsObject testResultsObject = response.body();
+                    QuizResultFragment quizResultFragment = new QuizResultFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(AppConstants.TEST_RESULT, testResultsObject);
+                    bundle.putString(AppConstants.TASK_ID, taskId);
+                    quizResultFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container, quizResultFragment, AppConstants.QUIZ_RESULT)
+                            .addToBackStack(null).commit();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TestResultsObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @Override
+    public void submitQuestion(String answer) {
+        answersList.add(answer);
+        if (currentQuestion < totalQuestionsSize) {
+            currentQuestion++;
+            moveToNextQuestion();
+        } else {
+            submitAnswers();
         }
     }
 }

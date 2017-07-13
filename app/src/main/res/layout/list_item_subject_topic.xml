@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@+id/arrow"
         android:layout_weight="1"
         android:text="Topic"
@@ -26,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/topicName"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@+id/arrow"
         android:layout_weight="1"
         android:text="Sub-topic fot this topic"
@@ -36,8 +34,9 @@
     <ImageView
         android:id="@+id/arrow"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="23dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
         android:src="@drawable/arrow"/>
 </RelativeLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mainView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="25dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/color_accent_rounded_rectangle_stroke_min"
+        android:backgroundTint="@color/white"
+        android:paddingBottom="25dp"
+        android:paddingTop="5dp">
+
+        <com.talentsprint.android.esa.views.OpenSansTextView
+            android:id="@+id/contentText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Are you sure you would like to finish the test?"
+            android:textColor="@color/gray_dark"
+            android:textSize="15dp"/>
+
+        <com.talentsprint.android.esa.views.LatoTextView
+            android:id="@+id/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentText"
+            android:layout_toLeftOf="@+id/divider"
+            android:background="@drawable/color_accent_rounded_rectangle"
+            android:paddingBottom="5dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="5dp"
+            android:text="YES"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <com.talentsprint.android.esa.views.LatoTextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentText"
+            android:layout_toRightOf="@+id/divider"
+            android:paddingBottom="5dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="5dp"
+            android:text="CANCEL"
+            android:textColor="@color/black"
+            android:textSize="13dp"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</RelativeLayout>

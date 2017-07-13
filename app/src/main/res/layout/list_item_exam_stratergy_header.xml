@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/color_accent_rounded_rectangle"
+                android:backgroundTint="#dad9d9"
+                android:paddingBottom="5dp"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingTop="5dp">
+
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/dateMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MARHC 2017"
+        android:textColor="@color/gray_dark"
+        android:textSize="16dp"/>
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="5dp"
+        android:layout_alignLeft="@+id/dateMonth"
+        android:layout_below="@+id/dateMonth"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimary"/>
+
+</RelativeLayout>

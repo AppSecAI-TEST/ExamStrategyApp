@@ -36,10 +36,13 @@
         android:textColor="@color/gray_dark"
         android:textSize="11dp"/>
 
+
     <ImageView
         android:id="@+id/topicImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_centerVertical="true"
+        android:background="@drawable/circle_shadow"
+        android:padding="10dp"
         android:src="@drawable/logo_color"/>
 </RelativeLayout>

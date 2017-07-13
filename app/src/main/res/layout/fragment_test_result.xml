@@ -5,7 +5,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:fillViewport="true"
-            tools:context=".android.esa.fragments.TestResultFragment">
+            tools:context=".fragments.QuizResultFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:paddingBottom="20dp"
             android:src="@drawable/test_result_horns"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/testResultText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

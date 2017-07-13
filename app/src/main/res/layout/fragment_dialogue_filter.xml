@@ -5,86 +5,133 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/pointerView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="@color/white"
-        android:rotation="45"/>
-
-    <com.talentsprint.android.esa.views.OpenSansTextView
-        android:id="@+id/filtersText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/filters"
-        android:textColor="@color/textTitleColor"
-        android:textSize="15dp"/>
-
-    <View
-        android:layout_width="25dp"
-        android:layout_height="5dp"
-        android:layout_alignLeft="@+id/filtersText"
-        android:layout_below="@+id/filtersText"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorPrimary"/>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/container"
+    <RelativeLayout
+        android:id="@+id/movableContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/filtersText"
-        android:layout_marginTop="20dp"
-        >
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/filtersRecyclerHolder"
+        <View
+            android:id="@+id/pointerView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"
+            android:rotation="45"/>
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_alignTop="@+id/filtersText"
+            android:background="@color/white"/>
 
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/filter1Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/filtersText"
-                android:layout_marginLeft="20dp"
-                android:text="Select Content Type"
-                android:textColor="@color/gray_dark"
-                android:textSize="15dp"/>
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
+            android:id="@+id/filtersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:paddingTop="40dp"
+            android:text="@string/filters"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/filterRecycler1"
+        <View
+            android:layout_width="25dp"
+            android:layout_height="5dp"
+            android:layout_alignLeft="@+id/filtersText"
+            android:layout_below="@+id/filtersText"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filtersText"
+            android:layout_marginTop="20dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/filtersRecyclerHolder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="190dp">
 
-            <com.talentsprint.android.esa.views.OpenSansTextView
-                android:id="@+id/filter2Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/filtersText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Select Subjects"
-                android:textColor="@color/gray_dark"
-                android:textSize="15dp"/>
+                <com.talentsprint.android.esa.views.OpenSansStrongTextView
+                    android:id="@+id/filter1Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/filtersText"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Select Content Type"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="15dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/filterRecycler2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"/>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/filterRecycler1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
 
+                <com.talentsprint.android.esa.views.OpenSansStrongTextView
+                    android:id="@+id/filter2Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/filtersText"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Select Subjects"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="15dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/filterRecycler2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <com.talentsprint.android.esa.views.LatoTextView
+                        android:id="@+id/apply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/color_accent_rounded_rectangle"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="8dp"
+                        android:text="APPLY"
+                        android:textColor="@color/black"
+                        android:textSize="13dp"/>
+
+                    <com.talentsprint.android.esa.views.LatoTextView
+                        android:id="@+id/cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/apply"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="8dp"
+                        android:text="CANCEL"
+                        android:textColor="@color/black"
+                        android:textSize="13dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
 
 </RelativeLayout>

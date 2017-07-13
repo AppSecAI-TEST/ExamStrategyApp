@@ -11,27 +11,36 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.models.TestPropertiesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
-import com.talentsprint.android.esa.views.OpenSansTextView;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class QuizInstructionsFragment extends Fragment implements View.OnClickListener {
 
-    private OpenSansTextView time;
-    private OpenSansTextView questionsCount;
+    private TextView time;
+    private TextView questionsCount;
     private ImageView tickImage;
-    private RecyclerView typeRecycler;
+    private TextView subjectName;
+    private TextView topicName;
+    private TextView examsText;
     private RecyclerView instructionsRecycler;
     private Button startExam;
     private DashboardActivityInterface dashboardInterface;
+    private String taskId;
+    private TestPropertiesObject testPropertiesObject;
 
     public QuizInstructionsFragment() {
         // Required empty public constructor
@@ -50,65 +59,79 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
         View fragmentView = inflater.inflate(R.layout.fragment_quiz_instructions, container, false);
         findViews(fragmentView);
         dashboardInterface.setCurveVisibility(true);
-        InstructionsAdapter instructionsAdapter = new InstructionsAdapter(new ArrayList<String>());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        instructionsRecycler.setLayoutManager(mLayoutManager);
-        instructionsRecycler.setAdapter(instructionsAdapter);
-        QuestionTypeAdapter questionssAdapter = new QuestionTypeAdapter(new ArrayList<String>());
-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getActivity());
-        typeRecycler.setLayoutManager(mLayoutManager1);
-        typeRecycler.setAdapter(questionssAdapter);
+        taskId = getArguments().getString(AppConstants.TASK_ID);
+        getInstructions();
         return fragmentView;
+    }
+
+    private void getInstructions() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        Call<TestPropertiesObject> stratergy = apiService.getTestProperties(taskId);
+        stratergy.enqueue(new Callback<TestPropertiesObject>() {
+            @Override
+            public void onResponse(Call<TestPropertiesObject> call, Response<TestPropertiesObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    testPropertiesObject = response.body();
+                    setValues();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TestPropertiesObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setValues() {
+        try {
+            InstructionsAdapter instructionsAdapter = new InstructionsAdapter(testPropertiesObject.getInstructions());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            instructionsRecycler.setLayoutManager(mLayoutManager);
+            instructionsRecycler.setAdapter(instructionsAdapter);
+            time.setText(testPropertiesObject.getTestTime());
+            questionsCount.setText(testPropertiesObject.getTestQuestions());
+            examsText.setText(testPropertiesObject.getTestName());
+            TestPropertiesObject.TestProperties testproperties = testPropertiesObject.getTestproperties();
+            subjectName.setText(testproperties.getSubject());
+            if (testproperties.getSubTopic() != null) {
+                topicName.setText(testproperties.getTopic() + " | " + testproperties.getSubTopic());
+            } else {
+                topicName.setText(testproperties.getTopic());
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void findViews(View fragmentView) {
         time = fragmentView.findViewById(R.id.time);
         questionsCount = fragmentView.findViewById(R.id.questionsCount);
         tickImage = fragmentView.findViewById(R.id.tickImage);
-        typeRecycler = fragmentView.findViewById(R.id.typeRecycler);
+        subjectName = fragmentView.findViewById(R.id.subjectName);
+        topicName = fragmentView.findViewById(R.id.topicName);
         instructionsRecycler = fragmentView.findViewById(R.id.instructionsRecycler);
         startExam = fragmentView.findViewById(R.id.startExam);
+        examsText = fragmentView.findViewById(R.id.examsText);
         startExam.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == startExam) {
+            Bundle bundle = new Bundle();
+            bundle.putString(AppConstants.TASK_ID, taskId);
+            QuizQuestionsFragment quizQuestionsFragment = new QuizQuestionsFragment();
+            quizQuestionsFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new QuizQuestionsFragment(), AppConstants.QUIZ_QUESTIONS)
+                    .add(R.id.fragment_container, quizQuestionsFragment, AppConstants.QUIZ_QUESTIONS)
                     .addToBackStack(null).commit();
-        }
-    }
-
-    public class QuestionTypeAdapter extends RecyclerView.Adapter<QuestionTypeAdapter.MyViewHolder> {
-
-        private List<String> questionTypeList;
-
-        public QuestionTypeAdapter(List<String> questionTypeList) {
-            this.questionTypeList = questionTypeList;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_question_type, parent, false);
-            return new MyViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-        }
-
-        @Override
-        public int getItemCount() {
-            return 2;
-        }
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-            public MyViewHolder(View view) {
-                super(view);
-            }
         }
     }
 
@@ -129,19 +152,23 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
+            holder.text.setText(instructionsList.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return 2;
+            if (instructionsList != null)
+                return instructionsList.size();
+            else
+                return 0;
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView title;
+            public TextView text;
 
             public MyViewHolder(View view) {
                 super(view);
-                title = view.findViewById(R.id.instructionsText);
+                text = view.findViewById(R.id.text);
             }
         }
     }

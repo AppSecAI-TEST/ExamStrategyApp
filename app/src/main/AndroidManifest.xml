@@ -46,6 +46,10 @@
         <activity
             android:name=".activities.TermsAndConditionsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activities.LoginActivity">
+        </activity>
+        <activity android:name=".activities.SignUpActivity">
+        </activity>
     </application>
 
 </manifest>

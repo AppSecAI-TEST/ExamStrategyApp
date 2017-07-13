@@ -1,12 +1,13 @@
 package com.talentsprint.android.esa.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Anudeep Reddy on 7/10/2017.
  */
 
-public class StratergyObject {
+public class StratergyObject implements Serializable {
 
     private FilterOptions filterOptions;
     private ArrayList<Stratergy> strategy;
@@ -27,7 +28,7 @@ public class StratergyObject {
         this.strategy = strategy;
     }
 
-    public class FilterOptions {
+    public class FilterOptions implements Serializable {
         public ArrayList<String> subjects;
         public ArrayList<String> contentType;
 
@@ -48,17 +49,17 @@ public class StratergyObject {
         }
     }
 
-    public class Stratergy {
-        public String month;
+    public class MonthTasks {
+        public String dateMonth;
         public String date;
         public ArrayList<Task> tasks;
 
-        public String getMonth() {
-            return month;
+        public String getDateMonth() {
+            return dateMonth;
         }
 
-        public void setMonth(String month) {
-            this.month = month;
+        public void setDateMonth(String dateMonth) {
+            this.dateMonth = dateMonth;
         }
 
         public String getDate() {
@@ -78,6 +79,27 @@ public class StratergyObject {
         }
     }
 
+    public class Stratergy {
+        private ArrayList<MonthTasks> monthTasks;
+        private String month;
+
+        public ArrayList<MonthTasks> getMonthTasks() {
+            return monthTasks;
+        }
+
+        public void setMonthTasks(ArrayList<MonthTasks> monthTasks) {
+            this.monthTasks = monthTasks;
+        }
+
+        public String getMonth() {
+            return month;
+        }
+
+        public void setMonth(String month) {
+            this.month = month;
+        }
+    }
+
     public class Task {
         public String status;
         public String taskId;
@@ -85,6 +107,78 @@ public class StratergyObject {
         public String contentUrl;
         public String duration;
         public String type;
+        public String articleId;
+        public String date;
+        public String day;
+        public String dayName;
+        public long dateLong;
+        public boolean isShowDate;
+        public String contentType;
+        public String subject;
+
+        public String getContentType() {
+            return contentType;
+        }
+
+        public void setContentType(String contentType) {
+            this.contentType = contentType;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public void setSubject(String subject) {
+            this.subject = subject;
+        }
+
+        public long getDateLong() {
+            return dateLong;
+        }
+
+        public void setDateLong(long dateLong) {
+            this.dateLong = dateLong;
+        }
+
+        public String getDay() {
+            return day;
+        }
+
+        public void setDay(String day) {
+            this.day = day;
+        }
+
+        public String getDayName() {
+            return dayName;
+        }
+
+        public void setDayName(String dayName) {
+            this.dayName = dayName;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public boolean isShowDate() {
+            return isShowDate;
+        }
+
+        public void setShowDate(boolean showDate) {
+            isShowDate = showDate;
+        }
+
+        public String getArticleId() {
+            return articleId;
+        }
+
+        public void setArticleId(String articleId) {
+            this.articleId = articleId;
+        }
 
         public String getStatus() {
             return status;

@@ -1,7 +1,5 @@
 package com.talentsprint.android.esa.utils;
 
-import java.util.Collections;
-
 import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
@@ -29,7 +27,7 @@ public class ApiClient {
                             CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256)
                     .build();
             OkHttpClient client = new OkHttpClient.Builder()
-                    .connectionSpecs(Collections.singletonList(spec))
+                    /*.connectionSpecs(Collections.singletonList(spec))*/
                     .addInterceptor(new InterceptorAddCookies())
                     .addInterceptor(new InterceptorReceivedCookies())
                     .build();

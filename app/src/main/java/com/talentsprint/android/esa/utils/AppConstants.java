@@ -31,4 +31,11 @@ public class AppConstants {
     public static final String CURRENT_AFFAIRS = "currentAffairs";
     public static final String URL = "url";
     public static final String POSITION = "position";
+    public static final String FILTERS = "filters";
+    public static final String TASK_ID = "taskId";
+    public static final int LOGIN_RESULT = 10;
+    public static final String TOTAL_QUESTIONS = "totalQuestions";
+    public static final String TEST_RESULT = "testResult";
+    public static final String SELECTED_POSITION = "selectedPosition";
+    public static final String CORRECT_POSITION = "correctPosition";
 }

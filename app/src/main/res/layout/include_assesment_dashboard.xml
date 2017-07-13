@@ -10,19 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:gravity="left"
         android:text="@string/assess_text"
         android:textColor="@color/textTitleColor70Opc"
         android:textSize="14dp"/>
 
-    <com.talentsprint.android.esa.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
         android:id="@+id/assessYourself"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_below="@+id/setDateText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/color_accent_rounded_rectangle"
         android:gravity="center"
         android:paddingLeft="25dp"

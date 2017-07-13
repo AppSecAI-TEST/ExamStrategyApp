@@ -1,6 +1,5 @@
 package com.talentsprint.android.esa.activities;
 
-import android.animation.Animator;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -130,6 +130,20 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         final TextView currentAffairs = menuItem.findViewById(R.id.currentAffairs);
         final TextView myProfile = menuItem.findViewById(R.id.myProfile);
         final TextView home = menuItem.findViewById(R.id.home);
+        final View homeSelector = menuItem.findViewById(R.id.homeSelector);
+        final View stratergySelector = menuItem.findViewById(R.id.stratergySelector);
+        final View studySelector = menuItem.findViewById(R.id.studySelector);
+        final View affairsSelector = menuItem.findViewById(R.id.affairsSelector);
+        final View alertsSelector = menuItem.findViewById(R.id.alertsSelector);
+        final View notificationSelector = menuItem.findViewById(R.id.notificationSelector);
+        final View profileSelector = menuItem.findViewById(R.id.profileSelector);
+        //homeSelector.setVisibility(View.INVISIBLE);
+        stratergySelector.setVisibility(View.INVISIBLE);
+        studySelector.setVisibility(View.INVISIBLE);
+        affairsSelector.setVisibility(View.INVISIBLE);
+        alertsSelector.setVisibility(View.INVISIBLE);
+        notificationSelector.setVisibility(View.INVISIBLE);
+        profileSelector.setVisibility(View.INVISIBLE);
         mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +177,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             public void onClick(View view) {
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
+                        .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
                         .commit();
                 menuItem.dismiss();
             }
@@ -189,13 +203,16 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    float startRadius = 20;
+                   /* float startRadius = 20;
                     float endRadius = mainView.getHeight();
                     Animator animator = null;
                     animator = ViewAnimationUtils.createCircularReveal(mainView, 0, 0, startRadius, endRadius * 2);
                     animator.setDuration(1000);
-                    animator.start();
+                    animator.start();*/
                 }
+                Animation bottomUp = AnimationUtils.loadAnimation(DashboardActivity.this,
+                        R.anim.slide_down);
+                mainView.startAnimation(bottomUp);
             }
         });
         menuItem.show();
