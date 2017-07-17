@@ -102,7 +102,7 @@
             android:layout_below="@+id/correctAnswer"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:background="#c7c6c6"/>
 
         <com.talentsprint.android.esa.views.OpenSansStrongTextView

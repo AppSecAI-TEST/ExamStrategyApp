@@ -24,6 +24,7 @@ import com.talentsprint.android.esa.fragments.StratergyFragment;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 public class DashboardActivity extends FragmentActivity implements DashboardActivityInterface, View.OnClickListener {
@@ -137,13 +138,27 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         final View alertsSelector = menuItem.findViewById(R.id.alertsSelector);
         final View notificationSelector = menuItem.findViewById(R.id.notificationSelector);
         final View profileSelector = menuItem.findViewById(R.id.profileSelector);
-        //homeSelector.setVisibility(View.INVISIBLE);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        homeSelector.setVisibility(View.INVISIBLE);
         stratergySelector.setVisibility(View.INVISIBLE);
         studySelector.setVisibility(View.INVISIBLE);
         affairsSelector.setVisibility(View.INVISIBLE);
         alertsSelector.setVisibility(View.INVISIBLE);
         notificationSelector.setVisibility(View.INVISIBLE);
         profileSelector.setVisibility(View.INVISIBLE);
+        if (currentFragment != null && currentFragment.getTag() != null) {
+            switch (currentFragment.getTag()) {
+                case AppConstants.DASHBOARD:
+                    homeSelector.setVisibility(View.VISIBLE);
+                    break;
+                case AppConstants.STRATERGY:
+                    stratergySelector.setVisibility(View.VISIBLE);
+                    break;
+                case AppConstants.PROFILE:
+                    profileSelector.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
         mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,10 +200,15 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager supportFragmentManager = getSupportFragmentManager();
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null)
-                        .commit();
+                if (PreferenceManager.getBoolean(DashboardActivity.this, AppConstants.IS_LOGGEDIN, false)) {
+                    FragmentManager supportFragmentManager = getSupportFragmentManager();
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null)
+                            .commit();
+                } else {
+                    Intent navigate = new Intent(DashboardActivity.this, LoginActivity.class);
+                    startActivity(navigate);
+                }
                 menuItem.dismiss();
             }
         });

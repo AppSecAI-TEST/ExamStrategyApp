@@ -3,6 +3,7 @@ package com.talentsprint.android.esa.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -22,6 +23,7 @@ import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
+import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.CurrentAffairsInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
@@ -41,7 +43,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener, CurrentAffairsInterface {
+public class DashboardFragment extends Fragment implements View.OnClickListener, CurrentAffairsInterface, CalenderInterface {
 
     private RelativeLayout tasks;
     private RelativeLayout todaysTasksLyt;
@@ -70,11 +72,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         View fragmentView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         findViews(fragmentView);
         dashboardInterface.setCurveVisibility(false);
-        getDashBoard();
+        getDashBoard(0);
         return fragmentView;
     }
 
-    private void getDashBoard() {
+    private void getDashBoard(final int recurringValue) {
         dashboardInterface.showProgress(true);
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
         String oneSignalId = status.getSubscriptionStatus().getUserId();
@@ -87,8 +89,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     homeObject = response.body();
-                    if (isAdded())
+                    if (homeObject.getCurrentAffairs() == null && recurringValue == 0) {
+                        dashboardInterface.showProgress(true);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getDashBoard(1);
+                            }
+                        }, 1000);
+                    } else if (isAdded()) {
                         setValues();
+                    }
                 }
             }
 
@@ -173,7 +185,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
             CalenderDialogue dialogue = new CalenderDialogue();
             dialogue.setArguments(bundle);
-            dialogue.show(getFragmentManager(), null);
+            dialogue.show(getChildFragmentManager(), null);
         }
     }
 
@@ -183,6 +195,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         navigate.putExtra(AppConstants.CURRENT_AFFAIRS, homeObject.getCurrentAffairs());
         navigate.putExtra(AppConstants.POSITION, currentAffairsViewPager.getCurrentItem());
         startActivity(navigate);
+    }
+
+    @Override
+    public void moveNext() {
+    }
+
+    @Override
+    public void movePrevious() {
+    }
+
+    @Override
+    public void selectedDate(long date) {
     }
 
     class CurrentAffairsFragmentAdapter extends FragmentStatePagerAdapter {

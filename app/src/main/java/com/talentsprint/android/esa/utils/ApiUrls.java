@@ -23,11 +23,19 @@ public class ApiUrls {
     public static final String GET_CURRENT_AFFAIRS = "getCurrentAffairs";
     public static final String REGISTER = "register";
     public static final String GET_PROFILE = "getProfile";
+    public static final String EDIT_PROFILE = "editProfile";
+    public static final String LOGIN = "login";
     public static final String LOGOUT = "logout";
+    public static final String CHECKMOBI_SEND_SMS = "sms/send";
 
     //quer parameters
     public static final String EXAM = "exam";
     public static final String TASK_ID = "taskId";
     public static final String QUESTION = "question";
     public static final String TOTAL_TIME_TAKEN = "timeTaken";
+    public static final String FACEBOOK_ID = "facebookId";
+    public static final String PROFILE_PIC_URL = "profilePicUrl";
+    public static final String MAIL_ID = "mailId";
+    public static final String MOBILE = "mobile";
+    public static final String NAME = "name";
 }

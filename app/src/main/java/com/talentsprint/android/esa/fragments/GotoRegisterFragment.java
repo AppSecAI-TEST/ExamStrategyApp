@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.LoginActivity;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +25,7 @@ public class GotoRegisterFragment extends Fragment {
 
     View registerNow;
     private TextView registerContent;
+    private View login;
 
     public GotoRegisterFragment() {
         // Required empty public constructor
@@ -35,6 +38,7 @@ public class GotoRegisterFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_goto_register, container, false);
         registerNow = fragmentView.findViewById(R.id.registerNow);
         registerContent = fragmentView.findViewById(R.id.registerContent);
+        login = fragmentView.findViewById(R.id.login);
         registerContent.setMovementMethod(LinkMovementMethod.getInstance());
         SpannableString span = new SpannableString(registerContent.getText().toString());
         String[] termsSplits = registerContent.getText().toString().split("FREE");
@@ -48,11 +52,26 @@ public class GotoRegisterFragment extends Fragment {
         registerNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent navigate = new Intent(getActivity(), LoginActivity.class);
-                startActivityForResult(navigate, AppConstants.LOGIN_RESULT);
+                navigateToLogin();
+            }
+        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToLogin();
             }
         });
         return fragmentView;
+    }
+
+    private void navigateToLogin() {
+        if (!PreferenceManager.getBoolean(getActivity(), AppConstants.FB_USER, false) && !PreferenceManager.getBoolean
+                (getActivity(), AppConstants.GMAIL_USER, false)) {
+            Intent navigate = new Intent(getActivity(), LoginActivity.class);
+            startActivityForResult(navigate, AppConstants.LOGIN_RESULT);
+        } else {
+            Toast.makeText(getActivity(), "Already signed-in", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

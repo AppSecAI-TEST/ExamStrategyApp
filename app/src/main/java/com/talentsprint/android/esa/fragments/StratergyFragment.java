@@ -17,9 +17,12 @@ import com.afollestad.sectionedrecyclerview.SectionedViewHolder;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.dialogues.FilterDialogue;
+import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.interfaces.FiltersInterface;
 import com.talentsprint.android.esa.models.StratergyObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import java.util.ArrayList;
@@ -34,12 +37,17 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StratergyFragment extends Fragment implements View.OnClickListener {
+public class StratergyFragment extends Fragment implements View.OnClickListener, CalenderInterface, FiltersInterface {
     private DashboardActivityInterface dashboardInterface;
     private ImageView filter;
     private ImageView calender;
     private RecyclerView stratergyRecycler;
     private StratergyObject stratergyObject;
+    private String currentDate;
+    private int dateRowNumber = 0;
+    private HashMap<String, Integer> dateIndexingMap = new HashMap<String, Integer>();
+    private HashMap<String, Boolean> selectedContentFilters = new HashMap<String, Boolean>();
+    private HashMap<String, Boolean> selectedSubjectFilters = new HashMap<String, Boolean>();
 
     public StratergyFragment() {
         // Required empty public constructor
@@ -51,6 +59,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
         dashboardInterface.setCurveVisibility(true);
         View fragmentView = inflater.inflate(R.layout.fragment_stratergy, container, false);
         findViews(fragmentView);
+        currentDate = AppUtils.getCurrentDateString();
         getStratergy();
         return fragmentView;
     }
@@ -79,7 +88,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
             public void onResponse(Call<StratergyObject> call, Response<StratergyObject> response) {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
-                    prepareStratergy(response);
+                    stratergyObject = response.body();
+                    prepareStratergy();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
@@ -94,10 +104,11 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    private void prepareStratergy(Response<StratergyObject> response) {
-        stratergyObject = response.body();
+    private void prepareStratergy() {
         ArrayList<StratergyObject.Stratergy> stratergyArrayList = stratergyObject.getStrategy();
         HashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new HashMap<String, ArrayList<StratergyObject.Task>>();
+        dateRowNumber = 0;
+        dateIndexingMap = new HashMap<String, Integer>();
         if (stratergyArrayList != null) {
             for (int i = 0; i < stratergyArrayList.size(); i++) {
                 ArrayList<StratergyObject.Task> monthTasks = new ArrayList<StratergyObject.Task>();
@@ -109,6 +120,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
                             StratergyObject.Task singleTask = dayStratergy.getTasks().get(j);
                             singleTask.setDate(dayStratergy.getDate());
                             if (j == 0) {
+                                dateIndexingMap.put(dayStratergy.getDate(), dateRowNumber + 1);
                                 singleTask.setShowDate(true);
                                 String[] dateSplit = dayStratergy.getDateMonth().split(" ");
                                 singleTask.setDay(dateSplit[0]);
@@ -117,12 +129,16 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
                                 }
                             }
                             monthTasks.add(singleTask);
+                            dateRowNumber++;
                         }
                     }
                     if (taskHashMap.containsKey(monthStratergy.getMonth())) {
                         taskHashMap.get(monthStratergy.getMonth()).addAll(monthTasks);
                     } else {
-                        taskHashMap.put(monthStratergy.getMonth(), monthTasks);
+                        if (monthTasks.size() > 0) {
+                            dateRowNumber++;
+                            taskHashMap.put(monthStratergy.getMonth(), monthTasks);
+                        }
                     }
                 }
             }
@@ -132,7 +148,93 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
             stratergyRecycler.setLayoutManager(mLayoutManager);
             stratergyRecycler.setAdapter(stratergyAdapter);
+            if (dateIndexingMap.containsKey(currentDate))
+                stratergyRecycler.scrollToPosition(dateIndexingMap.get(currentDate));
+        } else {
+            Toast.makeText(getActivity(), "Strategy not found", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
         }
+    }
+
+    private void filterStratergy() {
+        ArrayList<StratergyObject.Stratergy> stratergyArrayList = stratergyObject.getStrategy();
+        HashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new HashMap<String, ArrayList<StratergyObject.Task>>();
+        dateRowNumber = 0;
+        dateIndexingMap = new HashMap<String, Integer>();
+        if (stratergyArrayList != null) {
+            for (int i = 0; i < stratergyArrayList.size(); i++) {
+                ArrayList<StratergyObject.Task> monthTasks = new ArrayList<StratergyObject.Task>();
+                StratergyObject.Stratergy monthStratergy = stratergyArrayList.get(i);
+                if (monthStratergy.getMonthTasks() != null) {
+                    for (int k = 0; k < monthStratergy.getMonthTasks().size(); k++) {
+                        StratergyObject.MonthTasks dayStratergy = monthStratergy.getMonthTasks().get(k);
+                        int dateIndex = -1;
+                        for (int j = 0; j < dayStratergy.getTasks().size(); j++) {
+                            StratergyObject.Task singleTask = dayStratergy.getTasks().get(j);
+                            boolean isAdd = checkConditionToAddTask(singleTask);
+                            if (isAdd) {
+                                singleTask.setDate(dayStratergy.getDate());
+                                if (dateIndex == -1) {
+                                    dateIndexingMap.put(dayStratergy.getDate(), dateRowNumber + 1);
+                                    singleTask.setShowDate(true);
+                                    String[] dateSplit = dayStratergy.getDateMonth().split(" ");
+                                    singleTask.setDay(dateSplit[0]);
+                                    if (dateSplit.length > 1) {
+                                        singleTask.setDayName(dateSplit[1]);
+                                    }
+                                    dateIndex++;
+                                }
+                                monthTasks.add(singleTask);
+                                dateRowNumber++;
+                            }
+                        }
+                    }
+                    if (taskHashMap.containsKey(monthStratergy.getMonth())) {
+                        taskHashMap.get(monthStratergy.getMonth()).addAll(monthTasks);
+                    } else {
+                        if (monthTasks.size() > 0) {
+                            dateRowNumber++;
+                            taskHashMap.put(monthStratergy.getMonth(), monthTasks);
+                        }
+                    }
+                }
+            }
+            List<String> monthsList = new ArrayList<String>(taskHashMap.keySet());
+            Collections.reverse(monthsList);
+            StratergyAdapter stratergyAdapter = new StratergyAdapter(taskHashMap, (ArrayList<String>) monthsList);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            stratergyRecycler.setLayoutManager(mLayoutManager);
+            stratergyRecycler.setAdapter(stratergyAdapter);
+            if (dateIndexingMap.containsKey(currentDate))
+                stratergyRecycler.scrollToPosition(dateIndexingMap.get(currentDate));
+        } else {
+            Toast.makeText(getActivity(), "Strategy not found", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
+        }
+    }
+
+    private boolean checkConditionToAddTask(StratergyObject.Task singleTask) {
+        boolean isAdd;
+        if (selectedSubjectFilters.size() > 0 && selectedContentFilters.size() > 0) {
+            if (singleTask.getSubject() != null && singleTask.getContentType() != null && selectedSubjectFilters.containsKey
+                    (singleTask.getSubject().toLowerCase()) && selectedContentFilters
+                    .containsKey(singleTask.getContentType().toLowerCase())) {
+                isAdd = true;
+            } else {
+                isAdd = false;
+            }
+        } else if (selectedSubjectFilters.size() > 0 || selectedContentFilters.size() > 0) {
+            if ((singleTask.getSubject() != null && selectedSubjectFilters.containsKey(singleTask.getSubject().toLowerCase()))
+                    || (singleTask.getContentType() != null && selectedContentFilters
+                    .containsKey(singleTask.getContentType().toLowerCase()))) {
+                isAdd = true;
+            } else {
+                isAdd = false;
+            }
+        } else {
+            isAdd = true;
+        }
+        return isAdd;
     }
 
     @Override
@@ -145,25 +247,30 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
             bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
             CalenderDialogue dialogue = new CalenderDialogue();
             dialogue.setArguments(bundle);
-            dialogue.show(getFragmentManager(), null);
+            dialogue.show(getChildFragmentManager(), null);
         } else if (view == filter) {
-            Bundle bundle = new Bundle();
-            bundle.putFloat(AppConstants.X_VALUE, filter.getX());
-            int[] postions = new int[2];
-            filter.getLocationInWindow(postions);
-            bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
-            bundle.putSerializable(AppConstants.FILTERS, stratergyObject.getFilterOptions());
-            FilterDialogue dialogue = new FilterDialogue();
-            dialogue.setArguments(bundle);
-            dialogue.show(getFragmentManager(), null);
-
+            if (stratergyObject.getFilterOptions() != null) {
+                Bundle bundle = new Bundle();
+                bundle.putFloat(AppConstants.X_VALUE, filter.getX());
+                int[] postions = new int[2];
+                filter.getLocationInWindow(postions);
+                bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
+                bundle.putSerializable(AppConstants.FILTERS, stratergyObject.getFilterOptions());
+                bundle.putSerializable(AppConstants.CONTENT_FILTERS, selectedContentFilters);
+                bundle.putSerializable(AppConstants.SUBJECT_FILTERS, selectedSubjectFilters);
+                FilterDialogue dialogue = new FilterDialogue();
+                dialogue.setArguments(bundle);
+                dialogue.show(getChildFragmentManager(), null);
+            } else {
+                Toast.makeText(getActivity(), "No Option to filter", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     int getStatusImage(String status) {
         if (status != null) {
             switch (status) {
-                case "Not Started":
+                case "Overdue":
                     return R.drawable.error_dialogue;
                 case "Completed":
                     return R.drawable.tick_circle;
@@ -173,6 +280,31 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
         } else {
             return R.drawable.empty;
         }
+    }
+
+    @Override
+    public void moveNext() {
+    }
+
+    @Override
+    public void movePrevious() {
+    }
+
+    @Override
+    public void selectedDate(long date) {
+        String selectedDate = AppUtils.getDateInYYYMMDD(date);
+        if (dateIndexingMap.containsKey(selectedDate)) {
+            stratergyRecycler.smoothScrollToPosition(dateIndexingMap.get(selectedDate));
+        } else {
+            Toast.makeText(getActivity(), "No stratergy found for the selected date", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void filtersSet(HashMap<String, Boolean> selectedContentFilters, HashMap<String, Boolean> selectedSubjectFilters) {
+        this.selectedContentFilters = selectedContentFilters;
+        this.selectedSubjectFilters = selectedSubjectFilters;
+        filterStratergy();
     }
 
     public class StratergyAdapter extends SectionedRecyclerViewAdapter<StratergyAdapter.MyViewHolder> {
@@ -238,7 +370,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener 
                 holder.lineTop.setVisibility(View.VISIBLE);
             }
             holder.title.setText(taskObject.getTitle());
-            holder.time.setText(taskObject.getDuration());
+            holder.time.setText(taskObject.getDuration() / 60 + " min");
             holder.dateDay.setText(taskObject.getDay());
             holder.dateWeekday.setText(taskObject.getDayName());
             holder.indicator.setImageResource(getStatusImage(taskObject.getStatus()));

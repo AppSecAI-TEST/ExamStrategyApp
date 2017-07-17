@@ -8,4 +8,6 @@ public interface CalenderInterface {
     public void moveNext();
 
     public void movePrevious();
+
+    public void selectedDate(long date);
 }

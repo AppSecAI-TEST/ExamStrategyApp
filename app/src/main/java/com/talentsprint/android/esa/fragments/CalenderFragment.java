@@ -106,6 +106,7 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < 42; i++) {
             CalenderObject calenderObject = new CalenderObject();
             calenderObject.setDay(cal.get(Calendar.DAY_OF_MONTH));
+            calenderObject.setTimeMillis(cal.getTimeInMillis());
             if (i < daysInweek1 - 1) {
                 calenderObject.setThisMonth(false);
             } else if (i > maxDays + daysInweek1 - 2) {
@@ -176,13 +177,7 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onClick(View view) {
                     if (calenderObject.isThisMonth()) {
-                        if (isShowTodaysText && todaysPosition == position) {
-                            todayText.setVisibility(View.VISIBLE);
-                        } else {
-                            todayText.setVisibility(View.INVISIBLE);
-                        }
-                        selectedPosition = position;
-                        notifyDataSetChanged();
+                        calenderInterface.selectedDate(calenderObject.getTimeMillis());
                     }
                 }
             });

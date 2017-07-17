@@ -105,7 +105,7 @@ public class StratergyObject implements Serializable {
         public String taskId;
         public String title;
         public String contentUrl;
-        public String duration;
+        public long duration;
         public String type;
         public String articleId;
         public String date;
@@ -212,11 +212,11 @@ public class StratergyObject implements Serializable {
             this.contentUrl = contentUrl;
         }
 
-        public String getDuration() {
+        public long getDuration() {
             return duration;
         }
 
-        public void setDuration(String duration) {
+        public void setDuration(long duration) {
             this.duration = duration;
         }
 

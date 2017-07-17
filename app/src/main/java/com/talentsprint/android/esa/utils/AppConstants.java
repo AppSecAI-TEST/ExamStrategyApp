@@ -16,7 +16,7 @@ public class AppConstants {
     public static final String EXAM_NOT_SET = "Exam not set";
     public static final String ASESMENT_NOT_TAKEN = "Assessment not Taken";
     public static final String PREPARING_STRATERGY = "Preparing Strategy";
-    public static final String STRATERGY_IS_READY = " Strategy is ready";
+    public static final String STRATERGY_IS_READY = "Strategy prepared";
     public static final String NON_VIDEO = "non-video";
     public static final String VIDEO = "video";
     public static final String TEST = "test";
@@ -38,4 +38,17 @@ public class AppConstants {
     public static final String TEST_RESULT = "testResult";
     public static final String SELECTED_POSITION = "selectedPosition";
     public static final String CORRECT_POSITION = "correctPosition";
+    public static final String USER_TYPE = "userType";
+    public static final String FREEMIUM = "freemium";
+    public static final String FREE = "free";
+    public static final String PREMIUM = "premium";
+    public static final String FB_USER = "fbUser";
+    public static final String GMAIL_USER = "gmailUser";
+    public static final String CONTENT_FILTERS = "contentFilters";
+    public static final String SUBJECT_FILTERS = "subjectFilters";
+    public static final String IS_LOGGEDIN = "isLoggedIn";
+    public static final String OTP = "otp";
+    public static final String MOBILE_NUMBER = "mobileNumber";
+    public static final String MOBILE_USER = "mobileUser";
+    public static final String INVALID = "Invalid";
 }

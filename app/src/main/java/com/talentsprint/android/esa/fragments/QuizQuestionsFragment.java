@@ -260,7 +260,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     @Override
     public void submitQuestion(String answer) {
         answersList.add(answer);
-        if (currentQuestion < totalQuestionsSize) {
+        if (currentQuestion < totalQuestionsSize - 1) {
             currentQuestion++;
             moveToNextQuestion();
         } else {

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +15,9 @@ import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ProfileObject;
+import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.CircleTransform;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import org.json.JSONObject;
@@ -34,6 +37,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextView customerType;
     private TextView joinDate;
     private TextView logout;
+    private ImageView edit;
+    private View nameLyt;
+    private EditText nameEdtTxt;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -62,7 +68,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         customerType = fragmentView.findViewById(R.id.customerType);
         joinDate = fragmentView.findViewById(R.id.joinDate);
         logout = fragmentView.findViewById(R.id.logout);
+        edit = fragmentView.findViewById(R.id.edit);
+        nameLyt = fragmentView.findViewById(R.id.nameLyt);
+        nameEdtTxt = fragmentView.findViewById(R.id.nameEdtTxt);
         logout.setOnClickListener(this);
+        edit.setOnClickListener(this);
+        nameLyt.setVisibility(View.GONE);
     }
 
     private void getProfile() {
@@ -100,8 +111,51 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == logout) {
-            logoutUser();
+            if (logout.getText().toString().equalsIgnoreCase("SAVE")) {
+                if (nameEdtTxt.getText().toString().trim().length() == 0) {
+                    Toast.makeText(getActivity(), "Enter a valid name", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveProfile();
+                    nameEdtTxt.clearFocus();
+                    AppUtils.closeKeyboard(edit, getActivity());
+                    logout.setText("LOGOUT");
+                    nameLyt.setVisibility(View.GONE);
+                    name.setVisibility(View.VISIBLE);
+                    name.setText(nameEdtTxt.getText());
+                }
+            } else {
+                logoutUser();
+            }
+        } else if (view == edit) {
+            nameLyt.setVisibility(View.VISIBLE);
+            name.setVisibility(View.GONE);
+            nameEdtTxt.setText(name.getText());
+            logout.setText("SAVE");
         }
+    }
+
+    private void saveProfile() {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        Call<JSONObject> getExams = apiService.editProfile(nameEdtTxt.getText().toString().trim());
+        getExams.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Profile updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                dashboardInterface.showProgress(false);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void logoutUser() {
@@ -114,6 +168,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Logged out", Toast.LENGTH_SHORT).show();
+                    PreferenceManager.deleteAll(getActivity());
                     dashboardInterface.examAdded();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

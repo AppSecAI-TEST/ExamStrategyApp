@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "387035461246",
+    "firebase_url": "https://examstratergyappdev.firebaseio.com",
+    "project_id": "examstratergyappdev",
+    "storage_bucket": "examstratergyappdev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387035461246:android:0614a9eca67b27fc",
+        "android_client_info": {
+          "package_name": "com.talentsprint.android.esa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387035461246-8itboe02lmf6ob7mptgp8a3blg3u5ami.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvkF56zxDg5C2LH74tN5apoFntKFz6yRM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

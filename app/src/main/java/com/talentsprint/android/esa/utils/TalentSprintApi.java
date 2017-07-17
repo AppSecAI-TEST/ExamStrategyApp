@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.utils;
 
+import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.ProfileObject;
@@ -13,8 +14,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -51,6 +56,33 @@ public interface TalentSprintApi {
 
     @GET(ApiUrls.GET_PROFILE)
     Call<ProfileObject> getProfile();
+
+    @Multipart
+    @POST(ApiUrls.LOGIN)
+    Call<JsonObject> loginFb(
+            @Part(ApiUrls.FACEBOOK_ID) RequestBody fbId,
+            @Part(ApiUrls.PROFILE_PIC_URL) RequestBody profilePic,
+            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
+
+    @Multipart
+    @POST(ApiUrls.LOGIN)
+    Call<JsonObject> loginGoogle(
+            @Part(ApiUrls.MAIL_ID) RequestBody mailId,
+            @Part(ApiUrls.PROFILE_PIC_URL) RequestBody profilePic,
+            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
+
+    @Multipart
+    @POST(ApiUrls.LOGIN)
+    Call<JsonObject> loginMobile(
+            @Part(ApiUrls.MOBILE) RequestBody mobile,
+            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
+
+    @POST(ApiUrls.REGISTER)
+    Call<JsonObject> registerUser(@Query(ApiUrls.MAIL_ID) String mailId, @Query(ApiUrls.NAME) String name, @Query(ApiUrls
+            .MOBILE) String mobile);
+
+    @GET(ApiUrls.EDIT_PROFILE)
+    Call<JSONObject> editProfile(@Query(ApiUrls.NAME) String name);
 
     @GET(ApiUrls.LOGOUT)
     Call<JSONObject> logoutUser();

@@ -12,7 +12,7 @@
         android:layout_marginTop="15dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:text="LOGIN"
+        android:text="VERIFICATION"
         android:textColor="@color/textTitleColor"
         android:textSize="15dp"/>
 

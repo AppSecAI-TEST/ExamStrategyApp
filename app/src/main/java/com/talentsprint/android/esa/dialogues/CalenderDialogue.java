@@ -1,6 +1,7 @@
 package com.talentsprint.android.esa.dialogues;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,8 +31,15 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     private float x_value, y_value;
     private View main_content;
     private View pointerView;
+    private CalenderInterface calenderInterface;
 
     public CalenderDialogue() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        calenderInterface = (CalenderInterface) getParentFragment();
     }
 
     @Override
@@ -84,6 +92,12 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     public void movePrevious() {
         if (mViewPager.getCurrentItem() - 1 >= 0)
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+    }
+
+    @Override
+    public void selectedDate(long date) {
+        calenderInterface.selectedDate(date);
+        dismiss();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
