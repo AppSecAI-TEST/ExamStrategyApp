@@ -16,6 +16,9 @@ import okhttp3.Response;
 public class InterceptorAddCookies implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
+        if (!new ServiceManager(TalentSprintApp.appContext).isNetworkAvailable()) {
+            throw (new IOException("No network available"));
+        }
         Request.Builder builder = chain.request().newBuilder();
         HashSet<String> preferences = (HashSet) PreferenceManager.getStringSet(TalentSprintApp.appContext, AppConstants
                 .COOKIES, new

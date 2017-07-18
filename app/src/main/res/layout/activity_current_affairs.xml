@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".android.esa.activities.DashboardActivity">
+    tools:context=".activities.DashboardActivity">
 
     <ImageView
         android:id="@+id/header_curve"
@@ -59,7 +59,7 @@
         android:textSize="13dp"/>
 
     <View
-        android:layout_width="25dp"
+        android:layout_width="@dimen/indicator_width"
         android:layout_height="5dp"
         android:layout_alignLeft="@+id/subjectText"
         android:layout_below="@+id/subjectText"

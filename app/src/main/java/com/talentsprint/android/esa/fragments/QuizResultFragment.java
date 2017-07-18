@@ -131,7 +131,7 @@ public class QuizResultFragment extends Fragment implements View.OnClickListener
                     bundle.putSerializable(AppConstants.QUIZ_RESULT, testResultsObject);
                     questionsReviewFragment.setArguments(bundle);
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragment_container, questionsReviewFragment, AppConstants.QUIZ_RESULT)
+                            .add(R.id.fragment_container, questionsReviewFragment, AppConstants.QUIZ_QUESTIONS)
                             .addToBackStack(null).commit();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -141,8 +141,10 @@ public class QuizResultFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onFailure(Call<TestReviewObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

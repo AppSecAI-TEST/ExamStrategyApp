@@ -2,6 +2,7 @@ package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -61,12 +62,22 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_month_layout, container, false);
         findViews(rootView);
-        ArrayList<CalenderObject> daysList = prepareDaysList();
-        SubjectsAdapter adapter = new SubjectsAdapter(daysList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 7);
-        monthRecycler.setLayoutManager(mLayoutManager);
-        monthRecycler.setAdapter(adapter);
-        Bundle arguments = getArguments();
+        new AsyncTask<Void, Void, ArrayList<CalenderObject>>() {
+
+            @Override
+            protected ArrayList<CalenderObject> doInBackground(Void... arrayLists) {
+                return prepareDaysList();
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<CalenderObject> daysList) {
+                super.onPostExecute(daysList);
+                SubjectsAdapter adapter = new SubjectsAdapter(daysList);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 7);
+                monthRecycler.setLayoutManager(mLayoutManager);
+                monthRecycler.setAdapter(adapter);
+            }
+        }.execute();
         return rootView;
     }
 
@@ -185,7 +196,7 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public int getItemCount() {
-            return 42;
+            return calendersList.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -23,7 +23,7 @@
             android:textSize="15dp"/>
 
         <View
-            android:layout_width="25dp"
+            android:layout_width="@dimen/indicator_width"
             android:layout_height="5dp"
             android:layout_alignLeft="@+id/examsText"
             android:layout_below="@+id/examsText"
@@ -89,10 +89,11 @@
             android:id="@+id/subjectImage"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_alignBottom="@+id/subjectName"
+            android:layout_alignTop="@+id/subjectTxt"
             android:layout_below="@+id/examsText"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="20dp"
             android:src="@drawable/book"
             android:tint="#9b9a9a"/>
 
@@ -123,11 +124,11 @@
             android:id="@+id/topicImage"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_alignBottom="@+id/topicName"
+            android:layout_alignTop="@+id/topicTxt"
             android:layout_below="@+id/subjectImage"
-            android:layout_marginBottom="23dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="23dp"
             android:src="@drawable/message"
             android:tint="#9b9a9a"/>
 
@@ -147,8 +148,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/topicTxt"
+            android:layout_marginBottom="20dp"
             android:layout_toRightOf="@+id/topicImage"
-            android:text=""
+            android:text="s"
             android:textColor="#454141"
             android:textSize="16dp"/>
 
@@ -156,7 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/topicImage"
+            android:layout_below="@+id/topicName"
             android:background="@color/activityBgGray"/>
 
         <com.talentsprint.android.esa.views.OpenSansStrongTextView
@@ -171,7 +173,7 @@
             android:textSize="15dp"/>
 
         <View
-            android:layout_width="25dp"
+            android:layout_width="@dimen/indicator_width"
             android:layout_height="5dp"
             android:layout_alignLeft="@+id/examsText"
             android:layout_below="@+id/instructionsText"
@@ -185,7 +187,7 @@
             android:layout_below="@+id/instructionsText"
             android:layout_margin="20dp"/>
 
-        <Button
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/startExam"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -194,6 +196,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/color_accent_rounded_rectangle"
+            android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:text="@string/start_test"

@@ -94,8 +94,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<ProfileObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -152,8 +154,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -178,8 +182,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

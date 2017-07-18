@@ -49,6 +49,7 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
 
     private static final int RC_SIGN_IN = 99;
     ProgressBar progressBar;
+    private View progressBarView;
     private CallbackManager callbackManager;
     private View googleLogin;
     private GoogleApiClient mGoogleApiClient;
@@ -61,7 +62,9 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         setContentView(R.layout.activity_login);
         progressBar = findViewById(R.id.progressBar);
+        progressBarView = findViewById(R.id.progressBarView);
         progressBar.setVisibility(View.INVISIBLE);
+        progressBarView.setVisibility(View.INVISIBLE);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginHomeFragment(), AppConstants.DASHBOARD).commit();
         callbackManager = CallbackManager.Factory.create();
@@ -81,12 +84,17 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
 
     @Override
     public void showProgress(boolean isShow) {
-        if (isShow) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
+        try {
+            if (isShow) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBarView.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                progressBarView.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     @Override
@@ -188,8 +196,12 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                showProgress(false);
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                try {
+                    showProgress(false);
+                    Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

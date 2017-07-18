@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -41,7 +40,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
 
     private ImageView add;
     private RelativeLayout noExams;
-    private Button setExam, save, cancel;
+    private TextView setExam, save, cancel;
     private RecyclerView examsRecycler;
     private DashboardActivityInterface dashboardInterface;
     private ArrayList<ExamObject> addedExams;
@@ -86,8 +85,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<GetExamsObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -116,8 +117,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(Call<GetExamsObject> call, Throwable t) {
-                    dashboardInterface.showProgress(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (dashboardInterface != null)
+                        dashboardInterface.showProgress(false);
+                    if (getActivity() != null)
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -168,6 +171,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener {
         } else if (v == add) {
             if (save.getVisibility() == View.GONE) {
                 setRecyclerVisible();
+                if (addedExams.size() == 0) {
+                    AddNewExam();
+                    alertsAdapter.notifyDataSetChanged();
+                }
             } else if (addedExams.size() < 4) {
                 AddNewExam();
                 if (alertsAdapter != null)

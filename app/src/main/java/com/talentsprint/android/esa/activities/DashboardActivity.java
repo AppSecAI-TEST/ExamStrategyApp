@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.fragments.DashboardFragment;
@@ -32,6 +33,9 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     private ImageView header_curve;
     private ImageView menu;
     private ProgressBar progressBar;
+    private View progressBarView;
+    private String examDate;
+    private boolean isStratergyReady;
     private TalentSprintApi apiService;
 
     @Override
@@ -50,9 +54,11 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         menu = findViewById(R.id.menu);
         header_curve = findViewById(R.id.header_curve);
         progressBar = findViewById(R.id.progressBar);
+        progressBarView = findViewById(R.id.progressBarView);
         header_curve.setVisibility(View.GONE);
         menu.setOnClickListener(this);
         progressBar.setVisibility(View.GONE);
+        progressBarView.setVisibility(View.GONE);
     }
 
     @Override
@@ -68,8 +74,10 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     public void showProgress(boolean isShow) {
         if (isShow) {
             progressBar.setVisibility(View.VISIBLE);
+            progressBarView.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
+            progressBarView.setVisibility(View.GONE);
         }
     }
 
@@ -96,12 +104,30 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     }
 
     @Override
+    public void setExamDate(String examDate) {
+        this.examDate = examDate;
+    }
+
+    @Override
+    public void isStratergyReady(boolean isStratergyReady) {
+        this.isStratergyReady = isStratergyReady;
+    }
+
+    @Override
     public void onBackPressed() {
+        Fragment initialFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (initialFragment != null) {
+            String tag = initialFragment.getTag();
+            if (tag.equalsIgnoreCase(AppConstants.QUIZ_RESULT)) {
+                examAdded();
+                return;
+            }
+        }
         super.onBackPressed();
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (currentFragment != null) {
             String tag = currentFragment.getTag();
-            if (tag != null && tag.equalsIgnoreCase(AppConstants.DASHBOARD)) {
+            if (tag != null && (tag.equalsIgnoreCase(AppConstants.DASHBOARD) || tag.equalsIgnoreCase(AppConstants.QUIZ_RESULT))) {
                 setCurveVisibility(false);
             } else {
                 setCurveVisibility(true);
@@ -124,6 +150,12 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         View content = menuItem.findViewById(R.id.content);
         View footer = menuItem.findViewById(R.id.footer);
         View examStratergy = menuItem.findViewById(R.id.examStratergy);
+        TextView nextExamDateView = menuItem.findViewById(R.id.nextExamDate);
+        if (examDate != null) {
+            nextExamDateView.setText(examDate);
+        } else {
+            nextExamDateView.setText("Not Set");
+        }
         content.setOnClickListener(this);
         footer.setOnClickListener(this);
         final View mainView = menuItem.findViewById(R.id.mainView);
@@ -190,11 +222,15 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         examStratergy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager supportFragmentManager = getSupportFragmentManager();
-                supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
-                        .commit();
-                menuItem.dismiss();
+                if (isStratergyReady) {
+                    FragmentManager supportFragmentManager = getSupportFragmentManager();
+                    supportFragmentManager.beginTransaction()
+                            .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
+                            .commit();
+                    menuItem.dismiss();
+                } else {
+                    Toast.makeText(DashboardActivity.this, "Strategy is not prepared", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         myProfile.setOnClickListener(new View.OnClickListener() {

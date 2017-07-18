@@ -40,6 +40,7 @@ public class SignUpActivity extends Activity {
     private TextView singUp;
     private TextView termsText;
     private ProgressBar progressBar;
+    private View progressBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +105,12 @@ public class SignUpActivity extends Activity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                showProgress(false);
-                Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                try {
+                    showProgress(false);
+                    Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -170,14 +175,22 @@ public class SignUpActivity extends Activity {
         singUp = findViewById(R.id.singUp);
         termsText = findViewById(R.id.termsText);
         progressBar = findViewById(R.id.progressBar);
+        progressBarView = findViewById(R.id.progressBarView);
         progressBar.setVisibility(View.GONE);
+        progressBarView.setVisibility(View.GONE);
     }
 
     public void showProgress(boolean isShow) {
-        if (isShow) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
+        try {
+            if (isShow) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBarView.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                progressBarView.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -18,7 +18,7 @@
         android:textSize="15dp"/>
 
     <View
-        android:layout_width="25dp"
+        android:layout_width="@dimen/indicator_width"
         android:layout_height="5dp"
         android:layout_alignLeft="@+id/subjectText"
         android:layout_below="@+id/subjectText"

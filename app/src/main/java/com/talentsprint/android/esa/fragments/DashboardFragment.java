@@ -106,8 +106,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
             @Override
             public void onFailure(Call<HomeObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -130,6 +132,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             inflatedLayout.findViewById(R.id.setExam).setOnClickListener(this);
         } else {
             nextExamDate.setText(homeObject.getNextExam() + ", " + homeObject.getNextExamDate());
+            dashboardInterface.setExamDate(nextExamDate.getText().toString());
             if (status.equalsIgnoreCase(AppConstants.ASESMENT_NOT_TAKEN)) {
                 View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_assesment_dashboard, null,
                         false);
@@ -141,6 +144,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 todaysTasksLyt.addView(inflatedLayout);
             } else if (status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
                 calenderView.setVisibility(View.VISIBLE);
+                dashboardInterface.isStratergyReady(true);
                 TasksAdapter tasksAdapter = new TasksAdapter(homeObject.getTasklist());
                 RecyclerView.LayoutManager mtaskLayoutManager = new LinearLayoutManager(getActivity());
                 tasksRecycler.setLayoutManager(mtaskLayoutManager);
@@ -178,6 +182,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                     .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.QUIZ_INSTRUCTIONS)
                     .addToBackStack(null).commit();
         } else if (view == calenderView) {
+            calenderView.setClickable(false);
+            dashboardInterface.showProgress(true);
             Bundle bundle = new Bundle();
             bundle.putFloat(AppConstants.X_VALUE, calenderView.getX());
             int[] postions = new int[2];
@@ -186,6 +192,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             CalenderDialogue dialogue = new CalenderDialogue();
             dialogue.setArguments(bundle);
             dialogue.show(getChildFragmentManager(), null);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    calenderView.setClickable(true);
+                    dashboardInterface.showProgress(false);
+                }
+            }, 3000);
         }
     }
 

@@ -91,8 +91,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<QuestionsObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -153,14 +155,14 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     protected void moveToNextQuestion() {
         progressBar.setProgress(currentQuestion);
         percentageText.setText(Integer.toString((int) (((float) (currentQuestion) / totalQuestionsSize) * 100)) + "%");
-        QuestionItemFragment questionItemFragment = new QuestionItemFragment();
+        QuizQuestionItemFragment quizQuestionItemFragment = new QuizQuestionItemFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConstants.QUIZ_QUESTIONS, questionsObject.getQuestions().get(currentQuestion));
         bundle.putInt(AppConstants.POSITION, currentQuestion);
         bundle.putInt(AppConstants.TOTAL_QUESTIONS, totalQuestionsSize);
-        questionItemFragment.setArguments(bundle);
+        quizQuestionItemFragment.setArguments(bundle);
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_child_container, questionItemFragment, AppConstants.QUIZ_QUESTIONS).commit();
+                .replace(R.id.fragment_child_container, quizQuestionItemFragment, AppConstants.QUIZ_QUESTIONS).commit();
     }
 
     private void findViews(View fragmentView) {
@@ -250,8 +252,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<TestResultsObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

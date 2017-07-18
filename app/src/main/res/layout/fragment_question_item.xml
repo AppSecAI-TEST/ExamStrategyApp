@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context="com.talentsprint.android.esa.fragments.QuestionItemFragment">
+    tools:context="com.talentsprint.android.esa.fragments.QuizQuestionItemFragment">
 
 
     <RelativeLayout
@@ -106,40 +106,37 @@
             android:layout_margin="20dp"
             android:paddingLeft="15dp"/>
 
-        <com.talentsprint.android.esa.views.LatoTextView
-            android:id="@+id/submit"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_below="@+id/optionsRecycler"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/centreDivider"
-            android:background="@drawable/color_accent_rounded_rectangle"
-            android:gravity="center"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="@string/submit"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="10dp">
 
-        <com.talentsprint.android.esa.views.LatoTextView
-            android:id="@+id/skip"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@+id/optionsRecycler"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/centreDivider"
-            android:gravity="center"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="SKIP"
-            android:textColor="@color/black"/>
 
-        <View
-            android:id="@+id/centreDivider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"/>
+            <com.talentsprint.android.esa.views.LatoTextView
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/color_accent_rounded_rectangle"
+                android:gravity="center"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@string/submit"
+                android:textColor="@color/black"/>
+
+            <com.talentsprint.android.esa.views.LatoTextView
+                android:id="@+id/skip"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@+id/submit"
+                android:gravity="center"
+                android:paddingLeft="30dp"
+                android:text="SKIP"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
 

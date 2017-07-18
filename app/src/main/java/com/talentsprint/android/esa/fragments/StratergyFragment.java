@@ -2,8 +2,8 @@ package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +24,7 @@ import com.talentsprint.android.esa.models.StratergyObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
+import com.talentsprint.android.esa.views.LinearLayoutManagerWithSmoothScroller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,8 +99,10 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
             @Override
             public void onFailure(Call<StratergyObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -145,7 +148,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             List<String> monthsList = new ArrayList<String>(taskHashMap.keySet());
             Collections.reverse(monthsList);
             StratergyAdapter stratergyAdapter = new StratergyAdapter(taskHashMap, (ArrayList<String>) monthsList);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWithSmoothScroller(getActivity());
             stratergyRecycler.setLayoutManager(mLayoutManager);
             stratergyRecycler.setAdapter(stratergyAdapter);
             if (dateIndexingMap.containsKey(currentDate))
@@ -202,7 +205,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             List<String> monthsList = new ArrayList<String>(taskHashMap.keySet());
             Collections.reverse(monthsList);
             StratergyAdapter stratergyAdapter = new StratergyAdapter(taskHashMap, (ArrayList<String>) monthsList);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWithSmoothScroller(getActivity());
             stratergyRecycler.setLayoutManager(mLayoutManager);
             stratergyRecycler.setAdapter(stratergyAdapter);
             if (dateIndexingMap.containsKey(currentDate))
@@ -240,6 +243,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if (view == calender) {
+            calender.setClickable(false);
+            dashboardInterface.showProgress(true);
             Bundle bundle = new Bundle();
             bundle.putFloat(AppConstants.X_VALUE, calender.getX());
             int[] postions = new int[2];
@@ -248,9 +253,18 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             CalenderDialogue dialogue = new CalenderDialogue();
             dialogue.setArguments(bundle);
             dialogue.show(getChildFragmentManager(), null);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    calender.setClickable(true);
+                    dashboardInterface.showProgress(false);
+                }
+            }, 3000);
         } else if (view == filter) {
-            if (stratergyObject.getFilterOptions() != null) {
+            if (stratergyObject != null && stratergyObject.getFilterOptions() != null) {
+                filter.setClickable(false);
                 Bundle bundle = new Bundle();
+
                 bundle.putFloat(AppConstants.X_VALUE, filter.getX());
                 int[] postions = new int[2];
                 filter.getLocationInWindow(postions);
@@ -261,6 +275,12 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 FilterDialogue dialogue = new FilterDialogue();
                 dialogue.setArguments(bundle);
                 dialogue.show(getChildFragmentManager(), null);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        filter.setClickable(true);
+                    }
+                }, 2000);
             } else {
                 Toast.makeText(getActivity(), "No Option to filter", Toast.LENGTH_SHORT).show();
             }
@@ -296,7 +316,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         if (dateIndexingMap.containsKey(selectedDate)) {
             stratergyRecycler.smoothScrollToPosition(dateIndexingMap.get(selectedDate));
         } else {
-            Toast.makeText(getActivity(), "No stratergy found for the selected date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No strategy found for the selected date", Toast.LENGTH_SHORT).show();
         }
     }
 

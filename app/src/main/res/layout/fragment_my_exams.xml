@@ -23,7 +23,7 @@
             android:textSize="15dp"/>
 
         <View
-            android:layout_width="25dp"
+            android:layout_width="@dimen/indicator_width"
             android:layout_height="5dp"
             android:layout_alignLeft="@+id/examsText"
             android:layout_below="@+id/examsText"
@@ -65,7 +65,7 @@
                 android:textColor="@color/textTitleColor70Opc"
                 android:textSize="14dp"/>
 
-            <Button
+            <com.talentsprint.android.esa.views.OpenSansStrongTextView
                 android:id="@+id/setExam"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -73,6 +73,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/color_accent_rounded_rectangle"
+                android:gravity="center"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:text="@string/add_now"
@@ -95,7 +96,7 @@
             android:layout_height="0dp"
             android:layout_centerHorizontal="true"/>
 
-        <Button
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -106,13 +107,14 @@
             android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/centerView"
             android:background="@drawable/color_accent_rounded_rectangle"
+            android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:text="@string/save"
             android:textColor="#2c2b2b"
             android:textSize="14dp"/>
 
-        <Button
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -122,6 +124,7 @@
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/centerView"
             android:background="@android:color/transparent"
+            android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:text="@string/cancel"

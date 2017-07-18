@@ -52,6 +52,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         main_content = view.findViewById(R.id.main_content);
         movableContent = view.findViewById(R.id.movableContent);
         pointerView = view.findViewById(R.id.pointerView);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);

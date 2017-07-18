@@ -39,14 +39,19 @@
         android:layout_below="@+id/logo"
         android:layout_marginTop="30dp"/>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+    <View
+        android:id="@+id/progressBarView"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/color_accent_rounded_rectangle_med"
-        android:backgroundTint="@color/black90opc"
-        android:indeterminateTint="@color/colorPrimary"
-        android:padding="20dp"/>
+        android:background="@drawable/color_accent_rounded_rectangle_med"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:indeterminateTint="@color/colorPrimary"/>
 </RelativeLayout>

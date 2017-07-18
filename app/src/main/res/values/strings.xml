@@ -57,7 +57,7 @@
     <string name="storage">Storage</string>
     <string name="internal">Internal</string>
     <string name="logout">LOGOUT</string>
-    <string name="assess_text">Know your current status by taking an\nassessment.\nHelps you identify your strengths and\nweaknesses</string>
+    <string name="assess_text">Know your current status by taking an\nassessment.\nHelps you identify your strengths and\nweaknesses.</string>
     <string name="assess_yourself">ASSESS YOURSELF</string>
     <string name="generating_stratergy">Generating your personalized exam strategy.\nIt may take a few minutes, please
         wait</string>

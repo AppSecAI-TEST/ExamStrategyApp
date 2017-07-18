@@ -34,7 +34,7 @@
                     android:textSize="15dp"/>
 
                 <View
-                    android:layout_width="25dp"
+                    android:layout_width="@dimen/indicator_width"
                     android:layout_height="5dp"
                     android:layout_alignLeft="@+id/titleTodaysTasks"
                     android:layout_below="@+id/titleTodaysTasks"
@@ -86,7 +86,7 @@
                     android:textSize="15dp"/>
 
                 <View
-                    android:layout_width="25dp"
+                    android:layout_width="@dimen/indicator_width"
                     android:layout_height="5dp"
                     android:layout_alignLeft="@+id/titleCurrentAffairs"
                     android:layout_below="@+id/titleCurrentAffairs"
@@ -128,7 +128,7 @@
                 android:textSize="15dp"/>
 
             <View
-                android:layout_width="25dp"
+                android:layout_width="@dimen/indicator_width"
                 android:layout_height="5dp"
                 android:layout_alignLeft="@+id/titleAlerts"
                 android:layout_below="@+id/titleAlerts"

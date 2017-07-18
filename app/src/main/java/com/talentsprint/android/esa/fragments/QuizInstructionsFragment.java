@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +36,7 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
     private TextView topicName;
     private TextView examsText;
     private RecyclerView instructionsRecycler;
-    private Button startExam;
+    private TextView startExam;
     private DashboardActivityInterface dashboardInterface;
     private String taskId;
     private TestPropertiesObject testPropertiesObject;
@@ -83,8 +82,10 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(Call<TestPropertiesObject> call, Throwable t) {
-                dashboardInterface.showProgress(false);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -95,7 +96,6 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
             instructionsRecycler.setLayoutManager(mLayoutManager);
             instructionsRecycler.setAdapter(instructionsAdapter);
-            time.setText(testPropertiesObject.getTestTime());
             questionsCount.setText(testPropertiesObject.getTestQuestions());
             examsText.setText(testPropertiesObject.getTestName());
             TestPropertiesObject.TestProperties testproperties = testPropertiesObject.getTestproperties();
@@ -104,6 +104,20 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
                 topicName.setText(testproperties.getTopic() + " | " + testproperties.getSubTopic());
             } else {
                 topicName.setText(testproperties.getTopic());
+            }
+            if (testPropertiesObject.getTestTime() != null && testPropertiesObject.getTestTime().length() > 0) {
+                Double timeGiven = Double.parseDouble(testPropertiesObject.getTestTime());
+                String displayText = "";
+                double durationHours = timeGiven / 3600;
+                if (durationHours == 1) {
+                    time.setText("1 hr");
+                } else if (timeGiven > 3600) {
+                    time.setText(((int) durationHours) + " hr " + (int) ((timeGiven % 3600) / 60) + " min");
+                } else if (timeGiven > 3600) {
+                    time.setText((int) ((timeGiven % 3600) / 60) + " min");
+                } else {
+                    time.setText("");
+                }
             }
         } catch (Exception e) {
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();

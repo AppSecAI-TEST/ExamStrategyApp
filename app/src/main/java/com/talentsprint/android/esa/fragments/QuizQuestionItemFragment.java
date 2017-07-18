@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuestionItemFragment extends Fragment implements View.OnClickListener {
+public class QuizQuestionItemFragment extends Fragment implements View.OnClickListener {
     private TextView questionsCount;
     private TextView questionTimer;
     private TextView questionNumber;
@@ -43,7 +43,7 @@ public class QuestionItemFragment extends Fragment implements View.OnClickListen
     private Runnable runnable;
     private int optionsSelectedPosition = -1;
 
-    public QuestionItemFragment() {
+    public QuizQuestionItemFragment() {
         // Required empty public constructor
     }
 

@@ -14,4 +14,8 @@ public interface DashboardActivityInterface {
     public void examAdded();
 
     public TalentSprintApi getApiService();
+
+    public void setExamDate(String examDate);
+
+    public void isStratergyReady(boolean isStratergyReady);
 }
