@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".android.esa.activities.DashboardActivity">
+    android:background="@color/white"
+    tools:context=".activities.DashboardActivity">
 
     <ImageView
         android:id="@+id/header_curve"
@@ -47,32 +48,30 @@
 
     </RelativeLayout>
 
-    <com.talentsprint.android.esa.views.OpenSansStrongTextView
-        android:id="@+id/subjectText"
+    <Spinner
+        android:id="@+id/subjectNameSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_curve"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:text="BANK PO"
-        android:textColor="@color/textTitleColor"
-        android:textSize="15dp"/>
+        android:background="@color/white"
+        android:overlapAnchor="false"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/subjectText"
-        android:layout_alignTop="@+id/subjectText"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/subjectText"
-        android:scaleType="centerInside"
+        android:layout_width="12dp"
+        android:layout_height="13dp"
+        android:layout_alignBottom="@+id/subjectNameSpinner"
+        android:layout_alignTop="@+id/subjectNameSpinner"
+        android:layout_toRightOf="@+id/subjectNameSpinner"
+        android:scaleType="fitCenter"
         android:src="@drawable/dropdown"/>
 
     <View
         android:layout_width="@dimen/indicator_width"
         android:layout_height="5dp"
-        android:layout_alignLeft="@+id/subjectText"
-        android:layout_below="@+id/subjectText"
+        android:layout_alignLeft="@+id/subjectNameSpinner"
+        android:layout_below="@+id/subjectNameSpinner"
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimary"/>
 
@@ -80,10 +79,25 @@
         android:id="@+id/topicsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/subjectText"
+        android:layout_below="@+id/subjectNameSpinner"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="20dp"/>
 
+    <View
+        android:id="@+id/progressBarView"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/color_accent_rounded_rectangle_med"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:indeterminateTint="@color/colorPrimary"/>
 
 </RelativeLayout>

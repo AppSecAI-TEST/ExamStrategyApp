@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,12 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
+import com.talentsprint.android.esa.models.SubTopicsObject;
+import com.talentsprint.android.esa.models.TopicsObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +31,17 @@ import java.util.List;
 public class StudyMaterialTopicsFragment extends Fragment {
 
     private RecyclerView topicsRecyclerView;
+    private TopicsObject topicsObject;
+    private StudyMaterialActivityInterface studyMaterialActivityInterface;
 
     public StudyMaterialTopicsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        studyMaterialActivityInterface = (StudyMaterialActivityInterface) getActivity();
     }
 
     @Override
@@ -30,19 +49,55 @@ public class StudyMaterialTopicsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_study_material_topics, container, false);
         topicsRecyclerView = fragmentView.findViewById(R.id.topicsRecyclerView);
-        SubjectsAdapter adapter = new SubjectsAdapter(new ArrayList<String>());
+        topicsObject = (TopicsObject) getArguments().getSerializable(AppConstants.TOPICS);
+        TopicsAdapter adapter = new TopicsAdapter(topicsObject.getTopics());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         topicsRecyclerView.setLayoutManager(mLayoutManager);
         topicsRecyclerView.setAdapter(adapter);
         return fragmentView;
     }
 
-    public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyViewHolder> {
+    private void getSubTopics(String topicName) {
+        studyMaterialActivityInterface.showProgress(true);
+        TalentSprintApi apiService =
+                ApiClient.getClient().create(TalentSprintApi.class);
+        Call<SubTopicsObject> getExams = apiService.getSubTopics(topicsObject.getExam(), topicsObject.getSubject(), topicName);
+        getExams.enqueue(new Callback<SubTopicsObject>() {
+            @Override
+            public void onResponse(Call<SubTopicsObject> call, Response<SubTopicsObject> response) {
+                studyMaterialActivityInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    StudyMaterialSubTopicFragment studyMaterialSubTopicFragment = new StudyMaterialSubTopicFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(AppConstants.TOPICS, response.body());
+                    studyMaterialSubTopicFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, studyMaterialSubTopicFragment, AppConstants.DASHBOARD)
+                            .addToBackStack(null).commit();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
 
-        private List<String> alertssList;
+            @Override
+            public void onFailure(Call<SubTopicsObject> call, Throwable t) {
+                try {
+                    studyMaterialActivityInterface.showProgress(false);
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-        public SubjectsAdapter(List<String> alertssList) {
-            this.alertssList = alertssList;
+    public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.MyViewHolder> {
+
+        private List<String> topicsList;
+
+        public TopicsAdapter(List<String> topicsList) {
+            this.topicsList = topicsList;
         }
 
         @Override
@@ -54,23 +109,28 @@ public class StudyMaterialTopicsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
+            holder.topicName.setText(topicsList.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return 6;
+            if (topicsList != null)
+                return topicsList.size();
+            else
+                return 0;
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
+            public TextView topicName;
+
             public MyViewHolder(View view) {
                 super(view);
+                topicName = view.findViewById(R.id.topicName);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new StudyMaterialSubTopicFragment(), AppConstants.DASHBOARD)
-                                .addToBackStack(null).commit();
+                        getSubTopics(topicsList.get(getAdapterPosition()));
                     }
                 });
             }

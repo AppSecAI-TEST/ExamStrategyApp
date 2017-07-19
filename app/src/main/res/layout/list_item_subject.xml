@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-             android:layout_margin="8dp"
+              android:layout_margin="8dp"
               android:background="@drawable/gray_rounded_rectangle_stroke_min"
               android:orientation="horizontal">
 
@@ -19,8 +19,10 @@
 
     <ImageView
         android:id="@+id/subjectImage"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="90dp"
-        android:src="@drawable/logo_color"/>
+        android:padding="1dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/reasoning"/>
 
 </LinearLayout>

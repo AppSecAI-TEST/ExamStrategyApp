@@ -38,4 +38,8 @@ public class ApiUrls {
     public static final String MAIL_ID = "mailId";
     public static final String MOBILE = "mobile";
     public static final String NAME = "name";
+    public static final String EXAM_NAME = "examName";
+    public static final String SUBJECT_NAME = "subjectName";
+    public static final String TOPIC_NAME = "topicName";
+    public static final String SUB_TOPIC_NAME = "subTopicName";
 }

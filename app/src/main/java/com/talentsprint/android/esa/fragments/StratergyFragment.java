@@ -1,6 +1,9 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder;
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.dialogues.FilterDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
@@ -264,7 +268,6 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             if (stratergyObject != null && stratergyObject.getFilterOptions() != null) {
                 filter.setClickable(false);
                 Bundle bundle = new Bundle();
-
                 bundle.putFloat(AppConstants.X_VALUE, filter.getX());
                 int[] postions = new int[2];
                 filter.getLocationInWindow(postions);
@@ -327,6 +330,42 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         filterStratergy();
     }
 
+    private void openQuiz(StratergyObject.Task taskObject) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstants.TASK_ID, taskObject.getTaskId());
+        QuizInstructionsFragment quizInstructionsFragment = new QuizInstructionsFragment();
+        quizInstructionsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.QUIZ_INSTRUCTIONS)
+                .addToBackStack(null).commit();
+    }
+
+    private void openContent(StratergyObject.Task taskObject) {
+        if (taskObject != null && taskObject.getContentUrl() != null) {
+            String contentUrl = taskObject.getContentUrl();
+            if (contentUrl.contains(AppConstants.PDF)) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
+                try {
+                    getActivity().startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "No application found to open PDF", Toast.LENGTH_SHORT).show();
+                }
+            } else if (contentUrl.contains(AppConstants.MP4)) {
+                Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
+                navigate.putExtra(AppConstants.URL, contentUrl);
+                startActivity(navigate);
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString(AppConstants.URL, contentUrl);
+                StrategyContentDisplayFragment quizInstructionsFragment = new StrategyContentDisplayFragment();
+                quizInstructionsFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.CONTENT)
+                        .addToBackStack(null).commit();
+            }
+        }
+    }
+
     public class StratergyAdapter extends SectionedRecyclerViewAdapter<StratergyAdapter.MyViewHolder> {
 
         private HashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap;
@@ -373,8 +412,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int section, int relativePosition, int absolutePosition) {
-            StratergyObject.Task taskObject = tasksHashMap.get(monthsList.get(section)).get(relativePosition);
+        public void onBindViewHolder(final MyViewHolder holder, int section, int relativePosition, int absolutePosition) {
+            final StratergyObject.Task taskObject = tasksHashMap.get(monthsList.get(section)).get(relativePosition);
             if (taskObject.isShowDate()) {
                 holder.dateDay.setVisibility(View.VISIBLE);
                 holder.dateWeekday.setVisibility(View.VISIBLE);
@@ -394,6 +433,27 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             holder.dateDay.setText(taskObject.getDay());
             holder.dateWeekday.setText(taskObject.getDayName());
             holder.indicator.setImageResource(getStatusImage(taskObject.getStatus()));
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (taskObject.getStatus() == null || !(taskObject.getStatus().equals("Completed"))) {
+                        switch (taskObject.getType()) {
+                            case AppConstants.NON_VIDEO:
+                                openContent(taskObject);
+                                break;
+                            case AppConstants.VIDEO:
+                                openContent(taskObject);
+                                break;
+                            case AppConstants.TEST:
+                                openQuiz(taskObject);
+                                break;
+                            case AppConstants.WORD_OF_THE_DAY:
+                                openContent(taskObject);
+                                break;
+                        }
+                    }
+                }
+            });
         }
 
         public class MyViewHolder extends SectionedViewHolder {
@@ -408,6 +468,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             public TextView time;
             public ImageView indicator;
             public TextView dateMonth;
+            public View view;
 
             public MyViewHolder(View view) {
                 super(view);
@@ -418,6 +479,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 lineBottom = view.findViewById(R.id.lineBottom);
                 circle = view.findViewById(R.id.circle);
                 title = view.findViewById(R.id.title);
+                this.view = view;
                 // subTitle = view.findViewById(R.id.subTitle);
                 indicator = view.findViewById(R.id.indicator);
                 time = view.findViewById(R.id.time);

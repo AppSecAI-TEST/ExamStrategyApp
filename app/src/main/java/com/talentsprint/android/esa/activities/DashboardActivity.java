@@ -223,10 +223,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             @Override
             public void onClick(View view) {
                 if (isStratergyReady) {
-                    FragmentManager supportFragmentManager = getSupportFragmentManager();
-                    supportFragmentManager.beginTransaction()
-                            .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
-                            .commit();
+                    openStrategy();
                     menuItem.dismiss();
                 } else {
                     Toast.makeText(DashboardActivity.this, "Strategy is not prepared", Toast.LENGTH_SHORT).show();
@@ -272,5 +269,12 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             }
         });
         menuItem.show();
+    }
+
+    private void openStrategy() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
+                .commit();
     }
 }

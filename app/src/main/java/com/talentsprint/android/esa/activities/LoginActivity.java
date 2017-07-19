@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -182,7 +183,9 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
                             else
                                 PreferenceManager.saveBoolean(LoginActivity.this, AppConstants.GMAIL_USER, true);
                             PreferenceManager.saveBoolean(LoginActivity.this, AppConstants.IS_LOGGEDIN, true);
-                            LoginActivity.this.finish();
+                            Intent returnIntent = new Intent();
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, responseBody.get("status").getAsString(), Toast.LENGTH_SHORT)
                                     .show();

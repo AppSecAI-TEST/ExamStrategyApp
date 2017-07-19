@@ -1,7 +1,5 @@
 package com.talentsprint.android.esa.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +10,8 @@ public class TaskObject implements Serializable {
     private String taskId;
     private String title;
     private String type;
-    @SerializedName("content-url")
+    private boolean isPremium;
+    private String articleId;
     private String contentUrl;
 
     public String getTaskId() {
@@ -45,5 +44,21 @@ public class TaskObject implements Serializable {
 
     public void setContentUrl(String contentUrl) {
         this.contentUrl = contentUrl;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 }

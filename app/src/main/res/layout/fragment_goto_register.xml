@@ -54,29 +54,15 @@
             android:textColor="@color/gray_dark"
             android:textSize="22dp"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
-            android:id="@+id/teacher_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@drawable/teacher_icon"
-            android:drawablePadding="3dp"
-            android:gravity="center_vertical"
-            android:text="Teacher Name"
-            android:textColor="@color/gray_dark"
-            android:textSize="13dp"/>
 
         <ImageView
             android:id="@+id/infoGraphic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/teacher_name"
+            android:layout_below="@+id/title"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
+            android:paddingTop="20dp"
             android:src="@drawable/article_animated"/>
 
         <com.talentsprint.android.esa.views.OpenSansTextView

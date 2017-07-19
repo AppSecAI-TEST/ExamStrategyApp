@@ -1,14 +1,18 @@
 package com.talentsprint.android.esa.utils;
 
 import com.google.gson.JsonObject;
+import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
+import com.talentsprint.android.esa.models.GetSubjectsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.ProfileObject;
 import com.talentsprint.android.esa.models.QuestionsObject;
 import com.talentsprint.android.esa.models.StratergyObject;
+import com.talentsprint.android.esa.models.SubTopicsObject;
 import com.talentsprint.android.esa.models.TestPropertiesObject;
 import com.talentsprint.android.esa.models.TestResultsObject;
 import com.talentsprint.android.esa.models.TestReviewObject;
+import com.talentsprint.android.esa.models.TopicsObject;
 
 import org.json.JSONObject;
 
@@ -86,4 +90,22 @@ public interface TalentSprintApi {
 
     @GET(ApiUrls.LOGOUT)
     Call<JSONObject> logoutUser();
+
+    @GET(ApiUrls.GET_SUBJECTS)
+    Call<GetSubjectsObject> getSubjects(@Query(ApiUrls.EXAM_NAME) String examName);
+
+    @GET(ApiUrls.GET_TOPICS)
+    Call<TopicsObject> getTopics(@Query(ApiUrls.EXAM_NAME) String examName,
+                                 @Query(ApiUrls.SUBJECT_NAME) String subjectName);
+
+    @GET(ApiUrls.GET_SUB_TOPICS)
+    Call<SubTopicsObject> getSubTopics(@Query(ApiUrls.EXAM_NAME) String examName,
+                                       @Query(ApiUrls.SUBJECT_NAME) String subjectName,
+                                       @Query(ApiUrls.TOPIC_NAME) String topicName);
+
+    @GET(ApiUrls.GET_ARTICLES)
+    Call<ArticlesObject> getArticles(@Query(ApiUrls.EXAM_NAME) String examName,
+                                     @Query(ApiUrls.SUBJECT_NAME) String subjectName,
+                                     @Query(ApiUrls.TOPIC_NAME) String topicName,
+                                     @Query(ApiUrls.SUB_TOPIC_NAME) String subTopicName);
 }

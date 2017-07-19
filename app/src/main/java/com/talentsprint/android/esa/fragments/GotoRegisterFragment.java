@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.LoginActivity;
+import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.PreferenceManager;
+
+import static com.talentsprint.android.esa.utils.AppConstants.LOGIN_RESULT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +29,11 @@ public class GotoRegisterFragment extends Fragment {
 
     View registerNow;
     private TextView registerContent;
+    private TextView title;
+    private TextView subjectTopicText;
+    private TextView subjectSubTopicText;
     private View login;
+    private ArticlesObject.Articles article;
 
     public GotoRegisterFragment() {
         // Required empty public constructor
@@ -36,9 +44,8 @@ public class GotoRegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_goto_register, container, false);
-        registerNow = fragmentView.findViewById(R.id.registerNow);
-        registerContent = fragmentView.findViewById(R.id.registerContent);
-        login = fragmentView.findViewById(R.id.login);
+        article = (ArticlesObject.Articles) getArguments().getSerializable(AppConstants.ARTICLE);
+        findViews(fragmentView);
         registerContent.setMovementMethod(LinkMovementMethod.getInstance());
         SpannableString span = new SpannableString(registerContent.getText().toString());
         String[] termsSplits = registerContent.getText().toString().split("FREE");
@@ -47,6 +54,8 @@ public class GotoRegisterFragment extends Fragment {
         Typeface openSansBold = Typeface.createFromAsset(getActivity().getAssets(),
                 "fonts/OpenSans-Bold.ttf");
         span.setSpan(openSansBold, termsSlitStart, termsSplitEnd, Spanned
+                .SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), termsSlitStart, termsSplitEnd, Spanned
                 .SPAN_EXCLUSIVE_EXCLUSIVE);
         registerContent.setText(span);
         registerNow.setOnClickListener(new View.OnClickListener() {
@@ -61,17 +70,40 @@ public class GotoRegisterFragment extends Fragment {
                 navigateToLogin();
             }
         });
+        title.setText(article.getTitle());
+        subjectTopicText.setText(getArguments().getString(AppConstants.TOPICS, "") + " | ");
+        subjectSubTopicText.setText(getArguments().getString(AppConstants.SUB_TOPIC, ""));
         return fragmentView;
+    }
+
+    private void findViews(View fragmentView) {
+        registerNow = fragmentView.findViewById(R.id.registerNow);
+        registerContent = fragmentView.findViewById(R.id.registerContent);
+        login = fragmentView.findViewById(R.id.login);
+        title = fragmentView.findViewById(R.id.title);
+        subjectTopicText = fragmentView.findViewById(R.id.subjectTopicText);
+        subjectSubTopicText = fragmentView.findViewById(R.id.subjectSubTopicText);
     }
 
     private void navigateToLogin() {
         if (!PreferenceManager.getBoolean(getActivity(), AppConstants.FB_USER, false) && !PreferenceManager.getBoolean
                 (getActivity(), AppConstants.GMAIL_USER, false)) {
             Intent navigate = new Intent(getActivity(), LoginActivity.class);
-            startActivityForResult(navigate, AppConstants.LOGIN_RESULT);
+            startActivityForResult(navigate, LOGIN_RESULT);
         } else {
             Toast.makeText(getActivity(), "Already signed-in", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
+                getActivity().onBackPressed();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+            }
+        }
+    }
 }

@@ -107,7 +107,7 @@ public class QuizQuestionItemFragment extends Fragment implements View.OnClickLi
             }
         } else if (view == skip) {
             stopTimer();
-            quizInterface.skipQuestion();
+            quizInterface.submitQuestion(question.getId() + "," + timer + "," + 0);
         }
     }
 

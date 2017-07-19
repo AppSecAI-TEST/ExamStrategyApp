@@ -176,7 +176,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == finishTest) {
-            showFinishDialogue();
+            if (answersList.size() > 0)
+                showFinishDialogue();
+            else
+                Toast.makeText(getActivity(), "Answer a question to submit", Toast.LENGTH_SHORT).show();
         }
     }
 

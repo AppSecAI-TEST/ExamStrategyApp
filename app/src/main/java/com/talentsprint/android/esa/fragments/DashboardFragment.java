@@ -1,7 +1,9 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ import com.onesignal.OSPermissionSubscriptionState;
 import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
+import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.CurrentAffairsInterface;
@@ -174,13 +177,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
         } else if (view.getId() == R.id.assessYourself) {
-            Bundle bundle = new Bundle();
-            bundle.putString(AppConstants.TASK_ID, "0");
-            QuizInstructionsFragment quizInstructionsFragment = new QuizInstructionsFragment();
-            quizInstructionsFragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.QUIZ_INSTRUCTIONS)
-                    .addToBackStack(null).commit();
+            openQuiz("0");
         } else if (view == calenderView) {
             calenderView.setClickable(false);
             dashboardInterface.showProgress(true);
@@ -220,6 +217,41 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void selectedDate(long date) {
+    }
+
+    private void openQuiz(String taskId2) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstants.TASK_ID, taskId2);
+        QuizInstructionsFragment quizInstructionsFragment = new QuizInstructionsFragment();
+        quizInstructionsFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.QUIZ_INSTRUCTIONS)
+                .addToBackStack(null).commit();
+    }
+
+    private void openContent(TaskObject taskObject) {
+        if (taskObject != null && taskObject.getContentUrl() != null) {
+            if (taskObject.getContentUrl().contains(AppConstants.PDF)) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taskObject.getContentUrl()));
+                try {
+                    getActivity().startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "No application found to open PDF", Toast.LENGTH_SHORT).show();
+                }
+            } else if (taskObject.getContentUrl().contains(AppConstants.MP4)) {
+                Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
+                navigate.putExtra(AppConstants.URL, taskObject.getContentUrl());
+                startActivity(navigate);
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString(AppConstants.URL, taskObject.getContentUrl());
+                StrategyContentDisplayFragment quizInstructionsFragment = new StrategyContentDisplayFragment();
+                quizInstructionsFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.CONTENT)
+                        .addToBackStack(null).commit();
+            }
+        }
     }
 
     class CurrentAffairsFragmentAdapter extends FragmentStatePagerAdapter {
@@ -300,7 +332,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            TaskObject taskObject = tasksList.get(position);
+            final TaskObject taskObject = tasksList.get(position);
             holder.subTopicName.setText(taskObject.getTitle());
             switch (taskObject.getType()) {
                 case AppConstants.NON_VIDEO:
@@ -320,6 +352,26 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                     holder.topicImage.setImageResource(R.drawable.word_of_the_day);
                     break;
             }
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (taskObject.getType()) {
+                        case AppConstants.NON_VIDEO:
+                            openContent(taskObject);
+                            break;
+                        case AppConstants.VIDEO:
+                            openContent(taskObject);
+                            break;
+                        case AppConstants.TEST:
+                            openQuiz(taskObject.getTaskId());
+                            break;
+                        case AppConstants.WORD_OF_THE_DAY:
+                            openContent(taskObject);
+                            break;
+                    }
+                }
+
+            });
         }
 
         @Override
@@ -330,14 +382,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView topicName, subTopicName;
             public ImageView topicImage;
+            public View view;
 
             public MyViewHolder(View view) {
                 super(view);
                 topicName = view.findViewById(R.id.topicName);
                 subTopicName = view.findViewById(R.id.subTopicName);
                 topicImage = view.findViewById(R.id.topicImage);
+                this.view = view;
             }
         }
     }
-
 }

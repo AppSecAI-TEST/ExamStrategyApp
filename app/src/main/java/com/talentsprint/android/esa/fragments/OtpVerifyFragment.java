@@ -1,5 +1,6 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.talentsprint.android.esa.utils.AppConstants.LOGIN_RESULT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,11 +122,12 @@ public class OtpVerifyFragment extends Fragment {
                                     ("accessType").getAsString());
                             PreferenceManager.saveBoolean(getActivity(), AppConstants.MOBILE_USER, true);
                             PreferenceManager.saveBoolean(getActivity(), AppConstants.IS_LOGGEDIN, true);
+                            Intent returnIntent = new Intent();
+                            getActivity().setResult(Activity.RESULT_OK, returnIntent);
                             getActivity().finish();
                         } else if (responseBody.get("status").getAsString().equalsIgnoreCase(AppConstants.INVALID)) {
                             Intent navigate = new Intent(getActivity(), SignUpActivity.class);
-                            startActivity(navigate);
-                            getActivity().finish();
+                            startActivityForResult(navigate, LOGIN_RESULT);
                         } else {
                             Toast.makeText(getActivity(), responseBody.get("status").getAsString(), Toast.LENGTH_SHORT)
                                     .show();
@@ -143,5 +147,20 @@ public class OtpVerifyFragment extends Fragment {
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_RESULT) {
+            if (resultCode == Activity.RESULT_OK) {
+                Intent returnIntent = new Intent();
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                getActivity().onBackPressed();
+            }
+        }
     }
 }

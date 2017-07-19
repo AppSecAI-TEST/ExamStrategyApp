@@ -51,4 +51,13 @@ public class AppConstants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String MOBILE_USER = "mobileUser";
     public static final String INVALID = "Invalid";
+    public static final String APTITUDE = "Quantitative Aptitude";
+    public static final String RESONING = "Reasoning";
+    public static final String GENERAL_AWARENESS = "GeneralAwareness";
+    public static final String ENGLISH = "English";
+    public static final String TOPICS = "topics";
+    public static final String ARTICLE = "article";
+    public static final String SUB_TOPIC = "subTopic";
+    public static final String MP4 = ".mp4";
+    public static final String PDF = ".pdf";
 }

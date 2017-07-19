@@ -2,13 +2,26 @@ package com.talentsprint.android.esa.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.fragments.StudyMaterialTopicsFragment;
+import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
+import com.talentsprint.android.esa.models.TopicsObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 
-public class StudyMaterialTopicActivity extends FragmentActivity {
+public class StudyMaterialTopicActivity extends FragmentActivity implements StudyMaterialActivityInterface {
+
+    private ImageView back;
+    private TextView examName;
+    private TextView subjectText;
+    private TopicsObject topicsObject;
+    private ProgressBar progressBar;
+    private View progressBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +29,45 @@ public class StudyMaterialTopicActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         setContentView(R.layout.activity_study_material_topic);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new StudyMaterialTopicsFragment(), AppConstants.DASHBOARD).commit();
+        findViews();
+        topicsObject = (TopicsObject) getIntent().getSerializableExtra(AppConstants.TOPICS);
+        if (topicsObject != null) {
+            subjectText.setText(topicsObject.getSubject());
+            examName.setText(topicsObject.getExam());
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.TOPICS, topicsObject);
+            StudyMaterialTopicsFragment studyMaterialTopicsFragment = new StudyMaterialTopicsFragment();
+            studyMaterialTopicsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, studyMaterialTopicsFragment, AppConstants.DASHBOARD).commit();
+        }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
-  /*  @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_enter, R.anim.slide_exit);
-    }*/
+    private void findViews() {
+        back = findViewById(R.id.back);
+        subjectText = findViewById(R.id.subjectText);
+        examName = findViewById(R.id.examName);
+        progressBar = findViewById(R.id.progressBar);
+        progressBarView = findViewById(R.id.progressBarView);
+        progressBar.setVisibility(View.GONE);
+        progressBarView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showProgress(boolean isShow) {
+        if (isShow) {
+            progressBar.setVisibility(View.VISIBLE);
+            progressBarView.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            progressBarView.setVisibility(View.GONE);
+        }
+
+    }
 }
