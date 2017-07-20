@@ -1,10 +1,12 @@
 package com.talentsprint.android.esa.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Anudeep Reddy on 7/10/2017.
  */
 
-public class AffairsTopicObject {
+public class AffairsTopicObject implements Serializable {
     private String topicName;
     private int topicImage;
 

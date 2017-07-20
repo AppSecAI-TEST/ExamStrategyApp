@@ -39,7 +39,13 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        calenderInterface = (CalenderInterface) getParentFragment();
+        try {
+            calenderInterface = (CalenderInterface) getParentFragment();
+            if (calenderInterface == null)
+                calenderInterface = (CalenderInterface) getActivity();
+        } catch (Exception e) {
+            calenderInterface = (CalenderInterface) getActivity();
+        }
     }
 
     @Override

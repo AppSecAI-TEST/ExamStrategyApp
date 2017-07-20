@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 public class CurrentAffairsViewPagerFragment extends Fragment {
 
     private ViewPager contentViewPager;
+    private int affairsListSize;
+    private TextView counterTxt;
     private ArrayList<CurrentAffairsObject> currentAffairsList;
 
     public CurrentAffairsViewPagerFragment() {
@@ -33,9 +36,27 @@ public class CurrentAffairsViewPagerFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_current_affairs_view_pager, container, false);
         currentAffairsList = (ArrayList<CurrentAffairsObject>) getArguments().
                 getSerializable(AppConstants.CURRENT_AFFAIRS);
+        affairsListSize = currentAffairsList.size();
         contentViewPager = fragmentView.findViewById(R.id.contentViewPager);
+        counterTxt = fragmentView.findViewById(R.id.counterTxt);
         CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getChildFragmentManager(), currentAffairsList);
         contentViewPager.setAdapter(adapter);
+        counterTxt.setText("1/" + affairsListSize);
+        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                counterTxt.setText((position + 1) + "/" + affairsListSize);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        contentViewPager.setCurrentItem(getArguments().getInt(AppConstants.POSITION, 0));
         return fragmentView;
     }
 

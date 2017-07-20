@@ -42,4 +42,5 @@ public class ApiUrls {
     public static final String SUBJECT_NAME = "subjectName";
     public static final String TOPIC_NAME = "topicName";
     public static final String SUB_TOPIC_NAME = "subTopicName";
+    public static final String DATE = "date";
 }

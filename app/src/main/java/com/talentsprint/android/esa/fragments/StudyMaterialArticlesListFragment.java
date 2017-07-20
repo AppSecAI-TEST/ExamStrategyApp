@@ -24,6 +24,8 @@ import com.talentsprint.android.esa.utils.PreferenceManager;
 
 import java.util.ArrayList;
 
+import static com.talentsprint.android.esa.utils.AppConstants.PREMIUM;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -70,7 +72,16 @@ public class StudyMaterialArticlesListFragment extends Fragment {
                 .addToBackStack(null).commit();
     }
 
-    private void openContact() {
+    private void openContact(ArticlesObject.Articles article) {
+        GoToContactFragment goToContactFragment = new GoToContactFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.ARTICLE, article);
+        bundle.putString(AppConstants.TOPICS, articlesObject.getTopic());
+        bundle.putString(AppConstants.SUB_TOPIC, articlesObject.getSubTopic());
+        goToContactFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, goToContactFragment, AppConstants.DASHBOARD)
+                .addToBackStack(null).commit();
     }
 
     private void openContent(String contentUrl) {
@@ -157,8 +168,14 @@ public class StudyMaterialArticlesListFragment extends Fragment {
                             } else {
                                 openToLogin(article);
                             }
-                        } else {
-                            openContact();
+                        } else if (accessType.equalsIgnoreCase(
+                                PREMIUM)) {
+                            if (PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "").equalsIgnoreCase
+                                    (PREMIUM)) {
+                                openContent(article.getContentUrl());
+                            } else {
+                                openContact(article);
+                            }
                         }
 
                     }

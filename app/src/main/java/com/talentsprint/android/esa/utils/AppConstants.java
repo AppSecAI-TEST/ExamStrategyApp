@@ -60,4 +60,5 @@ public class AppConstants {
     public static final String SUB_TOPIC = "subTopic";
     public static final String MP4 = ".mp4";
     public static final String PDF = ".pdf";
+    public static final String DATE_LONG = "dateLong";
 }

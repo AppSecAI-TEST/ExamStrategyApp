@@ -36,6 +36,7 @@
             android:tint="@color/white"/>
 
         <com.talentsprint.android.esa.views.OpenSansStrongTextView
+            android:id="@+id/currentAffairName"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_toLeftOf="@+id/alentSprintLogo"
@@ -60,52 +61,41 @@
 
     </RelativeLayout>
 
-    <com.talentsprint.android.esa.views.OpenSansStrongTextView
-        android:id="@+id/subjectText"
+    <Spinner
+        android:id="@+id/subjectNameSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_curve"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:text="@string/technology"
-        android:textColor="@color/textTitleColor"
-        android:textSize="15dp"/>
+        android:background="@color/white"
+        android:overlapAnchor="false"/>
 
-    <ImageView
-        android:id="@+id/dropDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/subjectText"
-        android:layout_alignTop="@+id/subjectText"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/subjectText"
-        android:scaleType="centerInside"
-        android:src="@drawable/dropdown"/>
+    <View
+        android:id="@+id/titleIndicator"
+        android:layout_width="@dimen/indicator_width"
+        android:layout_height="5dp"
+        android:layout_alignLeft="@+id/subjectNameSpinner"
+        android:layout_below="@+id/subjectNameSpinner"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimary"/>
 
     <ImageView
         android:id="@+id/calender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/subjectText"
-        android:layout_alignTop="@+id/subjectText"
+        android:layout_alignBottom="@+id/subjectNameSpinner"
+        android:layout_alignTop="@+id/subjectNameSpinner"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/dropDown"
+        android:layout_toRightOf="@+id/subjectNameSpinner"
         android:scaleType="centerInside"
         android:src="@drawable/calender"/>
-
-    <View
-        android:layout_width="@dimen/indicator_width"
-        android:layout_height="5dp"
-        android:layout_alignLeft="@+id/subjectText"
-        android:layout_below="@+id/subjectText"
-        android:layout_marginTop="2dp"
-        android:background="@color/colorPrimary"/>
 
     <com.talentsprint.android.esa.views.OpenSansSemiBoldTextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/subjectText"
+        android:layout_below="@+id/subjectNameSpinner"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
@@ -115,6 +105,7 @@
         android:textSize="13dp"/>
 
     <View
+        android:id="@+id/dateDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignBottom="@+id/dateText"
@@ -131,5 +122,19 @@
         android:layout_below="@+id/dateText"
         android:layout_marginTop="15dp"/>
 
+    <View
+        android:id="@+id/progressBarView"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/color_accent_rounded_rectangle_med"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:indeterminateTint="@color/colorPrimary"/>
 </RelativeLayout>

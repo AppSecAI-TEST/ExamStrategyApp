@@ -14,12 +14,16 @@ import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.models.AffairsTopicObject;
+import com.talentsprint.android.esa.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentAffairsActivity extends Activity {
+public class CurrentAffairsActivity extends Activity implements View.OnClickListener {
     private RecyclerView topicsRecyclerView;
+    private ImageView back;
+    private TextView everything;
+
     private ArrayList<AffairsTopicObject> topicsList = new ArrayList<AffairsTopicObject>();
 
     @Override
@@ -28,12 +32,21 @@ public class CurrentAffairsActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         setContentView(R.layout.activity_current_affairs);
+        findViews();
         addTopics();
-        topicsRecyclerView = findViewById(R.id.topicsRecyclerView);
         SubjectsAdapter adapter = new SubjectsAdapter(topicsList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         topicsRecyclerView.setLayoutManager(mLayoutManager);
         topicsRecyclerView.setAdapter(adapter);
+    }
+
+    private void findViews() {
+        topicsRecyclerView = findViewById(R.id.topicsRecyclerView);
+        back = findViewById(R.id.back);
+        everything = findViewById(R.id.everything);
+        back.setOnClickListener(this);
+        everything.setOnClickListener(this);
+
     }
 
     private void addTopics() {
@@ -78,6 +91,21 @@ public class CurrentAffairsActivity extends Activity {
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.slide_enter, R.anim.slide_exit);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == everything) {
+            goToTopics(0);
+        } else if (view == back) {
+            onBackPressed();
+        }
+    }
+
+    private void goToTopics(int value) {
+        Intent navigate = new Intent(CurrentAffairsActivity.this, CurrentAffairsTopicsActivity.class);
+        navigate.putExtra(AppConstants.POSITION, value);
+        startActivity(navigate);
     }
 
     public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.MyViewHolder> {
@@ -126,8 +154,7 @@ public class CurrentAffairsActivity extends Activity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent navigate = new Intent(CurrentAffairsActivity.this, CurrentAffairsTopicsActivity.class);
-                        startActivity(navigate);
+                        goToTopics(getAdapterPosition() + 1);
                     }
                 });
             }

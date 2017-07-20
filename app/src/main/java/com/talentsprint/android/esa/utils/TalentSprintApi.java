@@ -2,6 +2,7 @@ package com.talentsprint.android.esa.utils;
 
 import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.models.ArticlesObject;
+import com.talentsprint.android.esa.models.CurrentAffairsListObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.GetSubjectsObject;
 import com.talentsprint.android.esa.models.HomeObject;
@@ -108,4 +109,8 @@ public interface TalentSprintApi {
                                      @Query(ApiUrls.SUBJECT_NAME) String subjectName,
                                      @Query(ApiUrls.TOPIC_NAME) String topicName,
                                      @Query(ApiUrls.SUB_TOPIC_NAME) String subTopicName);
+
+    @GET(ApiUrls.GET_CURRENT_AFFAIRS)
+    Call<CurrentAffairsListObject> getCurrentAffairs(@Query(ApiUrls.TOPIC_NAME) String topicName,
+                                                     @Query(ApiUrls.DATE) String dateYYYYMMdd);
 }

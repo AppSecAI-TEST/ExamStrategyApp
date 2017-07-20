@@ -115,6 +115,15 @@ public class StratergyObject implements Serializable {
         public boolean isShowDate;
         public String contentType;
         public String subject;
+        public boolean isPremium;
+
+        public boolean isPremium() {
+            return isPremium;
+        }
+
+        public void setPremium(boolean premium) {
+            isPremium = premium;
+        }
 
         public String getContentType() {
             return contentType;

@@ -135,7 +135,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             inflatedLayout.findViewById(R.id.setExam).setOnClickListener(this);
         } else {
             nextExamDate.setText(homeObject.getNextExam() + ", " + homeObject.getNextExamDate());
-            dashboardInterface.setExamDate(nextExamDate.getText().toString());
             if (status.equalsIgnoreCase(AppConstants.ASESMENT_NOT_TAKEN)) {
                 View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_assesment_dashboard, null,
                         false);
@@ -154,6 +153,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 tasksRecycler.setAdapter(tasksAdapter);
             }
         }
+        dashboardInterface.setExamDate(nextExamDate.getText().toString());
     }
 
     private void findViews(View fragmentView) {
@@ -355,23 +355,37 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    switch (taskObject.getType()) {
-                        case AppConstants.NON_VIDEO:
-                            openContent(taskObject);
-                            break;
-                        case AppConstants.VIDEO:
-                            openContent(taskObject);
-                            break;
-                        case AppConstants.TEST:
-                            openQuiz(taskObject.getTaskId());
-                            break;
-                        case AppConstants.WORD_OF_THE_DAY:
-                            openContent(taskObject);
-                            break;
+                    if (!taskObject.isPremium()) {
+                        switch (taskObject.getType()) {
+                            case AppConstants.NON_VIDEO:
+                                openContent(taskObject);
+                                break;
+                            case AppConstants.VIDEO:
+                                openContent(taskObject);
+                                break;
+                            case AppConstants.TEST:
+                                openQuiz(taskObject.getTaskId());
+                                break;
+                            case AppConstants.WORD_OF_THE_DAY:
+                                openContent(taskObject);
+                                break;
+                        }
+                    } else {
+                        openContact(taskObject.getTitle());
                     }
                 }
 
             });
+        }
+
+        private void openContact(String title) {
+            GoToContactFragment goToContactFragment = new GoToContactFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.CONTENT, title);
+            goToContactFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, goToContactFragment, AppConstants.DASHBOARD)
+                    .addToBackStack(null).commit();
         }
 
         @Override

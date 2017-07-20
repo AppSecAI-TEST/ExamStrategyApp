@@ -58,15 +58,6 @@
         android:background="@color/white"
         android:overlapAnchor="false"/>
 
-    <ImageView
-        android:layout_width="12dp"
-        android:layout_height="13dp"
-        android:layout_alignBottom="@+id/subjectNameSpinner"
-        android:layout_alignTop="@+id/subjectNameSpinner"
-        android:layout_toRightOf="@+id/subjectNameSpinner"
-        android:scaleType="fitCenter"
-        android:src="@drawable/dropdown"/>
-
     <View
         android:layout_width="@dimen/indicator_width"
         android:layout_height="5dp"

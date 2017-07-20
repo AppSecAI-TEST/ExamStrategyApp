@@ -134,6 +134,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                                 if (dateSplit.length > 1) {
                                     singleTask.setDayName(dateSplit[1]);
                                 }
+                            } else {
+                                singleTask.setShowDate(false);
                             }
                             monthTasks.add(singleTask);
                             dateRowNumber++;
@@ -190,6 +192,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                                         singleTask.setDayName(dateSplit[1]);
                                     }
                                     dateIndex++;
+                                } else {
+                                    singleTask.setShowDate(false);
                                 }
                                 monthTasks.add(singleTask);
                                 dateRowNumber++;
@@ -437,23 +441,37 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void onClick(View view) {
                     if (taskObject.getStatus() == null || !(taskObject.getStatus().equals("Completed"))) {
-                        switch (taskObject.getType()) {
-                            case AppConstants.NON_VIDEO:
-                                openContent(taskObject);
-                                break;
-                            case AppConstants.VIDEO:
-                                openContent(taskObject);
-                                break;
-                            case AppConstants.TEST:
-                                openQuiz(taskObject);
-                                break;
-                            case AppConstants.WORD_OF_THE_DAY:
-                                openContent(taskObject);
-                                break;
+                        if (!taskObject.isPremium()) {
+                            switch (taskObject.getType()) {
+                                case AppConstants.NON_VIDEO:
+                                    openContent(taskObject);
+                                    break;
+                                case AppConstants.VIDEO:
+                                    openContent(taskObject);
+                                    break;
+                                case AppConstants.TEST:
+                                    openQuiz(taskObject);
+                                    break;
+                                case AppConstants.WORD_OF_THE_DAY:
+                                    openContent(taskObject);
+                                    break;
+                            }
+                        } else {
+                            openContact(taskObject.getTitle());
                         }
                     }
                 }
             });
+        }
+
+        private void openContact(String title) {
+            GoToContactFragment goToContactFragment = new GoToContactFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.CONTENT, title);
+            goToContactFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, goToContactFragment, AppConstants.DASHBOARD)
+                    .addToBackStack(null).commit();
         }
 
         public class MyViewHolder extends SectionedViewHolder {

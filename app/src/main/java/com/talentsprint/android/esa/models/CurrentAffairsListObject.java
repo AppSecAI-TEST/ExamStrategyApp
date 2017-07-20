@@ -1,12 +1,13 @@
 package com.talentsprint.android.esa.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Anudeep Reddy on 7/10/2017.
  */
 
-public class CurrentAffairsListObject {
+public class CurrentAffairsListObject implements Serializable {
     private String topicName;
     private ArrayList<CurrentAffairArticles> currentAffairArticles;
 
@@ -26,7 +27,7 @@ public class CurrentAffairsListObject {
         this.currentAffairArticles = currentAffairArticles;
     }
 
-    public class CurrentAffairArticles {
+    public class CurrentAffairArticles implements Serializable {
         public String date;
         public ArrayList<CurrentAffairsObject> articles;
 
