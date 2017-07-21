@@ -278,7 +278,8 @@ public class CurrentAffairsTopicsActivity extends FragmentActivity implements Vi
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.examName.setText(getItem(position));
+            if (getItem(position) != null)
+                viewHolder.examName.setText(getItem(position).toUpperCase());
             return convertView;
         }
 

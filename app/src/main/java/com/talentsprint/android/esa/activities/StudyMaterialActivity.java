@@ -309,7 +309,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
             }
             ExamObject item = getItem(position);
             if (item != null) {
-                viewHolder.examName.setText(item.getName());
+                viewHolder.examName.setText(item.getName().toUpperCase());
             }
             return convertView;
         }
