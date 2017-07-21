@@ -32,7 +32,11 @@ public class GoToContactFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        dashboardActivityInterface = (DashboardActivityInterface) getActivity();
+        try {
+            dashboardActivityInterface = (DashboardActivityInterface) getActivity();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

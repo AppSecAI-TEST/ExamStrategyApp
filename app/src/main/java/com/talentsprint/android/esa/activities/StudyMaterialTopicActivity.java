@@ -32,8 +32,14 @@ public class StudyMaterialTopicActivity extends FragmentActivity implements Stud
         findViews();
         topicsObject = (TopicsObject) getIntent().getSerializableExtra(AppConstants.TOPICS);
         if (topicsObject != null) {
-            subjectText.setText(topicsObject.getSubject());
-            examName.setText(topicsObject.getExam());
+            if (topicsObject.getSubject() != null)
+                subjectText.setText(topicsObject.getSubject().toUpperCase());
+            else
+                subjectText.setText("");
+            if (topicsObject.getExam() != null)
+                examName.setText(topicsObject.getExam().toUpperCase());
+            else
+                examName.setText("");
             Bundle bundle = new Bundle();
             bundle.putSerializable(AppConstants.TOPICS, topicsObject);
             StudyMaterialTopicsFragment studyMaterialTopicsFragment = new StudyMaterialTopicsFragment();

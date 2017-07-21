@@ -66,7 +66,7 @@ public class StudyMaterialSubTopicFragment extends Fragment {
     private void getArticles(String subTopicName) {
         studyMaterialActivityInterface.showProgress(true);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<ArticlesObject> getExams = apiService.getArticles(subTopicsObject.getExam(), subTopicsObject.getSubject(),
                 subTopicsObject.getTopic(), subTopicName);
         getExams.enqueue(new Callback<ArticlesObject>() {

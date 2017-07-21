@@ -61,7 +61,7 @@
 
     </RelativeLayout>
 
-    <Spinner
+    <com.talentsprint.android.esa.utils.DynamicWidthSpinner
         android:id="@+id/subjectNameSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

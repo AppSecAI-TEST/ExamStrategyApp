@@ -13,9 +13,22 @@ import okhttp3.Response;
  */
 
 public class InterceptorReceivedCookies implements Interceptor {
+    boolean isCache;
+
+    public InterceptorReceivedCookies(boolean isCache) {
+        this.isCache = isCache;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
+        if (!new ServiceManager(TalentSprintApp.appContext).isNetworkAvailable()) {
+            if (!isCache)
+                throw (new IOException("No network available"));
+            if (originalResponse.networkResponse() == null && originalResponse.cacheResponse() == null) {
+                throw (new IOException("No network available"));
+            }
+        }
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
             HashSet<String> cookies = new HashSet<>();
             for (String header : originalResponse.headers("Set-Cookie")) {

@@ -218,6 +218,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             stratergyRecycler.setAdapter(stratergyAdapter);
             if (dateIndexingMap.containsKey(currentDate))
                 stratergyRecycler.scrollToPosition(dateIndexingMap.get(currentDate));
+            if (monthsList.size() == 0)
+                Toast.makeText(getActivity(), "No tasks available", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Strategy not found", Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();

@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +27,7 @@ import com.talentsprint.android.esa.models.CurrentAffairsListObject;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
+import com.talentsprint.android.esa.utils.DynamicWidthSpinner;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class CurrentAffairsTopicsActivity extends FragmentActivity implements Vi
 
     private ImageView back;
     private TextView currentAffairName;
-    private Spinner topicsNameSpinner;
+    private DynamicWidthSpinner topicsNameSpinner;
     private View titleIndicator;
     private ImageView calender;
     private TextView dateText;
@@ -128,7 +128,7 @@ public class CurrentAffairsTopicsActivity extends FragmentActivity implements Vi
     private void getTopics(String topicName) {
         showProgress(true);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<CurrentAffairsListObject> getExams = apiService.getCurrentAffairs(topicName, AppUtils.getDateInYYYMMDD(affairsDate));
         getExams.enqueue(new Callback<CurrentAffairsListObject>() {
             @Override
@@ -259,7 +259,10 @@ public class CurrentAffairsTopicsActivity extends FragmentActivity implements Vi
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.examName.setText(getItem(position));
+            if (getItem(position) != null)
+                viewHolder.examName.setText(getItem(position).toUpperCase());
+            else
+                viewHolder.examName.setText("");
             return convertView;
         }
 

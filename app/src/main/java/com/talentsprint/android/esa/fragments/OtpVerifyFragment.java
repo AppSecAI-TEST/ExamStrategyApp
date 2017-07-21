@@ -102,7 +102,7 @@ public class OtpVerifyFragment extends Fragment {
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
         String oneSignalId = status.getSubscriptionStatus().getUserId();
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<JsonObject> getHomeDetails;
         RequestBody mobileBody = null;
         RequestBody oneSignalIdBody = null;

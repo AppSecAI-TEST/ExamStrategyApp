@@ -75,7 +75,7 @@ public class SignUpActivity extends Activity {
         showProgress(true);
         AppUtils.closeKeyboard(singUp, SignUpActivity.this);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<JsonObject> getExams = apiService.registerUser(emailEdtTxt.getText().toString().trim(), nameEdtTxt.getText()
                 .toString().trim(), mobileEdtTxt.getText().toString().trim());
         getExams.enqueue(new Callback<JsonObject>() {

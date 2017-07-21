@@ -85,7 +85,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
     private void getExams() {
         showProgress(true);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<GetExamsObject> getExams = apiService.getExams();
         getExams.enqueue(new Callback<GetExamsObject>() {
             @Override
@@ -114,7 +114,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
     private void getStudyMaterial(String examName) {
         showProgress(true);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<GetSubjectsObject> getExams = apiService.getSubjects(examName);
         getExams.enqueue(new Callback<GetSubjectsObject>() {
             @Override
@@ -147,7 +147,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
     private void getTopics(String examName, String subectName) {
         showProgress(true);
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<TopicsObject> getExams = apiService.getTopics(examName, subectName);
         getExams.enqueue(new Callback<TopicsObject>() {
             @Override
@@ -288,9 +288,10 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             ExamObject item = getItem(position);
-            if (item != null) {
-                viewHolder.examName.setText(item.getName());
-            }
+            if (item != null)
+                viewHolder.examName.setText(item.getName().toUpperCase());
+            else
+                viewHolder.examName.setText("");
             return convertView;
         }
 

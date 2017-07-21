@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.talentsprint.android.esa.views.OpenSansStrongTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/examName"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:drawablePadding="5dp"
-    android:drawableRight="@drawable/dropdown"
-    android:gravity="center_vertical"
-    android:paddingRight="5dp"
-    android:text="@string/bank_po"
-    android:textColor="@color/textTitleColor"
-    android:textSize="15dp"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
+        android:id="@+id/examName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:paddingRight="5dp"
+        android:text="@string/bank_po"
+        android:textColor="@color/textTitleColor"
+        android:textSize="15dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/dropdown"/>
+</LinearLayout>

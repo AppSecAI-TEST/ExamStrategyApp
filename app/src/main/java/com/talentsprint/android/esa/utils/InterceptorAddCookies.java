@@ -14,17 +14,31 @@ import okhttp3.Response;
  */
 
 public class InterceptorAddCookies implements Interceptor {
+    boolean isCache;
+
+    public InterceptorAddCookies(boolean isCache) {
+        this.isCache = isCache;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if (!new ServiceManager(TalentSprintApp.appContext).isNetworkAvailable()) {
-            throw (new IOException("No network available"));
-        }
         Request.Builder builder = chain.request().newBuilder();
         HashSet<String> preferences = (HashSet) PreferenceManager.getStringSet(TalentSprintApp.appContext, AppConstants
                 .COOKIES, new
                 HashSet<String>());
         for (String cookie : preferences) {
             builder.addHeader("Cookie", cookie);
+        }
+        if (!new ServiceManager(TalentSprintApp.appContext).isNetworkAvailable()) {
+            if (isCache) {
+                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
+                builder
+                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale);
+            } else {
+                throw (new IOException("No network available"));
+            }
+        } else {
+            builder.header("Cache-Control", "public, max-age=" + 10/*seconds*/);
         }
         return chain.proceed(builder.build());
     }

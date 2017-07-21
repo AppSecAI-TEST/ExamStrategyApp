@@ -145,7 +145,7 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
         String oneSignalId = status.getSubscriptionStatus().getUserId();
         TalentSprintApi apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<JsonObject> getHomeDetails;
         RequestBody fbIdBody = null;
         RequestBody profilePicBody = null;

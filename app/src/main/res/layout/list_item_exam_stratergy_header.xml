@@ -11,7 +11,7 @@
                 android:paddingRight="35dp"
                 android:paddingTop="5dp">
 
-    <com.talentsprint.android.esa.views.OpenSansTextView
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
         android:id="@+id/dateMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -10,16 +10,17 @@
         android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="21"
+        android:gravity="center"
+        android:text="22"
         android:textColor="@color/gray_dark40Opc"
         android:textSize="30dp"/>
 
     <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/dateWeekday"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateDay"
-        android:layout_marginLeft="2dp"
+        android:gravity="center"
         android:text="Mon"
         android:textColor="#5a5a5a"
         android:textSize="11dp"/>

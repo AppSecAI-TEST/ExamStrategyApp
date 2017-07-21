@@ -13,6 +13,7 @@ import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.TestResultsObject;
 import com.talentsprint.android.esa.models.TestReviewObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
@@ -117,7 +118,7 @@ public class QuizResultFragment extends Fragment implements View.OnClickListener
 
     private void getReviewAnswers() {
         dashboardInterface.showProgress(true);
-        TalentSprintApi apiService = dashboardInterface.getApiService();
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         long totalTime = 0;
         Call<TestReviewObject> stratergy = apiService.getReviewAnswers(taskId);
         stratergy.enqueue(new Callback<TestReviewObject>() {

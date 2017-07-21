@@ -20,6 +20,7 @@ import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.QuestionsObject;
 import com.talentsprint.android.esa.models.TestResultsObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
@@ -74,7 +75,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
     private void getQuestions() {
         dashboardInterface.showProgress(true);
-        TalentSprintApi apiService = dashboardInterface.getApiService();
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<QuestionsObject> stratergy = apiService.getTestQuestions(taskId);
         stratergy.enqueue(new Callback<QuestionsObject>() {
             @Override
@@ -91,8 +92,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onFailure(Call<QuestionsObject> call, Throwable t) {
-                if (dashboardInterface != null)
+                if (dashboardInterface != null) {
                     dashboardInterface.showProgress(false);
+                    getActivity().onBackPressed();
+                }
                 if (getActivity() != null)
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -225,7 +228,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
     private void submitAnswers() {
         dashboardInterface.showProgress(true);
-        TalentSprintApi apiService = dashboardInterface.getApiService();
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         long totalTime = 0;
         if (totalTimeForQuestions > 0) {
             totalTime = questionsObject.getTestTime() - totalTimeForQuestions;

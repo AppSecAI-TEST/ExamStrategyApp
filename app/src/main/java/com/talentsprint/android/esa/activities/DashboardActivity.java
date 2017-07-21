@@ -45,7 +45,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         setContentView(R.layout.activity_dashboard);
         findViews();
         apiService =
-                ApiClient.getClient().create(TalentSprintApi.class);
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new DashboardFragment(), AppConstants.DASHBOARD).commit();
     }
@@ -99,7 +99,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     public TalentSprintApi getApiService() {
         if (apiService == null)
             apiService =
-                    ApiClient.getClient().create(TalentSprintApi.class);
+                    ApiClient.getCacheClient().create(TalentSprintApi.class);
         return apiService;
     }
 
