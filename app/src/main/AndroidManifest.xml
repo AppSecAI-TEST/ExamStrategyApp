@@ -10,6 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE"/>
+
         <activity
             android:name=".activities.DashboardActivity"
             android:screenOrientation="portrait">
@@ -73,6 +77,14 @@
             android:name=".activities.VideoPlayerActivity"
             android:configChanges="orientation|screenSize">
         </activity>
+
+        <service
+            android:name=".services.NotificationExtenderBareBones"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.onesignal.NotificationExtender"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

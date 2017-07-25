@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ProfileObject;
+import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.CircleTransform;
 import com.talentsprint.android.esa.utils.PreferenceManager;
@@ -31,12 +32,15 @@ import retrofit2.Response;
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
+    private static final String ON = "On";
+    private static final String OFF = "Off";
     private DashboardActivityInterface dashboardInterface;
     private ImageView profilePic;
     private TextView name;
     private TextView customerType;
     private TextView joinDate;
     private TextView logout;
+    private TextView notifications;
     private ImageView edit;
     private View nameLyt;
     private EditText nameEdtTxt;
@@ -71,9 +75,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         edit = fragmentView.findViewById(R.id.edit);
         nameLyt = fragmentView.findViewById(R.id.nameLyt);
         nameEdtTxt = fragmentView.findViewById(R.id.nameEdtTxt);
+        notifications = fragmentView.findViewById(R.id.notifications);
         logout.setOnClickListener(this);
         edit.setOnClickListener(this);
+        notifications.setOnClickListener(this);
         nameLyt.setVisibility(View.GONE);
+        notifications.setClickable(false);
     }
 
     private void getProfile() {
@@ -108,6 +115,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         customerType.setText(profileObject.getPlanName());
         joinDate.setText(profileObject.getActiveSince());
         Picasso.with(getActivity()).load(profileObject.getProfilePic()).transform(new CircleTransform()).into(profilePic);
+        if (PreferenceManager.getBoolean(getActivity(), AppConstants.NOTIFICATION, true)) {
+            notifications.setText(ON);
+        } else {
+            notifications.setText(OFF);
+        }
     }
 
     @Override
@@ -133,10 +145,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             name.setVisibility(View.GONE);
             nameEdtTxt.setText(name.getText());
             logout.setText("SAVE");
+            notifications.setClickable(true);
+        } else if (view == notifications) {
+            if (notifications.getText().toString().equalsIgnoreCase(ON)) {
+                notifications.setText(OFF);
+            } else {
+                notifications.setText(ON);
+            }
         }
     }
 
     private void saveProfile() {
+        if (notifications.getText().toString().equalsIgnoreCase(ON)) {
+            PreferenceManager.saveBoolean(getActivity(), AppConstants.NOTIFICATION, true);
+        } else {
+            PreferenceManager.saveBoolean(getActivity(), AppConstants.NOTIFICATION, false);
+        }
+        notifications.setClickable(false);
         dashboardInterface.showProgress(true);
         TalentSprintApi apiService = dashboardInterface.getApiService();
         Call<JSONObject> getExams = apiService.editProfile(nameEdtTxt.getText().toString().trim());

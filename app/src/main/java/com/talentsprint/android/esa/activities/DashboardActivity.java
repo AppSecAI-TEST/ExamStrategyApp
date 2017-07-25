@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.fragments.AlertsFragment;
 import com.talentsprint.android.esa.fragments.DashboardFragment;
+import com.talentsprint.android.esa.fragments.NotificationsFragment;
 import com.talentsprint.android.esa.fragments.ProfileFragment;
 import com.talentsprint.android.esa.fragments.StratergyFragment;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
@@ -163,6 +165,8 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         final TextView currentAffairs = menuItem.findViewById(R.id.currentAffairs);
         final TextView myProfile = menuItem.findViewById(R.id.myProfile);
         final TextView home = menuItem.findViewById(R.id.home);
+        final TextView notifications = menuItem.findViewById(R.id.notifications);
+        final TextView examAlerts = menuItem.findViewById(R.id.examAlerts);
         final View homeSelector = menuItem.findViewById(R.id.homeSelector);
         final View stratergySelector = menuItem.findViewById(R.id.stratergySelector);
         final View studySelector = menuItem.findViewById(R.id.studySelector);
@@ -188,6 +192,12 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
                     break;
                 case AppConstants.PROFILE:
                     profileSelector.setVisibility(View.VISIBLE);
+                    break;
+                case AppConstants.NOTIFICATION:
+                    notificationSelector.setVisibility(View.VISIBLE);
+                    break;
+                case AppConstants.ALERT:
+                    alertsSelector.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -230,6 +240,26 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
                 }
             }
         });
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager supportFragmentManager = getSupportFragmentManager();
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, new NotificationsFragment(), AppConstants.NOTIFICATION).addToBackStack(null)
+                        .commit();
+                menuItem.dismiss();
+            }
+        });
+        examAlerts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager supportFragmentManager = getSupportFragmentManager();
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, new AlertsFragment(), AppConstants.ALERT).addToBackStack(null)
+                        .commit();
+                menuItem.dismiss();
+            }
+        });
         myProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,14 +285,6 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         menuItem.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                   /* float startRadius = 20;
-                    float endRadius = mainView.getHeight();
-                    Animator animator = null;
-                    animator = ViewAnimationUtils.createCircularReveal(mainView, 0, 0, startRadius, endRadius * 2);
-                    animator.setDuration(1000);
-                    animator.start();*/
-                }
                 Animation bottomUp = AnimationUtils.loadAnimation(DashboardActivity.this,
                         R.anim.slide_down);
                 mainView.startAnimation(bottomUp);

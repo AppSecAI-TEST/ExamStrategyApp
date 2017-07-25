@@ -138,7 +138,7 @@
             android:layout_below="@+id/affairsSelector"
             android:layout_margin="10dp"
             android:paddingLeft="60dp"
-            android:text="@string/exam_alerts"
+            android:text="ALERTS"
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>
 

@@ -3,6 +3,9 @@ package com.talentsprint.android.esa.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.TestReviewObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -26,6 +31,7 @@ public class QuestionsReviewFragment extends Fragment implements QuizInterface, 
     private ImageView moveRight;
     private ImageView moveLeft;
     private TextView results;
+    private ViewPager viewPager;
     private DashboardActivityInterface dashboardInterface;
 
     public QuestionsReviewFragment() {
@@ -46,7 +52,22 @@ public class QuestionsReviewFragment extends Fragment implements QuizInterface, 
         testReviewObject = (TestReviewObject) getArguments().getSerializable(AppConstants.QUIZ_RESULT);
         totalQuestionsSize = testReviewObject.getQuestions().size();
         findViews(fragmentView);
-        moveToNextQuestion();
+        ReviewPagerAdapter adapter = new ReviewPagerAdapter(getChildFragmentManager(), testReviewObject.getQuestions());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentQuestion = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
         return fragmentView;
     }
 
@@ -54,12 +75,16 @@ public class QuestionsReviewFragment extends Fragment implements QuizInterface, 
         moveRight = fragmentView.findViewById(R.id.moveRight);
         moveLeft = fragmentView.findViewById(R.id.moveLeft);
         results = fragmentView.findViewById(R.id.results);
+        viewPager = fragmentView.findViewById(R.id.viewPager);
         moveRight.setOnClickListener(this);
         moveLeft.setOnClickListener(this);
         results.setOnClickListener(this);
     }
 
-    protected void moveToNextQuestion() {
+    @Override
+    public void skipQuestion() {
+    }
+    /*protected void moveToNextQuestion() {
         QuestionReviewItemFragment questionItemFragment = new QuestionReviewItemFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(AppConstants.QUIZ_QUESTIONS, testReviewObject.getQuestions().get(currentQuestion));
@@ -68,11 +93,7 @@ public class QuestionsReviewFragment extends Fragment implements QuizInterface, 
         questionItemFragment.setArguments(bundle);
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragment_child_container, questionItemFragment, AppConstants.QUIZ_QUESTIONS).commit();
-    }
-
-    @Override
-    public void skipQuestion() {
-    }
+    }*/
 
     @Override
     public void submitQuestion(String answer) {
@@ -85,13 +106,42 @@ public class QuestionsReviewFragment extends Fragment implements QuizInterface, 
         } else if (view == moveLeft) {
             if (currentQuestion > 0) {
                 currentQuestion--;
-                moveToNextQuestion();
+                viewPager.setCurrentItem(currentQuestion);
             }
         } else if (view == moveRight) {
             if (currentQuestion < totalQuestionsSize - 1) {
                 currentQuestion++;
-                moveToNextQuestion();
+                viewPager.setCurrentItem(currentQuestion);
             }
+        }
+    }
+
+    class ReviewPagerAdapter extends FragmentPagerAdapter {
+
+        ArrayList<TestReviewObject.Question> currentAffairs;
+
+        public ReviewPagerAdapter(FragmentManager fm, ArrayList<TestReviewObject.Question> currentAffairs) {
+            super(fm);
+            if (currentAffairs != null)
+                this.currentAffairs = currentAffairs;
+            else
+                this.currentAffairs = new ArrayList<TestReviewObject.Question>();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            QuestionReviewItemFragment questionItemFragment = new QuestionReviewItemFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.QUIZ_QUESTIONS, testReviewObject.getQuestions().get(position));
+            bundle.putInt(AppConstants.POSITION, position);
+            bundle.putInt(AppConstants.TOTAL_QUESTIONS, totalQuestionsSize);
+            questionItemFragment.setArguments(bundle);
+            return questionItemFragment;
+        }
+
+        @Override
+        public int getCount() {
+            return currentAffairs.size();
         }
     }
 }

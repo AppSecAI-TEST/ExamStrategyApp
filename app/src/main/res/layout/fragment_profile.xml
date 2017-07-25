@@ -180,6 +180,8 @@
             android:layout_below="@+id/notificationsText"
             android:layout_marginLeft="20dp"
             android:gravity="bottom"
+            android:paddingBottom="20dp"
+            android:paddingRight="40dp"
             android:text="@string/on"
             android:textColor="@color/gray_dark"
             android:textSize="15dp"/>
@@ -190,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/notifications"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:gravity="bottom"
             android:text="@string/storage"
             android:textColor="@color/gray_dark"

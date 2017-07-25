@@ -31,14 +31,18 @@ import com.talentsprint.android.esa.interfaces.CurrentAffairsInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
+import com.talentsprint.android.esa.models.NotificationsObject;
 import com.talentsprint.android.esa.models.TaskObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.CirclePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +80,22 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         findViews(fragmentView);
         dashboardInterface.setCurveVisibility(false);
         getDashBoard(0);
+        getAlerts();
         return fragmentView;
+    }
+
+    private void getAlerts() {
+        List<NotificationsObject> notificationsList = new ArrayList<NotificationsObject>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<NotificationsObject> notificationsObjects = realm.where(NotificationsObject.class).equalTo("type",
+                AppConstants.ALERT).greaterThan
+                ("expiryDateLong", System.currentTimeMillis()).findAll();
+        notificationsList = realm.copyFromRealm(notificationsObjects);
+        AlertsAdapter alertsAdapter = new AlertsAdapter(notificationsList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        alertsRecyclerView.setLayoutManager(mLayoutManager);
+        alertsRecyclerView.setAdapter(alertsAdapter);
+
     }
 
     private void getDashBoard(final int recurringValue) {
@@ -122,10 +141,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 .getCurrentAffairs());
         currentAffairsViewPager.setAdapter(adapter);
         indicator.setViewPager(currentAffairsViewPager);
-        AlertsAdapter alertsAdapter = new AlertsAdapter(new ArrayList<String>());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        alertsRecyclerView.setLayoutManager(mLayoutManager);
-        alertsRecyclerView.setAdapter(alertsAdapter);
         String status = homeObject.getStatus();
         //Conditions as per the API document provided by talent sprint
         if (status == null || status.equalsIgnoreCase(AppConstants.EXAM_NOT_SET)) {
@@ -283,9 +298,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
     public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.MyViewHolder> {
 
-        private List<String> alertssList;
+        private List<NotificationsObject> alertssList;
 
-        public AlertsAdapter(List<String> alertssList) {
+        public AlertsAdapter(List<NotificationsObject> alertssList) {
             this.alertssList = alertssList;
         }
 
@@ -297,12 +312,22 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
+        public void onBindViewHolder(MyViewHolder holder, final int position) {
+            holder.title.setText(alertssList.get(position).getTitle());
+            holder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppUtils.navigateFromNotifications(getActivity(), alertssList.get(position), true);
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return 5;
+            if (alertssList != null)
+                return alertssList.size();
+            else
+                return 0;
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {

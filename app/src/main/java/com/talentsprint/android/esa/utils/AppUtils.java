@@ -1,8 +1,17 @@
 package com.talentsprint.android.esa.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.talentsprint.android.esa.activities.CurrentAffairsActivity;
+import com.talentsprint.android.esa.activities.DashboardActivity;
+import com.talentsprint.android.esa.activities.LoginActivity;
+import com.talentsprint.android.esa.models.NotificationsObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,10 +36,23 @@ public class AppUtils {
         return d.getTime();
     }
 
+    public static long getLongFromDDMMYYY(String date) throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = format.parse(date);
+        return d.getTime();
+    }
+
     public static String getDateInYYYMMDD(long timeInMillis) {
         Date date = new Date();
         date.setTime(timeInMillis);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public static String getDateInMMMDDYYYY(long timeInMillis) {
+        Date date = new Date();
+        date.setTime(timeInMillis);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         return dateFormat.format(date);
     }
 
@@ -51,5 +73,37 @@ public class AppUtils {
             isValid = true;
         }
         return isValid;
+    }
+
+    public static void navigateFromNotifications(Context context, NotificationsObject notificationsObject, boolean isFromHome) {
+        if (notificationsObject.getCategory() != null && notificationsObject.getCategory().length() > 0) {
+            if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.HOME)) {
+                Intent navigate = new Intent(context, DashboardActivity.class);
+                navigate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (!isFromHome)
+                    context.startActivity(navigate);
+            } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.CURRENT_AFFAIRS1)) {
+                Intent navigate = new Intent(context, CurrentAffairsActivity.class);
+                context.startActivity(navigate);
+            } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.LOGIN)) {
+                if (!PreferenceManager.getBoolean(context, AppConstants.IS_LOGGEDIN, false)) {
+                    Intent navigate = new Intent(context, LoginActivity.class);
+                    context.startActivity(navigate);
+                }
+            } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.BROWSER)) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(notificationsObject.getLink()));
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(context, "No application found to open link", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        } else {
+            Intent navigate = new Intent(context, DashboardActivity.class);
+            navigate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (!isFromHome)
+                context.startActivity(navigate);
+        }
     }
 }

@@ -61,4 +61,10 @@ public class AppConstants {
     public static final String MP4 = ".mp4";
     public static final String PDF = ".pdf";
     public static final String DATE_LONG = "dateLong";
+    public static final String ALERT = "alert";
+    public static final String NOTIFICATION = "notification";
+    public static final String HOME = "home";
+    public static final String CURRENT_AFFAIRS1 = "currentaffairs";
+    public static final String LOGIN = "login";
+    public static final String BROWSER = "browser";
 }
