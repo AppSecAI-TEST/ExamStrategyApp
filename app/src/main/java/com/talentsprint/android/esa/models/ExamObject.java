@@ -11,6 +11,7 @@ public class ExamObject {
     private String id;
     private String name;
     private String date;
+    private boolean isPreviouslyAdded;
 
     public String getId() {
         return id;
@@ -34,5 +35,13 @@ public class ExamObject {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isPreviouslyAdded() {
+        return isPreviouslyAdded;
+    }
+
+    public void setPreviouslyAdded(boolean previouslyAdded) {
+        isPreviouslyAdded = previouslyAdded;
     }
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.fragments.AlertsFragment;
 import com.talentsprint.android.esa.fragments.DashboardFragment;
+import com.talentsprint.android.esa.fragments.MyExamsFragment;
 import com.talentsprint.android.esa.fragments.NotificationsFragment;
 import com.talentsprint.android.esa.fragments.ProfileFragment;
 import com.talentsprint.android.esa.fragments.StratergyFragment;
@@ -144,6 +145,11 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         }
     }
 
+    private void openMyExams() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+    }
+
     private void showMenu() {
         final Dialog menuItem = new Dialog(DashboardActivity.this, android.R.style.Theme_Black_NoTitleBar);
         menuItem.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(150, 0, 0, 0)));
@@ -167,6 +173,8 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         final TextView home = menuItem.findViewById(R.id.home);
         final TextView notifications = menuItem.findViewById(R.id.notifications);
         final TextView examAlerts = menuItem.findViewById(R.id.examAlerts);
+        final TextView myExams = menuItem.findViewById(R.id.myExams);
+        final View myExamsSelector = menuItem.findViewById(R.id.myExamsSelector);
         final View homeSelector = menuItem.findViewById(R.id.homeSelector);
         final View stratergySelector = menuItem.findViewById(R.id.stratergySelector);
         final View studySelector = menuItem.findViewById(R.id.studySelector);
@@ -182,6 +190,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         alertsSelector.setVisibility(View.INVISIBLE);
         notificationSelector.setVisibility(View.INVISIBLE);
         profileSelector.setVisibility(View.INVISIBLE);
+        myExamsSelector.setVisibility(View.INVISIBLE);
         if (currentFragment != null && currentFragment.getTag() != null) {
             switch (currentFragment.getTag()) {
                 case AppConstants.DASHBOARD:
@@ -198,6 +207,9 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
                     break;
                 case AppConstants.ALERT:
                     alertsSelector.setVisibility(View.VISIBLE);
+                    break;
+                case AppConstants.MY_EXAMS:
+                    myExamsSelector.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -219,6 +231,18 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
                 Intent navigate = new Intent(DashboardActivity.this, StudyMaterialActivity.class);
                 startActivity(navigate);
                 menuItem.dismiss();
+            }
+        });
+        nextExamDateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMyExams();
+            }
+        });
+        myExams.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMyExams();
             }
         });
         currentAffairs.setOnClickListener(new View.OnClickListener() {

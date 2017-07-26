@@ -10,12 +10,14 @@ public class ApiUrls {
     public static final String ONE_SIGNAL = "onesignalId";
     public static final String HOME = "home";
     public static final String GET_EXAMS = "getExams";
+    public static final String GET_MY_EXAMS = "myExams";
     public static final String SET_EXAMS = "setExams";
     public static final String GET_TEST_PROPERTIES = "getTestProperties";
     public static final String GET_TEST_QUESTIONS = "getTestQuestions";
     public static final String GET_TEST_RESULTS = "getTestResult";
     public static final String GET_REVIEW_ANSWERS = "getReviewAnswers";
     public static final String GET_STRATERGY = "getStrategy";
+    public static final String GET_PAST_STRATERGY = "getPastStrategy";
     public static final String GET_SUBJECTS = "getSubjects";
     public static final String GET_TOPICS = "getTopics";
     public static final String GET_SUB_TOPICS = "getSubTopics";
@@ -26,6 +28,7 @@ public class ApiUrls {
     public static final String EDIT_PROFILE = "editProfile";
     public static final String LOGIN = "login";
     public static final String LOGOUT = "logout";
+    public static final String GET_CONTACT = "getContact";
     public static final String CHECKMOBI_SEND_SMS = "sms/send";
 
     //quer parameters
@@ -43,4 +46,5 @@ public class ApiUrls {
     public static final String TOPIC_NAME = "topicName";
     public static final String SUB_TOPIC_NAME = "subTopicName";
     public static final String DATE = "date";
+    public static final String MORE = "more";
 }

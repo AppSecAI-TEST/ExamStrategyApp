@@ -37,16 +37,19 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
     private String[] monthsList = new String[]{"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY",
             "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER",};
     private CalenderInterface calenderInterface;
+    private String currentMontString;
+    private String currentYearString;
 
     public CalenderFragment() {
     }
 
-    public static CalenderFragment newInstance(int sectionNumber, float x_value, float y_value) {
+    public static CalenderFragment newInstance(int sectionNumber, float x_value, float y_value, long selectedDateLong) {
         CalenderFragment fragment = new CalenderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putFloat(AppConstants.X_VALUE, x_value);
         args.putFloat(AppConstants.Y_VALUE, y_value);
+        args.putLong(AppConstants.DATE_LONG, selectedDateLong);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,6 +65,16 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_month_layout, container, false);
         findViews(rootView);
+        if (getArguments().getInt(ARG_SECTION_NUMBER) == AppConstants.CALENDER_TODAYS_PAGE_NUMBER) {
+            // Setting the visibility of today view
+            if (getArguments().getLong(AppConstants.DATE_LONG, 0) == 0) {
+                showTodayDate();
+            } else {
+                hideTodaysDate();
+            }
+        } else {
+            hideTodaysDate();
+        }
         new AsyncTask<Void, Void, ArrayList<CalenderObject>>() {
 
             @Override
@@ -72,6 +85,8 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
             @Override
             protected void onPostExecute(ArrayList<CalenderObject> daysList) {
                 super.onPostExecute(daysList);
+                monthText.setText(currentMontString);
+                yearText.setText(currentYearString);
                 SubjectsAdapter adapter = new SubjectsAdapter(daysList);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 7);
                 monthRecycler.setLayoutManager(mLayoutManager);
@@ -81,10 +96,32 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+    private void hideTodaysDate() {
+        todayText.setVisibility(View.INVISIBLE);
+        isShowTodaysText = false;
+    }
+
+    private void showTodayDate() {
+        todayText.setVisibility(View.VISIBLE);
+        isShowTodaysText = true;
+    }
+
     @NonNull
     private ArrayList<CalenderObject> prepareDaysList() {
         //Logic for displaying calender. Please recheck before changing - Anudeep
         Calendar cal = Calendar.getInstance();
+        //Getting selected calender
+        Calendar selectedCalender = Calendar.getInstance();
+        selectedCalender.setTimeInMillis(cal.getTimeInMillis());
+        long selectedDateLong = getArguments().getLong(AppConstants.DATE_LONG, 0);
+        if (selectedDateLong > 0) {
+            Calendar localCal = Calendar.getInstance();
+            localCal.setTimeInMillis(selectedDateLong);
+            selectedCalender.set(Calendar.DAY_OF_MONTH, localCal.get(Calendar.DAY_OF_MONTH));
+            selectedCalender.set(Calendar.YEAR, localCal.get(Calendar.YEAR));
+            selectedCalender.set(Calendar.MONTH, localCal.get(Calendar.MONTH));
+            selectedDateLong = selectedCalender.getTimeInMillis();
+        }
         //Getting present days date to compare and display in list - Anudeep
         long today = cal.getTimeInMillis();
         //Getting the actual present month and year - Anudeep
@@ -92,19 +129,10 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
         int presentYear = cal.get(Calendar.YEAR);
         //Adding or subtracting the number of months depending on the page number - Anudeep
         cal.add(Calendar.MONTH, getArguments().getInt(ARG_SECTION_NUMBER) - AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
-        //Checking if present month and year are equal to the added month and year - Anudeep
-        if (presentYear == cal.get(Calendar.YEAR) && presentMonth == cal.get(Calendar.MONTH)) {
-            // Setting the visibility of today view
-            todayText.setVisibility(View.VISIBLE);
-            isShowTodaysText = true;
-        } else {
-            todayText.setVisibility(View.INVISIBLE);
-            isShowTodaysText = false;
-        }
         //Setting the day of month to 1 - Anudeep
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        monthText.setText(monthsList[cal.get(Calendar.MONTH)]);
-        yearText.setText(Integer.toString(cal.get(Calendar.YEAR)));
+        currentMontString = monthsList[cal.get(Calendar.MONTH)];
+        currentYearString = Integer.toString(cal.get(Calendar.YEAR));
         //Getting the day of the week - Anudeep
         int daysInweek1 = cal.get(Calendar.DAY_OF_WEEK);
         //Getting the maximum number of days of this particular month - Anudeep
@@ -124,9 +152,13 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
                 calenderObject.setThisMonth(false);
             } else {
                 calenderObject.setThisMonth(true);
-                if (today == cal.getTimeInMillis()) {
+                if (selectedDateLong == 0 && today == cal.getTimeInMillis()) {
                     selectedPosition = i;
                     todaysPosition = i;
+                } else {
+                    if (selectedDateLong == cal.getTimeInMillis()) {
+                        selectedPosition = i;
+                    }
                 }
             }
             daysList.add(calenderObject);

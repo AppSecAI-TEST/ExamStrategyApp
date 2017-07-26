@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -45,12 +44,19 @@
         android:layout_toRightOf="@+id/filter"
         android:src="@drawable/calender"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/stratergyRecycler"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/subjectText"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="40dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/stratergyRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -49,6 +49,7 @@ public class AppConstants {
     public static final String IS_LOGGEDIN = "isLoggedIn";
     public static final String OTP = "otp";
     public static final String MOBILE_NUMBER = "mobileNumber";
+    public static final String MOBILE_NO = "mobileNo";
     public static final String MOBILE_USER = "mobileUser";
     public static final String INVALID = "Invalid";
     public static final String APTITUDE = "Quantitative Aptitude";

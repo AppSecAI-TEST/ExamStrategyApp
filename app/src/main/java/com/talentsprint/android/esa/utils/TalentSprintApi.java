@@ -3,6 +3,7 @@ package com.talentsprint.android.esa.utils;
 import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.models.CurrentAffairsListObject;
+import com.talentsprint.android.esa.models.GetContact;
 import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.GetSubjectsObject;
 import com.talentsprint.android.esa.models.HomeObject;
@@ -42,6 +43,9 @@ public interface TalentSprintApi {
     @GET(ApiUrls.SET_EXAMS)
     Call<GetExamsObject> setExams(@Query(ApiUrls.EXAM) ArrayList<String> exams);
 
+    @GET(ApiUrls.GET_MY_EXAMS)
+    Call<GetExamsObject> getMyExams();
+
     @GET(ApiUrls.GET_TEST_PROPERTIES)
     Call<TestPropertiesObject> getTestProperties(@Query(ApiUrls.TASK_ID) String taskId);
 
@@ -58,6 +62,12 @@ public interface TalentSprintApi {
 
     @GET(ApiUrls.GET_STRATERGY)
     Call<StratergyObject> getStratergy();
+
+    @GET(ApiUrls.GET_PAST_STRATERGY)
+    Call<StratergyObject> getPastStratergy();
+
+    @GET(ApiUrls.GET_PAST_STRATERGY)
+    Call<StratergyObject> getPastStratergyWithPage(@Query(ApiUrls.MORE) int pageCount);
 
     @GET(ApiUrls.GET_PROFILE)
     Call<ProfileObject> getProfile();
@@ -113,4 +123,7 @@ public interface TalentSprintApi {
     @GET(ApiUrls.GET_CURRENT_AFFAIRS)
     Call<CurrentAffairsListObject> getCurrentAffairs(@Query(ApiUrls.TOPIC_NAME) String topicName,
                                                      @Query(ApiUrls.DATE) String dateYYYYMMdd);
+
+    @GET(ApiUrls.GET_CONTACT)
+    Call<GetContact> getContact();
 }

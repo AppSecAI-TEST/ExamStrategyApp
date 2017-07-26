@@ -35,6 +35,7 @@ import com.talentsprint.android.esa.models.NotificationsObject;
 import com.talentsprint.android.esa.models.TaskObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.CirclePageIndicator;
 
@@ -160,7 +161,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                         false);
                 todaysTasksLyt.addView(inflatedLayout);
             } else if (status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
-                calenderView.setVisibility(View.VISIBLE);
+                //calenderView.setVisibility(View.VISIBLE);
                 dashboardInterface.isStratergyReady(true);
                 TasksAdapter tasksAdapter = new TasksAdapter(homeObject.getTasklist());
                 RecyclerView.LayoutManager mtaskLayoutManager = new LinearLayoutManager(getActivity());
@@ -183,14 +184,14 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         tasksRecycler = fragmentView.findViewById(R.id.tasksRecycler);
         nextExamDate.setText("");
         calenderView.setOnClickListener(this);
+        nextExamDate.setOnClickListener(this);
         calenderView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.setExam) {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+        if (view.getId() == R.id.setExam || view.getId() == R.id.nextExamDate) {
+            openMyExams();
         } else if (view.getId() == R.id.assessYourself) {
             openQuiz("0");
         } else if (view == calenderView) {
@@ -212,6 +213,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 }
             }, 3000);
         }
+    }
+
+    private void openMyExams() {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
     }
 
     @Override
@@ -380,7 +386,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!taskObject.isPremium()) {
+                    if (!taskObject.isPremium() || PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
+                            .equalsIgnoreCase(AppConstants.PREMIUM)) {
                         switch (taskObject.getType()) {
                             case AppConstants.NON_VIDEO:
                                 openContent(taskObject);

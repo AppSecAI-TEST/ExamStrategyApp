@@ -20,6 +20,8 @@ import com.talentsprint.android.esa.fragments.CalenderFragment;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.utils.AppConstants;
 
+import java.util.Calendar;
+
 /**
  * Created by Anudeep Reddy on 7/7/2017.
  */
@@ -31,6 +33,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     private float x_value, y_value;
     private View main_content;
     private View pointerView;
+    private long selectedDateLong;
     private CalenderInterface calenderInterface;
 
     public CalenderDialogue() {
@@ -60,7 +63,17 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         pointerView = view.findViewById(R.id.pointerView);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
+        selectedDateLong = getArguments().getLong(AppConstants.DATE_LONG, 0);
+        if (selectedDateLong > 0) {
+            Calendar calSelected = Calendar.getInstance();
+            Calendar calPresent = Calendar.getInstance();
+            calSelected.setTimeInMillis(selectedDateLong);
+            int diffYear = calSelected.get(Calendar.YEAR) - calPresent.get(Calendar.YEAR);
+            int diffMonth = diffYear * 12 + calSelected.get(Calendar.MONTH) - calPresent.get(Calendar.MONTH);
+            mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER + diffMonth);
+        } else {
+            mViewPager.setCurrentItem(AppConstants.CALENDER_TODAYS_PAGE_NUMBER);
+        }
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
@@ -115,7 +128,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
 
         @Override
         public Fragment getItem(int position) {
-            return CalenderFragment.newInstance(position, x_value, y_value);
+            return CalenderFragment.newInstance(position, x_value, y_value, selectedDateLong);
         }
 
         @Override

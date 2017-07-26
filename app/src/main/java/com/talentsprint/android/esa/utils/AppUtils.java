@@ -37,7 +37,11 @@ public class AppUtils {
     }
 
     public static long getLongFromDDMMYYY(String date) throws Exception {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format;
+        if (date.contains("-"))
+            format = new SimpleDateFormat("dd-MM-yyyy");
+        else
+            format = new SimpleDateFormat("dd/MM/yyyy");
         Date d = format.parse(date);
         return d.getTime();
     }
@@ -53,6 +57,13 @@ public class AppUtils {
         Date date = new Date();
         date.setTime(timeInMillis);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        return dateFormat.format(date);
+    }
+
+    public static String getDateInDDMMYYYY(long timeInMillis) {
+        Date date = new Date();
+        date.setTime(timeInMillis);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
 

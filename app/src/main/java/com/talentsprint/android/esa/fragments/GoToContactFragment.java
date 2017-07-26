@@ -1,17 +1,26 @@
 package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ArticlesObject;
+import com.talentsprint.android.esa.models.GetContact;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.TalentSprintApi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +30,7 @@ public class GoToContactFragment extends Fragment {
     private TextView title;
     private TextView subjectTopicText;
     private TextView subjectSubTopicText;
+    private TextView contact;
     private ArticlesObject.Articles article;
     private DashboardActivityInterface dashboardActivityInterface;
     private View divider;
@@ -59,7 +69,44 @@ public class GoToContactFragment extends Fragment {
             subjectSubTopicText.setVisibility(View.INVISIBLE);
             title.setText(getArguments().getString(AppConstants.CONTENT, ""));
         }
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getContact();
+            }
+        });
         return fragmentView;
+    }
+
+    private void getContact() {
+        dashboardActivityInterface.showProgress(true);
+        TalentSprintApi apiService =
+                dashboardActivityInterface.getApiService();
+        Call<GetContact> getContact = apiService.getContact();
+        getContact.enqueue(new Callback<GetContact>() {
+            @Override
+            public void onResponse(Call<GetContact> call, Response<GetContact> response) {
+                dashboardActivityInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    try {
+                        String contactNumber = response.body().getMobileNo();
+                        Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                                "tel", contactNumber, null));
+                        startActivity(phoneIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetContact> call, Throwable t) {
+                if (dashboardActivityInterface != null)
+                    dashboardActivityInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void findViews(View fragmentView) {
@@ -67,5 +114,6 @@ public class GoToContactFragment extends Fragment {
         subjectTopicText = fragmentView.findViewById(R.id.subjectTopicText);
         subjectSubTopicText = fragmentView.findViewById(R.id.subjectSubTopicText);
         divider = fragmentView.findViewById(R.id.divider);
+        contact = fragmentView.findViewById(R.id.contact);
     }
 }

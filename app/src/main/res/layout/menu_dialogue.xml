@@ -132,10 +132,29 @@
             android:background="@color/colorAccent"/>
 
         <com.talentsprint.android.esa.views.OpenSansStrongTextView
-            android:id="@+id/examAlerts"
+            android:id="@+id/myExams"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/affairsSelector"
+            android:layout_margin="10dp"
+            android:paddingLeft="60dp"
+            android:text="MY EXAMS"
+            android:textColor="@color/textTitleColor"
+            android:textSize="15dp"/>
+
+        <View
+            android:id="@+id/myExamsSelector"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignRight="@+id/myExams"
+            android:layout_below="@+id/myExams"
+            android:layout_marginLeft="70dp"
+            android:background="@color/colorAccent"/>
+        <com.talentsprint.android.esa.views.OpenSansStrongTextView
+            android:id="@+id/examAlerts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myExamsSelector"
             android:layout_margin="10dp"
             android:paddingLeft="60dp"
             android:text="ALERTS"

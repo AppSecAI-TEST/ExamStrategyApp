@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.talentsprint.android.esa.interfaces.FiltersInterface;
 import com.talentsprint.android.esa.models.StratergyObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.LinearLayoutManagerWithSmoothScroller;
 
@@ -42,7 +44,8 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StratergyFragment extends Fragment implements View.OnClickListener, CalenderInterface, FiltersInterface {
+public class StratergyFragment extends Fragment implements View.OnClickListener, CalenderInterface, FiltersInterface,
+        SwipeRefreshLayout.OnRefreshListener {
     private DashboardActivityInterface dashboardInterface;
     private ImageView filter;
     private ImageView calender;
@@ -53,6 +56,9 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
     private HashMap<String, Integer> dateIndexingMap = new HashMap<String, Integer>();
     private HashMap<String, Boolean> selectedContentFilters = new HashMap<String, Boolean>();
     private HashMap<String, Boolean> selectedSubjectFilters = new HashMap<String, Boolean>();
+    private String todaysDate;
+    private SwipeRefreshLayout refreshLayout;
+    private int pageCount = 0;
 
     public StratergyFragment() {
         // Required empty public constructor
@@ -64,6 +70,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         dashboardInterface.setCurveVisibility(true);
         View fragmentView = inflater.inflate(R.layout.fragment_stratergy, container, false);
         findViews(fragmentView);
+        todaysDate = AppUtils.getDateInYYYMMDD(System.currentTimeMillis());
         currentDate = AppUtils.getCurrentDateString();
         getStratergy();
         return fragmentView;
@@ -79,6 +86,12 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         filter = fragmentView.findViewById(R.id.filter);
         calender = fragmentView.findViewById(R.id.calender);
         stratergyRecycler = fragmentView.findViewById(R.id.stratergyRecycler);
+        refreshLayout = fragmentView.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
         calender.setOnClickListener(this);
         filter.setOnClickListener(this);
 
@@ -109,6 +122,39 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void getPreviousStratergy() {
+        TalentSprintApi apiService = dashboardInterface.getApiService();
+        Call<StratergyObject> stratergy;
+        if (pageCount == 0)
+            stratergy = apiService.getPastStratergy();
+        else
+            stratergy = apiService.getPastStratergyWithPage(pageCount);
+        stratergy.enqueue(new Callback<StratergyObject>() {
+            @Override
+            public void onResponse(Call<StratergyObject> call, Response<StratergyObject> response) {
+                refreshLayout.setRefreshing(false);
+                if (response.isSuccessful()) {
+                    stratergyObject = response.body();
+                    updateStratergy();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StratergyObject> call, Throwable t) {
+                if (refreshLayout != null)
+                    refreshLayout.setRefreshing(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateStratergy() {
     }
 
     private void prepareStratergy() {
@@ -372,6 +418,10 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    @Override
+    public void onRefresh() {
+    }
+
     public class StratergyAdapter extends SectionedRecyclerViewAdapter<StratergyAdapter.MyViewHolder> {
 
         private HashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap;
@@ -443,7 +493,11 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void onClick(View view) {
                     if (taskObject.getStatus() == null || !(taskObject.getStatus().equals("Completed"))) {
-                        if (!taskObject.isPremium()) {
+                        boolean isOpenTask = (!taskObject.isPremium()
+                                && taskObject.getDate().equalsIgnoreCase(todaysDate)) ||
+                                (PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
+                                        .equalsIgnoreCase(AppConstants.PREMIUM));
+                        if (isOpenTask) {
                             switch (taskObject.getType()) {
                                 case AppConstants.NON_VIDEO:
                                     openContent(taskObject);
@@ -452,7 +506,18 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                                     openContent(taskObject);
                                     break;
                                 case AppConstants.TEST:
-                                    openQuiz(taskObject);
+                                    try {
+                                        long differenceLong = System.currentTimeMillis() -
+                                                AppUtils.getLongFromYYYMMDD(taskObject.getDate());
+                                        long days7 = 1000 * 60 * 60 * 24 * 7;
+                                        //checking if the task date is between -7 to 0
+                                        if (differenceLong < days7 && differenceLong > 0)
+                                            openQuiz(taskObject);
+                                        else
+                                            Toast.makeText
+                                                    (getActivity(), "Task not accessible", Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                    }
                                     break;
                                 case AppConstants.WORD_OF_THE_DAY:
                                     openContent(taskObject);

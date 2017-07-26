@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:paddingTop="25dp"
-        android:text="JANUARY"
+        android:text=""
         android:textColor="#003333"
         android:textSize="26dp"/>
 
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/monthText"
         android:layout_centerHorizontal="true"
-        android:text="2017"
+        android:text=""
         android:textColor="#003333"
         android:textSize="20dp"/>
 
