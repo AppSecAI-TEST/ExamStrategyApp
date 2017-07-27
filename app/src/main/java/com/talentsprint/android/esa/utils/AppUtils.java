@@ -91,18 +91,22 @@ public class AppUtils {
             if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.HOME)) {
                 Intent navigate = new Intent(context, DashboardActivity.class);
                 navigate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                navigate.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (!isFromHome)
                     context.startActivity(navigate);
             } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.CURRENT_AFFAIRS1)) {
                 Intent navigate = new Intent(context, CurrentAffairsActivity.class);
+                navigate.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(navigate);
             } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.LOGIN)) {
                 if (!PreferenceManager.getBoolean(context, AppConstants.IS_LOGGEDIN, false)) {
                     Intent navigate = new Intent(context, LoginActivity.class);
+                    navigate.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(navigate);
                 }
             } else if (notificationsObject.getCategory().equalsIgnoreCase(AppConstants.BROWSER)) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(notificationsObject.getLink()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     context.startActivity(intent);
                 } catch (ActivityNotFoundException e) {
@@ -113,6 +117,7 @@ public class AppUtils {
         } else {
             Intent navigate = new Intent(context, DashboardActivity.class);
             navigate.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            navigate.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (!isFromHome)
                 context.startActivity(navigate);
         }

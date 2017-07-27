@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
 import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.models.GetContact;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
@@ -33,6 +35,7 @@ public class GoToContactFragment extends Fragment {
     private TextView contact;
     private ArticlesObject.Articles article;
     private DashboardActivityInterface dashboardActivityInterface;
+    private StudyMaterialActivityInterface studyMaterialActivityInterface;
     private View divider;
 
     public GoToContactFragment() {
@@ -44,6 +47,11 @@ public class GoToContactFragment extends Fragment {
         super.onAttach(context);
         try {
             dashboardActivityInterface = (DashboardActivityInterface) getActivity();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            studyMaterialActivityInterface = (StudyMaterialActivityInterface) getActivity();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,14 +87,20 @@ public class GoToContactFragment extends Fragment {
     }
 
     private void getContact() {
-        dashboardActivityInterface.showProgress(true);
+        if (dashboardActivityInterface != null)
+            dashboardActivityInterface.showProgress(true);
+        else
+            studyMaterialActivityInterface.showProgress(true);
         TalentSprintApi apiService =
-                dashboardActivityInterface.getApiService();
+                ApiClient.getCacheClient().create(TalentSprintApi.class);
         Call<GetContact> getContact = apiService.getContact();
         getContact.enqueue(new Callback<GetContact>() {
             @Override
             public void onResponse(Call<GetContact> call, Response<GetContact> response) {
-                dashboardActivityInterface.showProgress(false);
+                if (dashboardActivityInterface != null)
+                    dashboardActivityInterface.showProgress(false);
+                else
+                    studyMaterialActivityInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     try {
                         String contactNumber = response.body().getMobileNo();
@@ -103,6 +117,8 @@ public class GoToContactFragment extends Fragment {
             public void onFailure(Call<GetContact> call, Throwable t) {
                 if (dashboardActivityInterface != null)
                     dashboardActivityInterface.showProgress(false);
+                else if (studyMaterialActivityInterface != null)
+                    studyMaterialActivityInterface.showProgress(false);
                 if (getActivity() != null)
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
