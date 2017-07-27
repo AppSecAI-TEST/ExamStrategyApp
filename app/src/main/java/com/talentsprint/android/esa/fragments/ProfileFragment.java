@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.models.NotificationsObject;
 import com.talentsprint.android.esa.models.ProfileObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
@@ -23,6 +24,7 @@ import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 import org.json.JSONObject;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -196,6 +198,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.delete(NotificationsObject.class);
+                        }
+                    });
                     Toast.makeText(getActivity(), "Logged out", Toast.LENGTH_SHORT).show();
                     PreferenceManager.deleteAll(getActivity());
                     dashboardInterface.examAdded();

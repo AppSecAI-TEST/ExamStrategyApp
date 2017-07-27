@@ -33,8 +33,8 @@ import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.LinearLayoutManagerWithSmoothScroller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -107,7 +107,7 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     stratergyObject = response.body();
-                    prepareStratergy();
+                    prepareStratergy(true);
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
@@ -136,8 +136,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             public void onResponse(Call<StratergyObject> call, Response<StratergyObject> response) {
                 refreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
-                    stratergyObject = response.body();
-                    updateStratergy();
+                    pageCount++;
+                    updateStratergy(response.body());
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
@@ -154,12 +154,19 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
         });
     }
 
-    private void updateStratergy() {
+    private void updateStratergy(StratergyObject stratergy) {
+        if (stratergy.getStrategy() != null && stratergy.getStrategy().size() > 0) {
+            stratergyObject.getStrategy().addAll(0, stratergy.getStrategy());
+            prepareStratergy(false);
+        } else {
+            pageCount = -1;
+        }
     }
 
-    private void prepareStratergy() {
+    private void prepareStratergy(boolean isScrollToDate) {
         ArrayList<StratergyObject.Stratergy> stratergyArrayList = stratergyObject.getStrategy();
-        HashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new HashMap<String, ArrayList<StratergyObject.Task>>();
+        LinkedHashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new LinkedHashMap<String,
+                ArrayList<StratergyObject.Task>>();
         dateRowNumber = 0;
         dateIndexingMap = new HashMap<String, Integer>();
         if (stratergyArrayList != null) {
@@ -198,13 +205,13 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 }
             }
             List<String> monthsList = new ArrayList<String>(taskHashMap.keySet());
-            Collections.reverse(monthsList);
             StratergyAdapter stratergyAdapter = new StratergyAdapter(taskHashMap, (ArrayList<String>) monthsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWithSmoothScroller(getActivity());
             stratergyRecycler.setLayoutManager(mLayoutManager);
             stratergyRecycler.setAdapter(stratergyAdapter);
-            if (dateIndexingMap.containsKey(currentDate))
-                stratergyRecycler.scrollToPosition(dateIndexingMap.get(currentDate));
+            if (isScrollToDate)
+                if (dateIndexingMap.containsKey(currentDate))
+                    stratergyRecycler.scrollToPosition(dateIndexingMap.get(currentDate));
         } else {
             Toast.makeText(getActivity(), "Strategy not found", Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();
@@ -213,7 +220,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
     private void filterStratergy() {
         ArrayList<StratergyObject.Stratergy> stratergyArrayList = stratergyObject.getStrategy();
-        HashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new HashMap<String, ArrayList<StratergyObject.Task>>();
+        LinkedHashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new LinkedHashMap<String,
+                ArrayList<StratergyObject.Task>>();
         dateRowNumber = 0;
         dateIndexingMap = new HashMap<String, Integer>();
         if (stratergyArrayList != null) {
@@ -257,7 +265,6 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 }
             }
             List<String> monthsList = new ArrayList<String>(taskHashMap.keySet());
-            Collections.reverse(monthsList);
             StratergyAdapter stratergyAdapter = new StratergyAdapter(taskHashMap, (ArrayList<String>) monthsList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWithSmoothScroller(getActivity());
             stratergyRecycler.setLayoutManager(mLayoutManager);
@@ -420,14 +427,19 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onRefresh() {
+        if (pageCount > -1)
+            getPreviousStratergy();
+        else
+            refreshLayout.setRefreshing(false);
     }
 
     public class StratergyAdapter extends SectionedRecyclerViewAdapter<StratergyAdapter.MyViewHolder> {
 
-        private HashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap;
+        private LinkedHashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap;
         private ArrayList<String> monthsList;
 
-        public StratergyAdapter(HashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap, ArrayList<String> monthsList) {
+        public StratergyAdapter(LinkedHashMap<String, ArrayList<StratergyObject.Task>> tasksHashMap, ArrayList<String>
+                monthsList) {
             this.tasksHashMap = tasksHashMap;
             this.monthsList = monthsList;
         }

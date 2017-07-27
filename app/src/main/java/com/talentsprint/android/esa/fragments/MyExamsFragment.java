@@ -108,12 +108,15 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     ArrayList<ExamObject> previousExams = response.body().getExams();
-                    for (int i = 0; (i < previousExams.size() && i < 4); i++) {
-                        previousExams.get(i).setPreviouslyAdded(true);
+                    if (previousExams != null) {
+                        for (int i = 0; (i < previousExams.size() && i < 4); i++) {
+                            previousExams.get(i).setPreviouslyAdded(true);
+                        }
+                        addedExams.addAll(previousExams);
+                        if (addedExams != null && addedExams.size() > 0)
+                            setRecyclerVisible();
+
                     }
-                    addedExams.addAll(previousExams);
-                    if (addedExams != null && addedExams.size() > 0)
-                        setRecyclerVisible();
                     setValues(allExams);
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

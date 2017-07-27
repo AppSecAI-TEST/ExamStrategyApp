@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:clickable="true">
 
 
     <com.talentsprint.android.esa.views.OpenSansStrongTextView
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:text="ALERTS"
         android:textColor="@color/textTitleColor"
         android:textSize="15dp"/>
@@ -28,9 +29,8 @@
         android:id="@+id/calender"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_alignTop="@+id/subjectText"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="60dp"
         android:layout_toRightOf="@+id/subjectText"
         android:src="@drawable/calender"/>
 

@@ -237,12 +237,14 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             @Override
             public void onClick(View view) {
                 openMyExams();
+                menuItem.dismiss();
             }
         });
         myExams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openMyExams();
+                menuItem.dismiss();
             }
         });
         currentAffairs.setOnClickListener(new View.OnClickListener() {
