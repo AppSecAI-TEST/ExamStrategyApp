@@ -30,6 +30,7 @@ import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.NotificationsObject;
+import com.talentsprint.android.esa.models.PreviousAnswers;
 import com.talentsprint.android.esa.models.TaskObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
@@ -62,6 +63,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     private DashboardActivityInterface dashboardInterface;
     private ImageView calenderView;
     private HomeObject homeObject;
+    private TextView assessText;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -157,7 +159,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_assesment_dashboard, null,
                         false);
                 todaysTasksLyt.addView(inflatedLayout);
-                inflatedLayout.findViewById(R.id.assessYourself).setOnClickListener(this);
+                assessText = inflatedLayout.findViewById(R.id.assessYourself);
+                Realm realm = Realm.getDefaultInstance();
+                if (realm.where(PreviousAnswers.class).equalTo("id", "0").findAll().size() > 0) {
+                    assessText.setText(AppConstants.RESUME_TEST);
+                }
+                assessText.setOnClickListener(this);
             } else if (status.equalsIgnoreCase(AppConstants.PREPARING_STRATERGY)) {
                 View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_intermediate_dashboard, null,
                         false);
@@ -199,8 +206,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         if (view.getId() == R.id.setExam || view.getId() == R.id.nextExamDate) {
             openMyExams();
-        } else if (view.getId() == R.id.assessYourself) {
-            openQuiz("0");
+        } else if (view == assessText) {
+            if (assessText.getText().toString().trim().equalsIgnoreCase(AppConstants.RESUME_TEST)) {
+            } else {
+                openQuiz("0");
+            }
         } else if (view == calenderView) {
             calenderView.setClickable(false);
             dashboardInterface.showProgress(true);
@@ -402,23 +412,24 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 public void onClick(View view) {
                     if (!taskObject.isPremium() || PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
                             .equalsIgnoreCase(AppConstants.PREMIUM)) {
-                        switch (taskObject.getType()) {
-                            case AppConstants.NON_VIDEO:
-                                openContent(taskObject);
-                                break;
-                            case AppConstants.VIDEO:
-                                openContent(taskObject);
-                                break;
-                            case AppConstants.VIDEO1:
-                                openContent(taskObject);
-                                break;
-                            case AppConstants.TEST:
-                                openQuiz(taskObject.getTaskId());
-                                break;
-                            case AppConstants.WORD_OF_THE_DAY:
-                                openContent(taskObject);
-                                break;
-                        }
+                        if (taskObject.getStatus() == null || !taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED))
+                            switch (taskObject.getType()) {
+                                case AppConstants.NON_VIDEO:
+                                    openContent(taskObject);
+                                    break;
+                                case AppConstants.VIDEO:
+                                    openContent(taskObject);
+                                    break;
+                                case AppConstants.VIDEO1:
+                                    openContent(taskObject);
+                                    break;
+                                case AppConstants.TEST:
+                                    openQuiz(taskObject.getTaskId());
+                                    break;
+                                case AppConstants.WORD_OF_THE_DAY:
+                                    openContent(taskObject);
+                                    break;
+                            }
                     } else {
                         openContact(taskObject.getTitle());
                     }
@@ -430,9 +441,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         int getStatusImage(String status) {
             if (status != null) {
                 switch (status) {
-                    case "Overdue":
+                    case AppConstants.OVERDUE:
                         return R.drawable.error_dialogue;
-                    case "Completed":
+                    case AppConstants.COMPLETED:
                         return R.drawable.tick_circle;
                     default:
                         return R.drawable.empty;

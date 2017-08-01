@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.TalentSprintApp;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
@@ -111,6 +112,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
                     dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     addExamsAdapter.removeExamFromList(examObject);
+                    TalentSprintApp.refreshDashBorad = true;
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();
@@ -181,6 +183,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
                     dashboardInterface.showProgress(false);
                     if (response.isSuccessful()) {
                         Toast.makeText(getActivity(), AppConstants.EXAMS_ADDED, Toast.LENGTH_SHORT).show();
+                        TalentSprintApp.refreshDashBorad = false;
                         dashboardInterface.examAdded();
                     }
                 }

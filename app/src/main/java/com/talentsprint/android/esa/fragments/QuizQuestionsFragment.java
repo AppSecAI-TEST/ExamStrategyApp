@@ -56,6 +56,8 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     private Handler handler = new Handler();
     private Runnable runnable;
     private Realm realm;
+    private boolean answersSubmited = false;
+    private PreviousAnswers previousAnswers;
 
     public QuizQuestionsFragment() {
         // Required empty public constructor
@@ -113,10 +115,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         if (questionsObject.getQuestions().size() > 0) {
             totalQuestionsSize = questionsObject.getQuestions().size();
             progressBar.setMax(totalQuestionsSize);
-            PreviousAnswers answers = realm.where(PreviousAnswers.class).equalTo("id", taskId).findFirst();
-            if (answers != null && answers.getAnswers() != null && answers.getAnswers().size() > 0) {
+            previousAnswers = realm.where(PreviousAnswers.class).equalTo("id", taskId).findFirst();
+            if (previousAnswers != null && previousAnswers.getAnswers() != null && previousAnswers.getAnswers().size() > 0) {
                 for (RealmString answer :
-                        answers.getAnswers()) {
+                        previousAnswers.getAnswers()) {
                     answersList.add(answer.getString());
                 }
                 currentQuestion = answersList.size() - 1;
@@ -168,19 +170,21 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     public void onPause() {
         super.onPause();
         stopTimer();
-        RealmList<RealmString> realmAnswers = new RealmList<RealmString>();
-        for (String answer :
-                answersList) {
-            RealmString realmString = new RealmString();
-            realmString.setString(answer);
-            realmAnswers.add(realmString);
+        if (!answersSubmited) {
+            RealmList<RealmString> realmAnswers = new RealmList<RealmString>();
+            for (String answer :
+                    answersList) {
+                RealmString realmString = new RealmString();
+                realmString.setString(answer);
+                realmAnswers.add(realmString);
+            }
+            PreviousAnswers answers = new PreviousAnswers();
+            answers.setAnswers(realmAnswers);
+            answers.setId(taskId);
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(answers);
+            realm.commitTransaction();
         }
-        PreviousAnswers answers = new PreviousAnswers();
-        answers.setAnswers(realmAnswers);
-        answers.setId(taskId);
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(answers);
-        realm.commitTransaction();
     }
 
     @Override
@@ -288,9 +292,14 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
                     bundle.putSerializable(AppConstants.TEST_RESULT, testResultsObject);
                     bundle.putString(AppConstants.TASK_ID, taskId);
                     quizResultFragment.setArguments(bundle);
+                    answersSubmited = true;
+                    realm.beginTransaction();
+                    previousAnswers.deleteFromRealm();
+                    realm.commitTransaction();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .add(R.id.fragment_container, quizResultFragment, AppConstants.QUIZ_RESULT)
                             .addToBackStack(null).commit();
+
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();

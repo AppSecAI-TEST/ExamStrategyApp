@@ -71,4 +71,7 @@ public class AppConstants {
     public static final String BROWSER = "browser";
     public static final int LOGIN_RESULT_PROFILE = 11;
     public static final String ONE_SIGNAL_ID = "oneSignlaId";
+    public static final String COMPLETED = "Completed";
+    public static final String OVERDUE = "Overdue";
+    public static final String RESUME_TEST = "RESUME TEST";
 }

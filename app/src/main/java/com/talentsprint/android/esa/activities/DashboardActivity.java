@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.TalentSprintApp;
 import com.talentsprint.android.esa.fragments.AlertsFragment;
 import com.talentsprint.android.esa.fragments.DashboardFragment;
 import com.talentsprint.android.esa.fragments.MyExamsFragment;
@@ -124,6 +125,12 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             if (tag.equalsIgnoreCase(AppConstants.QUIZ_RESULT)) {
                 examAdded();
                 return;
+            } else if (tag.equalsIgnoreCase(AppConstants.MY_EXAMS)) {
+                if (TalentSprintApp.refreshDashBorad) {
+                    examAdded();
+                    TalentSprintApp.refreshDashBorad = false;
+                    return;
+                }
             }
         }
         super.onBackPressed();

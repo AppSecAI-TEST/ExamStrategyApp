@@ -17,6 +17,7 @@ import io.realm.RealmConfiguration;
 
 public class TalentSprintApp extends Application {
     public static TalentSprintApp appContext;
+    public static boolean refreshDashBorad = false;
 
     @Override
     public void onCreate() {
