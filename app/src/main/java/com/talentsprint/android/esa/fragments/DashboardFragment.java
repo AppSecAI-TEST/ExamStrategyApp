@@ -20,8 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.onesignal.OSPermissionSubscriptionState;
-import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
 import com.talentsprint.android.esa.activities.VideoPlayerActivity;
@@ -57,6 +55,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     private RelativeLayout todaysTasksLyt;
     private ViewPager currentAffairsViewPager;
     private RecyclerView alertsRecyclerView, tasksRecycler;
+    private View titleAlerts, titleAlertsView;
     private TextView nextExam;
     private TextView nextExamDate;
     private CirclePageIndicator indicator;
@@ -96,13 +95,16 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         alertsRecyclerView.setLayoutManager(mLayoutManager);
         alertsRecyclerView.setAdapter(alertsAdapter);
+        if (notificationsList == null || notificationsList.size() == 0) {
+            titleAlerts.setVisibility(View.INVISIBLE);
+            titleAlertsView.setVisibility(View.INVISIBLE);
+        }
 
     }
 
     private void getDashBoard(final int recurringValue) {
         dashboardInterface.showProgress(true);
-        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
-        String oneSignalId = status.getSubscriptionStatus().getUserId();
+        String oneSignalId = PreferenceManager.getString(getActivity(), AppConstants.ONE_SIGNAL_ID, "");
         TalentSprintApi apiService =
                 dashboardInterface.getApiService();
         Call<HomeObject> getHomeDetails = apiService.getHome(oneSignalId);
@@ -182,10 +184,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         indicator = fragmentView.findViewById(R.id.indicator);
         calenderView = fragmentView.findViewById(R.id.calenderView);
         tasksRecycler = fragmentView.findViewById(R.id.tasksRecycler);
+        titleAlerts = fragmentView.findViewById(R.id.titleAlerts);
+        titleAlertsView = fragmentView.findViewById(R.id.titleAlertsView);
         nextExamDate.setText("");
         calenderView.setOnClickListener(this);
         nextExamDate.setOnClickListener(this);
         calenderView.setVisibility(View.INVISIBLE);
+       /* if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            nextExam.setPadding(nextExam.getPaddingLeft(), 3, nextExam.getPaddingRight(), nextExam.getPaddingBottom());
+        }*/
     }
 
     @Override
@@ -262,6 +269,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             } else if (taskObject.getContentUrl().contains(AppConstants.MP4)) {
                 Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
                 navigate.putExtra(AppConstants.URL, taskObject.getContentUrl());
+                navigate.putExtra(AppConstants.TASK_ID, taskObject.getTaskId());
+                navigate.putExtra(AppConstants.ARTICLE, taskObject.getArticleId());
                 startActivity(navigate);
             } else {
                 Bundle bundle = new Bundle();
@@ -365,24 +374,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final TaskObject taskObject = tasksList.get(position);
             holder.subTopicName.setText(taskObject.getTitle());
-            switch (taskObject.getType()) {
-                case AppConstants.NON_VIDEO:
-                    holder.topicName.setText("Non-Video");
-                    holder.topicImage.setImageResource(R.drawable.word_of_the_day);
-                    break;
-                case AppConstants.VIDEO:
-                    holder.topicName.setText("Video");
-                    holder.topicImage.setImageResource(R.drawable.video);
-                    break;
-                case AppConstants.TEST:
-                    holder.topicName.setText("Quiz");
-                    holder.topicImage.setImageResource(R.drawable.quiz);
-                    break;
-                case AppConstants.WORD_OF_THE_DAY:
-                    holder.topicName.setText("Word of the day");
-                    holder.topicImage.setImageResource(R.drawable.word_of_the_day);
-                    break;
-            }
+            if (taskObject.getStatus() != null)
+                holder.statusImage.setImageResource(getStatusImage(taskObject.getStatus()));
+            else
+                holder.statusImage.setImageResource(R.drawable.empty);
+            if (taskObject.getType() != null)
+                switch (taskObject.getType()) {
+                    case AppConstants.NON_VIDEO:
+                        holder.topicName.setText("Non-Video");
+                        holder.topicImage.setImageResource(R.drawable.word_of_the_day);
+                        break;
+                    case AppConstants.VIDEO:
+                        holder.topicName.setText("Video");
+                        holder.topicImage.setImageResource(R.drawable.video);
+                        break;
+                    case AppConstants.TEST:
+                        holder.topicName.setText("Quiz");
+                        holder.topicImage.setImageResource(R.drawable.quiz);
+                        break;
+                    case AppConstants.WORD_OF_THE_DAY:
+                        holder.topicName.setText("Word of the day");
+                        holder.topicImage.setImageResource(R.drawable.word_of_the_day);
+                        break;
+                }
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -393,6 +407,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                                 openContent(taskObject);
                                 break;
                             case AppConstants.VIDEO:
+                                openContent(taskObject);
+                                break;
+                            case AppConstants.VIDEO1:
                                 openContent(taskObject);
                                 break;
                             case AppConstants.TEST:
@@ -408,6 +425,21 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 }
 
             });
+        }
+
+        int getStatusImage(String status) {
+            if (status != null) {
+                switch (status) {
+                    case "Overdue":
+                        return R.drawable.error_dialogue;
+                    case "Completed":
+                        return R.drawable.tick_circle;
+                    default:
+                        return R.drawable.empty;
+                }
+            } else {
+                return R.drawable.empty;
+            }
         }
 
         private void openContact(String title) {
@@ -427,7 +459,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView topicName, subTopicName;
-            public ImageView topicImage;
+            public ImageView topicImage, statusImage;
             public View view;
 
             public MyViewHolder(View view) {
@@ -435,6 +467,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 topicName = view.findViewById(R.id.topicName);
                 subTopicName = view.findViewById(R.id.subTopicName);
                 topicImage = view.findViewById(R.id.topicImage);
+                statusImage = view.findViewById(R.id.statusImage);
                 this.view = view;
             }
         }

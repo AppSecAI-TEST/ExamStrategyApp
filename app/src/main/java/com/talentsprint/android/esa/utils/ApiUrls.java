@@ -11,6 +11,7 @@ public class ApiUrls {
     public static final String HOME = "home";
     public static final String GET_EXAMS = "getExams";
     public static final String GET_MY_EXAMS = "myExams";
+    public static final String DELETE_EXAMS = "deleteExam";
     public static final String SET_EXAMS = "setExams";
     public static final String GET_TEST_PROPERTIES = "getTestProperties";
     public static final String GET_TEST_QUESTIONS = "getTestQuestions";
@@ -29,11 +30,13 @@ public class ApiUrls {
     public static final String LOGIN = "login";
     public static final String LOGOUT = "logout";
     public static final String GET_CONTACT = "getContact";
+    public static final String TASK_COMPLETE = "articleComplete";
     public static final String CHECKMOBI_SEND_SMS = "sms/send";
 
     //quer parameters
     public static final String EXAM = "exam";
     public static final String TASK_ID = "taskId";
+    public static final String ID = "id";
     public static final String QUESTION = "question";
     public static final String TOTAL_TIME_TAKEN = "timeTaken";
     public static final String FACEBOOK_ID = "facebookId";
@@ -47,4 +50,5 @@ public class ApiUrls {
     public static final String SUB_TOPIC_NAME = "subTopicName";
     public static final String DATE = "date";
     public static final String MORE = "more";
+    public static final String ARTICLE_ID = "articleId";
 }

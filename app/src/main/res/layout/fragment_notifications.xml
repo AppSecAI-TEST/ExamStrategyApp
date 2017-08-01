@@ -42,4 +42,11 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="30dp"/>
+
+    <com.talentsprint.android.esa.views.OpenSansTextView
+        android:id="@+id/noAlerts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No notifications available"/>
 </RelativeLayout>

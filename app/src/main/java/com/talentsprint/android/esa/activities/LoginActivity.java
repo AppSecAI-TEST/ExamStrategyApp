@@ -25,8 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonObject;
-import com.onesignal.OSPermissionSubscriptionState;
-import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.fragments.LoginHomeFragment;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
@@ -142,8 +140,7 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
 
     private void loginUser(final boolean isFacebook, String fbId, String name, String email, String profilePic) {
         showProgress(true);
-        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
-        String oneSignalId = status.getSubscriptionStatus().getUserId();
+        String oneSignalId = PreferenceManager.getString(LoginActivity.this,AppConstants.ONE_SIGNAL_ID,"");
         TalentSprintApi apiService =
                 ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<JsonObject> getHomeDetails;

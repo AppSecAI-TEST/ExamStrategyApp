@@ -19,6 +19,7 @@ public class AppConstants {
     public static final String STRATERGY_IS_READY = "Strategy prepared";
     public static final String NON_VIDEO = "non-video";
     public static final String VIDEO = "video";
+    public static final String VIDEO1 = "Video";
     public static final String TEST = "test";
     public static final String WORD_OF_THE_DAY = "word-of-the-day";
     public static final String COOKIES = "cookies";
@@ -68,4 +69,6 @@ public class AppConstants {
     public static final String CURRENT_AFFAIRS1 = "currentaffairs";
     public static final String LOGIN = "login";
     public static final String BROWSER = "browser";
+    public static final int LOGIN_RESULT_PROFILE = 11;
+    public static final String ONE_SIGNAL_ID = "oneSignlaId";
 }

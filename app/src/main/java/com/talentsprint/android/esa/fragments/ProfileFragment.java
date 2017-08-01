@@ -1,6 +1,7 @@
 package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.NotificationsObject;
+import com.talentsprint.android.esa.models.PreviousAnswers;
 import com.talentsprint.android.esa.models.ProfileObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
@@ -78,6 +80,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         nameLyt = fragmentView.findViewById(R.id.nameLyt);
         nameEdtTxt = fragmentView.findViewById(R.id.nameEdtTxt);
         notifications = fragmentView.findViewById(R.id.notifications);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            logout.setPadding(logout.getPaddingLeft(), 17, logout.getPaddingRight(), logout.getPaddingBottom());
+        }
         logout.setOnClickListener(this);
         edit.setOnClickListener(this);
         notifications.setOnClickListener(this);
@@ -203,10 +208,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void execute(Realm realm) {
                             realm.delete(NotificationsObject.class);
+                            realm.delete(PreviousAnswers.class);
                         }
                     });
                     Toast.makeText(getActivity(), "Logged out", Toast.LENGTH_SHORT).show();
+                    String oneSignalId = PreferenceManager.getString(getActivity(), AppConstants.ONE_SIGNAL_ID, "");
                     PreferenceManager.deleteAll(getActivity());
+                    PreferenceManager.saveString(getActivity(), AppConstants.ONE_SIGNAL_ID, oneSignalId);
                     dashboardInterface.examAdded();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

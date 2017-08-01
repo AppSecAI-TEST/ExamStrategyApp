@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/color_accent_rounded_rectangle_stroke_min"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/color_accent_white_rounded_rectangle_stroke"
         android:paddingBottom="25dp"
         android:paddingTop="5dp">
 

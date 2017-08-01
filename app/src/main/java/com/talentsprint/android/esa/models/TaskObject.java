@@ -13,6 +13,15 @@ public class TaskObject implements Serializable {
     private boolean isPremium;
     private String articleId;
     private String contentUrl;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getTaskId() {
         return taskId;

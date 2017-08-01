@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true"
     tools:context=".fragments.QuizInstructionsFragment">
 
@@ -148,18 +149,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/topicTxt"
-            android:layout_marginBottom="20dp"
             android:layout_toRightOf="@+id/topicImage"
-            android:text="s"
+            android:text=""
             android:textColor="#454141"
             android:textSize="16dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/topicName"
-            android:background="@color/activityBgGray"/>
+            android:layout_alignTop="@+id/instructionsText"/>
 
         <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/instructionsText"
@@ -167,7 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/topicImage"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="20dp"
             android:text="@string/instructions"
             android:textColor="@color/textTitleColor"
             android:textSize="15dp"/>

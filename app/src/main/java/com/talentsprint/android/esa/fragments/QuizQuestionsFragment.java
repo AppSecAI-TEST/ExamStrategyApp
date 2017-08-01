@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
+import com.talentsprint.android.esa.models.PreviousAnswers;
 import com.talentsprint.android.esa.models.QuestionsObject;
+import com.talentsprint.android.esa.models.RealmString;
 import com.talentsprint.android.esa.models.TestResultsObject;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
@@ -28,6 +30,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +55,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     private long totalTimeForQuestions = 0;
     private Handler handler = new Handler();
     private Runnable runnable;
+    private Realm realm;
 
     public QuizQuestionsFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_quiz_questions, container, false);
         dashboardInterface.setCurveVisibility(true);
+        realm = Realm.getDefaultInstance();
         findViews(fragmentView);
         taskId = getArguments().getString(AppConstants.TASK_ID);
         getQuestions();
@@ -107,7 +113,23 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         if (questionsObject.getQuestions().size() > 0) {
             totalQuestionsSize = questionsObject.getQuestions().size();
             progressBar.setMax(totalQuestionsSize);
-            moveToNextQuestion();
+            PreviousAnswers answers = realm.where(PreviousAnswers.class).equalTo("id", taskId).findFirst();
+            if (answers != null && answers.getAnswers() != null && answers.getAnswers().size() > 0) {
+                for (RealmString answer :
+                        answers.getAnswers()) {
+                    answersList.add(answer.getString());
+                }
+                currentQuestion = answersList.size() - 1;
+                if (currentQuestion < totalQuestionsSize - 1) {
+                    currentQuestion++;
+                    moveToNextQuestion();
+                } else {
+                    Toast.makeText(getActivity(), "Quiz has been completed Previously", Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            } else {
+                moveToNextQuestion();
+            }
         } else {
             Toast.makeText(getActivity(), "No Questions", Toast.LENGTH_SHORT).show();
         }
@@ -146,6 +168,19 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     public void onPause() {
         super.onPause();
         stopTimer();
+        RealmList<RealmString> realmAnswers = new RealmList<RealmString>();
+        for (String answer :
+                answersList) {
+            RealmString realmString = new RealmString();
+            realmString.setString(answer);
+            realmAnswers.add(realmString);
+        }
+        PreviousAnswers answers = new PreviousAnswers();
+        answers.setAnswers(realmAnswers);
+        answers.setId(taskId);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(answers);
+        realm.commitTransaction();
     }
 
     @Override
@@ -228,6 +263,12 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
 
     private void submitAnswers() {
         dashboardInterface.showProgress(true);
+        if (answersList.size() != totalQuestionsSize) {
+            ArrayList<QuestionsObject.Question> questionArrayList = questionsObject.getQuestions();
+            for (int i = answersList.size() - 1; i < totalQuestionsSize; i++) {
+                answersList.add(questionArrayList.get(i).getId() + "," + 0 + "," + 0);
+            }
+        }
         TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         long totalTime = 0;
         if (totalTimeForQuestions > 0) {

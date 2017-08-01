@@ -15,8 +15,6 @@ import com.checkmobi.sdk.AsyncResponse;
 import com.checkmobi.sdk.CheckMobiService;
 import com.checkmobi.sdk.ValidationType;
 import com.google.gson.JsonObject;
-import com.onesignal.OSPermissionSubscriptionState;
-import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.SignUpActivity;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
@@ -99,8 +97,7 @@ public class OtpVerifyFragment extends Fragment {
 
     private void loginUser() {
         loginInterface.showProgress(true);
-        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
-        String oneSignalId = status.getSubscriptionStatus().getUserId();
+        String oneSignalId = PreferenceManager.getString(getActivity(), AppConstants.ONE_SIGNAL_ID, "");
         TalentSprintApi apiService =
                 ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<JsonObject> getHomeDetails;

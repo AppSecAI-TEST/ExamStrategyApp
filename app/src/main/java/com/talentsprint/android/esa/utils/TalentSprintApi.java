@@ -43,6 +43,9 @@ public interface TalentSprintApi {
     @GET(ApiUrls.SET_EXAMS)
     Call<GetExamsObject> setExams(@Query(ApiUrls.EXAM) ArrayList<String> exams);
 
+    @GET(ApiUrls.DELETE_EXAMS)
+    Call<JsonObject> deleteExams(@Query(ApiUrls.ID) String examId);
+
     @GET(ApiUrls.GET_MY_EXAMS)
     Call<GetExamsObject> getMyExams();
 
@@ -123,6 +126,10 @@ public interface TalentSprintApi {
     @GET(ApiUrls.GET_CURRENT_AFFAIRS)
     Call<CurrentAffairsListObject> getCurrentAffairs(@Query(ApiUrls.TOPIC_NAME) String topicName,
                                                      @Query(ApiUrls.DATE) String dateYYYYMMdd);
+
+    @GET(ApiUrls.TASK_COMPLETE)
+    Call<JsonObject> taskComplete(@Query(ApiUrls.TASK_ID) String taskId,
+                                                     @Query(ApiUrls.ARTICLE_ID) String articleId);
 
     @GET(ApiUrls.GET_CONTACT)
     Call<GetContact> getContact();

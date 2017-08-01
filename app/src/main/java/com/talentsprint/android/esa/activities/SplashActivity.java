@@ -8,9 +8,10 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.onesignal.OSPermissionSubscriptionState;
 import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.android.esa.utils.PreferenceManager;
 
 public class SplashActivity extends Activity {
 
@@ -27,7 +28,7 @@ public class SplashActivity extends Activity {
         OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
             @Override
             public void idsAvailable(String userId, String registrationId) {
-                OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
+                PreferenceManager.saveString(SplashActivity.this, AppConstants.ONE_SIGNAL_ID, registrationId);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override

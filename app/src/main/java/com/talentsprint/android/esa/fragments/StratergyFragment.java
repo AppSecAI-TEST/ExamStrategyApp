@@ -33,6 +33,8 @@ import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.LinearLayoutManagerWithSmoothScroller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -107,6 +109,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     stratergyObject = response.body();
+                    if (stratergyObject.getStrategy() != null)
+                        Collections.reverse(stratergyObject.getStrategy());
                     prepareStratergy(true);
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -156,6 +160,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
     private void updateStratergy(StratergyObject stratergy) {
         if (stratergy.getStrategy() != null && stratergy.getStrategy().size() > 0) {
+            if (stratergy.getStrategy() != null)
+                Collections.reverse(stratergy.getStrategy());
             stratergyObject.getStrategy().addAll(0, stratergy.getStrategy());
             prepareStratergy(false);
         } else {
@@ -173,6 +179,12 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             for (int i = 0; i < stratergyArrayList.size(); i++) {
                 ArrayList<StratergyObject.Task> monthTasks = new ArrayList<StratergyObject.Task>();
                 StratergyObject.Stratergy monthStratergy = stratergyArrayList.get(i);
+                Collections.sort(monthStratergy.getMonthTasks(), new Comparator<StratergyObject.MonthTasks>() {
+                    @Override
+                    public int compare(StratergyObject.MonthTasks monthTasks, StratergyObject.MonthTasks t1) {
+                        return monthTasks.getDate().compareTo(t1.getDate());
+                    }
+                });
                 if (monthStratergy.getMonthTasks() != null) {
                     for (int k = 0; k < monthStratergy.getMonthTasks().size(); k++) {
                         StratergyObject.MonthTasks dayStratergy = monthStratergy.getMonthTasks().get(k);
@@ -412,6 +424,8 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             } else if (contentUrl.contains(AppConstants.MP4)) {
                 Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
                 navigate.putExtra(AppConstants.URL, contentUrl);
+                navigate.putExtra(AppConstants.TASK_ID, taskObject.getTaskId());
+                navigate.putExtra(AppConstants.ARTICLE, taskObject.getArticleId());
                 startActivity(navigate);
             } else {
                 Bundle bundle = new Bundle();

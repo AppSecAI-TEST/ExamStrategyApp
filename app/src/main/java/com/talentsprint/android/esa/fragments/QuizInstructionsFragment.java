@@ -1,6 +1,7 @@
 package com.talentsprint.android.esa.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +33,9 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
 
     private TextView time;
     private TextView questionsCount;
-    private ImageView tickImage;
+    private ImageView tickImage, topicImage;
     private TextView subjectName;
-    private TextView topicName;
+    private TextView topicName, topicTxt;
     private TextView examsText;
     private RecyclerView instructionsRecycler;
     private TextView startExam;
@@ -100,10 +102,14 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
             examsText.setText(testPropertiesObject.getTestName());
             TestPropertiesObject.TestProperties testproperties = testPropertiesObject.getTestproperties();
             subjectName.setText(testproperties.getSubject());
-            if (testproperties.getSubTopic() != null) {
+            if (testproperties.getSubTopic() != null && testproperties.getSubTopic().length() > 0) {
                 topicName.setText(testproperties.getTopic() + " | " + testproperties.getSubTopic());
-            } else {
+            } else if (testproperties.getTopic() != null && testproperties.getTopic().length() > 0) {
                 topicName.setText(testproperties.getTopic());
+            } else {
+                topicName.setVisibility(View.GONE);
+                topicTxt.setVisibility(View.GONE);
+                topicImage.setVisibility(View.GONE);
             }
             if (testPropertiesObject.getTestTime() != null && testPropertiesObject.getTestTime().length() > 0) {
                 Double timeGiven = Double.parseDouble(testPropertiesObject.getTestTime());
@@ -113,7 +119,7 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
                     time.setText("1 hr");
                 } else if (timeGiven > 3600) {
                     time.setText(((int) durationHours) + " hr " + (int) ((timeGiven % 3600) / 60) + " min");
-                } else if (timeGiven > 3600) {
+                } else if (timeGiven < 3600) {
                     time.setText((int) ((timeGiven % 3600) / 60) + " min");
                 } else {
                     time.setText("");
@@ -133,6 +139,12 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
         instructionsRecycler = fragmentView.findViewById(R.id.instructionsRecycler);
         startExam = fragmentView.findViewById(R.id.startExam);
         examsText = fragmentView.findViewById(R.id.examsText);
+        topicTxt = fragmentView.findViewById(R.id.topicTxt);
+        topicImage = fragmentView.findViewById(R.id.topicImage);
+        View questionsTxt = fragmentView.findViewById(R.id.questionsTxt);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            questionsTxt.setPadding(questionsTxt.getPaddingLeft(), 6, questionsTxt.getPaddingRight(), questionsTxt.getPaddingBottom());
+        }
         startExam.setOnClickListener(this);
     }
 
@@ -166,7 +178,7 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.text.setText(instructionsList.get(position));
+            holder.text.loadData(instructionsList.get(position), "text/html", "UTF-8");
         }
 
         @Override
@@ -178,11 +190,12 @@ public class QuizInstructionsFragment extends Fragment implements View.OnClickLi
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView text;
+            public WebView text;
 
             public MyViewHolder(View view) {
                 super(view);
                 text = view.findViewById(R.id.text);
+                //text.setBackgroundColor(Color.TRANSPARENT);
             }
         }
     }

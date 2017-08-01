@@ -3,6 +3,7 @@ package com.talentsprint.android.esa.utils;
 import com.talentsprint.android.esa.TalentSprintApp;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -28,6 +29,8 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder().cache(cache)
                     .addInterceptor(new InterceptorAddCookies(true))
                     .addInterceptor(new InterceptorReceivedCookies(true))
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .connectTimeout(120, TimeUnit.SECONDS)
                     .build();
             retrofitCached = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

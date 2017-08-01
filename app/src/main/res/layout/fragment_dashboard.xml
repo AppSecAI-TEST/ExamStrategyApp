@@ -128,6 +128,7 @@
                 android:textSize="15dp"/>
 
             <View
+                android:id="@+id/titleAlertsView"
                 android:layout_width="@dimen/indicator_width"
                 android:layout_height="5dp"
                 android:layout_alignLeft="@+id/titleAlerts"
@@ -162,23 +163,37 @@
             android:scaleType="fitXY"
             android:src="@drawable/semi_circle"/>
 
-        <com.talentsprint.android.esa.views.OpenSansTextView
-            android:id="@+id/nextExam"
+        <LinearLayout
+            android:id="@+id/nextExamLyt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/star"
-            android:drawablePadding="3dp"
-            android:text="@string/next_exam"
-            android:textColor="@color/white"
-            android:textSize="11dp"/>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:gravity="center_vertical"
+                android:src="@drawable/star"/>
+
+            <com.talentsprint.android.esa.views.OpenSansTextView
+                android:id="@+id/nextExam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/next_exam"
+                android:textColor="@color/white"
+                android:textSize="11dp"/>
+        </LinearLayout>
+
 
         <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/nextExamDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nextExam"
+            android:layout_below="@+id/nextExamLyt"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:paddingBottom="30dp"

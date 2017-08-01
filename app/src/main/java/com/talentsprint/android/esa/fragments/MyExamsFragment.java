@@ -19,12 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.ExamObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
@@ -74,7 +76,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
 
     private void getExams() {
         dashboardInterface.showProgress(true);
-        TalentSprintApi apiService = dashboardInterface.getApiService();
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<GetExamsObject> getExams = apiService.getExams();
         getExams.enqueue(new Callback<GetExamsObject>() {
             @Override
@@ -98,9 +100,36 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
         });
     }
 
+    private void deleteExams(final ExamObject examObject) {
+        dashboardInterface.showProgress(true);
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
+        Call<JsonObject> getExams = apiService.deleteExams(examObject.getId());
+        getExams.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (response.isSuccessful()) {
+                    addExamsAdapter.removeExamFromList(examObject);
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                if (dashboardInterface != null)
+                    dashboardInterface.showProgress(false);
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void getMyExams(final Response<GetExamsObject> allExams) {
         dashboardInterface.showProgress(true);
-        TalentSprintApi apiService = dashboardInterface.getApiService();
+        TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         Call<GetExamsObject> getExams = apiService.getMyExams();
         getExams.enqueue(new Callback<GetExamsObject>() {
             @Override
@@ -140,8 +169,8 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
         ArrayList<String> examsToAdd = new ArrayList<String>();
         for (int i = 0; i < addedExams.size(); i++) {
             ExamObject examObject = addedExams.get(i);
-            if (examObject.getId() != null) {
-                examsToAdd.add(examObject.getName() + "," + examObject.getDate() + "," + examObject.getId());
+            if (examObject.getId() != null&&!examObject.isPreviouslyAdded()) {
+                examsToAdd.add(examObject.getName()+","+examObject.getDate() + "," + examObject.getId());
             }
         }
         if (examsToAdd.size() > 0) {
@@ -259,7 +288,7 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
 
     @Override
     public void selectedDate(long date) {
-        addedExams.get(showCalenderPosition).setDate(AppUtils.getDateInDDMMYYYY(date));
+        addedExams.get(showCalenderPosition).setDate(AppUtils.getDateInYYYMMDD(date));
         addExamsAdapter.notifyItemChanged(showCalenderPosition);
     }
 
@@ -321,44 +350,62 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addedExams.remove(addedExamObject);
-                    notifyDataSetChanged();
-                    if (addedExams.size() == 0) {
-                        setRecyclerInvisible();
+                    if (addedExamObject.isPreviouslyAdded()) {
+                        deleteExams(addedExamObject);
+                    } else {
+                        removeExamFromList(addedExamObject);
                     }
                 }
             });
             holder.examDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!addedExamObject.isPreviouslyAdded()) {
-                        holder.examDate.setClickable(false);
-                        dashboardInterface.showProgress(true);
-                        Bundle bundle = new Bundle();
-                        bundle.putFloat(AppConstants.X_VALUE, add.getX());
-                        int[] postions = new int[2];
-                        add.getLocationInWindow(postions);
-                        bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
-                        try {
-                            bundle.putLong(AppConstants.DATE_LONG, AppUtils.getLongFromDDMMYYY(addedExamObject.getDate()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        CalenderDialogue dialogue = new CalenderDialogue();
-                        dialogue.setArguments(bundle);
-                        dialogue.show(getChildFragmentManager(), null);
-                        showCalenderPosition = position;
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.examDate.setClickable(true);
-                                dashboardInterface.showProgress(false);
-                            }
-                        }, 3000);
-
-                    }
+                    showCalender(addedExamObject, holder, position);
                 }
             });
+            holder.calender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showCalender(addedExamObject, holder, position);
+                }
+            });
+        }
+
+        private void removeExamFromList(ExamObject addedExamObject) {
+            addedExams.remove(addedExamObject);
+            notifyDataSetChanged();
+            if (addedExams.size() == 0) {
+                setRecyclerInvisible();
+            }
+        }
+
+        private void showCalender(ExamObject addedExamObject, final MyViewHolder holder, int position) {
+            if (!addedExamObject.isPreviouslyAdded()) {
+                holder.examDate.setClickable(false);
+                dashboardInterface.showProgress(true);
+                Bundle bundle = new Bundle();
+                bundle.putFloat(AppConstants.X_VALUE, add.getX());
+                int[] postions = new int[2];
+                add.getLocationInWindow(postions);
+                bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
+                try {
+                    bundle.putLong(AppConstants.DATE_LONG, AppUtils.getLongFromDDMMYYY(addedExamObject.getDate()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                CalenderDialogue dialogue = new CalenderDialogue();
+                dialogue.setArguments(bundle);
+                dialogue.show(getChildFragmentManager(), null);
+                showCalenderPosition = position;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        holder.examDate.setClickable(true);
+                        dashboardInterface.showProgress(false);
+                    }
+                }, 3000);
+
+            }
         }
 
         @Override

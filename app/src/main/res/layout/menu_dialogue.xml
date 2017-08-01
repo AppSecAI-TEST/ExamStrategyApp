@@ -150,6 +150,7 @@
             android:layout_below="@+id/myExams"
             android:layout_marginLeft="70dp"
             android:background="@color/colorAccent"/>
+
         <com.talentsprint.android.esa.views.OpenSansStrongTextView
             android:id="@+id/examAlerts"
             android:layout_width="wrap_content"
@@ -233,13 +234,20 @@
             android:layout_alignBottom="@+id/nextExamDate"
             android:background="@drawable/semi_circle"/>
 
+        <ImageView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_alignLeft="@+id/nextExamDate"
+            android:src="@drawable/star"/>
+
         <com.talentsprint.android.esa.views.OpenSansTextView
             android:id="@+id/nextExam"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/nextExamDate"
-            android:drawableLeft="@drawable/star"
-            android:drawablePadding="3dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/star"
+            android:gravity="center"
             android:text="@string/next_exam"
             android:textColor="@color/white"
             android:textSize="11dp"/>

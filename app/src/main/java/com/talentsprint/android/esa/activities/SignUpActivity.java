@@ -62,7 +62,7 @@ public class SignUpActivity extends Activity {
             public void onClick(View view) {
                 if (nameEdtTxt.getText().toString().trim().length() < 1) {
                     Toast.makeText(SignUpActivity.this, "Enter a valid name", Toast.LENGTH_SHORT).show();
-                } else if (!AppUtils.isEmailValid(nameEdtTxt.getText().toString().trim())) {
+                } else if (!AppUtils.isEmailValid(emailEdtTxt.getText().toString().trim())) {
                     Toast.makeText(SignUpActivity.this, "Enter a valid email", Toast.LENGTH_SHORT).show();
                 } else {
                     registerUser();
@@ -90,7 +90,9 @@ public class SignUpActivity extends Activity {
                                     ("accessType").getAsString());
                             PreferenceManager.saveBoolean(SignUpActivity.this, AppConstants.MOBILE_USER, true);
                             PreferenceManager.saveBoolean(SignUpActivity.this, AppConstants.IS_LOGGEDIN, true);
-                            SignUpActivity.this.finish();
+                            Intent returnIntent = new Intent();
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
                         } else {
                             Toast.makeText(SignUpActivity.this, responseBody.get("status").getAsString(), Toast.LENGTH_SHORT)
                                     .show();

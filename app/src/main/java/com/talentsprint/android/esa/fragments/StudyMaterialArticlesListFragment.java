@@ -84,7 +84,8 @@ public class StudyMaterialArticlesListFragment extends Fragment {
                 .addToBackStack(null).commit();
     }
 
-    private void openContent(String contentUrl) {
+    private void openContent(ArticlesObject.Articles article) {
+        String contentUrl = article.getContentUrl();
         if (contentUrl != null) {
             if (contentUrl.contains(AppConstants.PDF)) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
@@ -96,6 +97,8 @@ public class StudyMaterialArticlesListFragment extends Fragment {
             } else if (contentUrl.contains(AppConstants.MP4)) {
                 Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
                 navigate.putExtra(AppConstants.URL, contentUrl);
+                navigate.putExtra(AppConstants.TASK_ID, article.getId());
+                navigate.putExtra(AppConstants.ARTICLE, article.getId());
                 startActivity(navigate);
             } else {
                 Bundle bundle = new Bundle();
@@ -132,7 +135,11 @@ public class StudyMaterialArticlesListFragment extends Fragment {
             ArticlesObject.Articles article = articlesList.get(position);
             holder.topicName.setText(article.getTitle());
             holder.subTopicName.setText(article.getShortDescription());
-            Picasso.with(getActivity()).load(article.getImageUrl()).transform(new CircleTransform()).into(holder.topicImage);
+            if (article.getImageUrl() != null && article.getImageUrl().length() > 0)
+                Picasso.with(getActivity()).load(article.getImageUrl()).transform(new CircleTransform()).into(holder.topicImage);
+            else
+                Picasso.with(getActivity()).load(R.drawable.run_animated).transform(new CircleTransform()).into(holder
+                        .topicImage);
         }
 
         @Override
@@ -160,11 +167,11 @@ public class StudyMaterialArticlesListFragment extends Fragment {
                         ArticlesObject.Articles article = articlesList.get(getAdapterPosition());
                         String accessType = article.getAccessType();
                         if (accessType.equalsIgnoreCase(AppConstants.FREE)) {
-                            openContent(article.getContentUrl());
+                            openContent(article);
                         } else if (accessType.equalsIgnoreCase(AppConstants
                                 .FREEMIUM)) {
                             if (PreferenceManager.getBoolean(getActivity(), AppConstants.IS_LOGGEDIN)) {
-                                openContent(article.getContentUrl());
+                                openContent(article);
                             } else {
                                 openToLogin(article);
                             }
@@ -172,7 +179,7 @@ public class StudyMaterialArticlesListFragment extends Fragment {
                                 PREMIUM)) {
                             if (PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "").equalsIgnoreCase
                                     (PREMIUM)) {
-                                openContent(article.getContentUrl());
+                                openContent(article);
                             } else {
                                 openContact(article);
                             }

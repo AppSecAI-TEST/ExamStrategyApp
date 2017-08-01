@@ -290,13 +290,10 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             @Override
             public void onClick(View view) {
                 if (PreferenceManager.getBoolean(DashboardActivity.this, AppConstants.IS_LOGGEDIN, false)) {
-                    FragmentManager supportFragmentManager = getSupportFragmentManager();
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null)
-                            .commit();
+                    navigateToProfile();
                 } else {
                     Intent navigate = new Intent(DashboardActivity.this, LoginActivity.class);
-                    startActivity(navigate);
+                    startActivityForResult(navigate, AppConstants.LOGIN_RESULT_PROFILE);
                 }
                 menuItem.dismiss();
             }
@@ -319,10 +316,25 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         menuItem.show();
     }
 
+    private void navigateToProfile() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment(), AppConstants.PROFILE).addToBackStack(null)
+                .commit();
+    }
+
     private void openStrategy() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, new StratergyFragment(), AppConstants.STRATERGY).addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppConstants.LOGIN_RESULT_PROFILE && resultCode == RESULT_OK) {
+            navigateToProfile();
+        }
     }
 }

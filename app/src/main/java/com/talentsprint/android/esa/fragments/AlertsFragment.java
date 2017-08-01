@@ -38,6 +38,7 @@ public class AlertsFragment extends Fragment implements View.OnClickListener, Ca
 
     private DashboardActivityInterface dashboardInterface;
     private ImageView calender;
+    private TextView noAlerts;
     private RecyclerView alertsRecycler;
     private String currentDate;
     private HashMap<String, Integer> dateIndexingMap = new HashMap<String, Integer>();
@@ -70,6 +71,9 @@ public class AlertsFragment extends Fragment implements View.OnClickListener, Ca
                 AppConstants.ALERT).greaterThan
                 ("expiryDateLong", System.currentTimeMillis()).findAll();
         notificationsList = realm.copyFromRealm(notificationsObjects);
+        if (notificationsList == null || notificationsList.size() == 0)
+            noAlerts.setVisibility(View.VISIBLE);
+        else noAlerts.setVisibility(View.GONE);
         HashMap<String, ArrayList<NotificationsObject>> notificationsMap = new HashMap<String, ArrayList<NotificationsObject>>();
         int dateRowNumber = 0;
         for (int i = 0; i < notificationsList.size(); i++) {
@@ -97,6 +101,7 @@ public class AlertsFragment extends Fragment implements View.OnClickListener, Ca
     private void findViews(View fragmentView) {
         calender = fragmentView.findViewById(R.id.calender);
         alertsRecycler = fragmentView.findViewById(R.id.alertsRecycler);
+        noAlerts = fragmentView.findViewById(R.id.noAlerts);
         calender.setOnClickListener(this);
     }
 

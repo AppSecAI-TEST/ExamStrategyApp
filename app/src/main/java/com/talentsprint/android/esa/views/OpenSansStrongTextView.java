@@ -2,6 +2,7 @@ package com.talentsprint.android.esa.views;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -30,5 +31,8 @@ public class OpenSansStrongTextView extends TextView {
                 "fonts/OpenSans-Regular.ttf");
         setTypeface(font, Typeface.BOLD);
         setLineSpacing(10, 1);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            setPadding(getPaddingLeft(), 7, getPaddingRight(), getPaddingBottom());
+        }
     }
 }
