@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/dateText"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginRight="12dp"/>
 
 </RelativeLayout>
