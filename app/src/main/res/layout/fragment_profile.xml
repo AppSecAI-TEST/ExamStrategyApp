@@ -71,7 +71,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:maxLines="2"
-                android:text="Amit Goel"
+                android:text=""
                 android:textColor="@color/gray_dark"
                 android:textSize="17dp"
                 android:visibility="visible"/>
@@ -98,7 +98,7 @@
                 android:id="@+id/customerType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SD Card Platinum"
+                android:text=""
                 android:textColor="@color/gray_dark"
                 android:textSize="12dp"/>
 
@@ -106,7 +106,7 @@
                 android:id="@+id/joinDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="21 Feb 2017"
+                android:text=""
                 android:textColor="@color/gray_dark"
                 android:textSize="12dp"/>
         </LinearLayout>

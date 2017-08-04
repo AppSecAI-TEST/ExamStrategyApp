@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +38,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
 
     private RecyclerView topicsRecyclerView;
     private ImageView back;
-    private Spinner subjectNameSpinner;
-    private ExamsAdapter spinnerAdapter;
+    private TextView subjectText;
     private ProgressBar progressBar;
     private View progressBarView;
 
@@ -58,7 +55,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
     private void findViews() {
         topicsRecyclerView = findViewById(R.id.topicsRecyclerView);
         back = findViewById(R.id.back);
-        subjectNameSpinner = findViewById(R.id.subjectNameSpinner);
+        subjectText = findViewById(R.id.subjectText);
         progressBar = findViewById(R.id.progressBar);
         progressBarView = findViewById(R.id.progressBarView);
         back.setOnClickListener(this);
@@ -111,11 +108,11 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
         });
     }
 
-    private void getStudyMaterial(String examName) {
+    private void getStudyMaterial() {
         showProgress(true);
         TalentSprintApi apiService =
                 ApiClient.getCacheClient().create(TalentSprintApi.class);
-        Call<GetSubjectsObject> getExams = apiService.getSubjects(examName);
+        Call<GetSubjectsObject> getExams = apiService.getSubjects();
         getExams.enqueue(new Callback<GetSubjectsObject>() {
             @Override
             public void onResponse(Call<GetSubjectsObject> call, Response<GetSubjectsObject> response) {
@@ -126,6 +123,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(StudyMaterialActivity.this);
                     topicsRecyclerView.setLayoutManager(mLayoutManager);
                     topicsRecyclerView.setAdapter(adapter);
+                    subjectText.setText(subjectsObject.getExamName());
                 } else {
                     Toast.makeText(StudyMaterialActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     onBackPressed();
@@ -178,22 +176,7 @@ public class StudyMaterialActivity extends Activity implements View.OnClickListe
     private void setValues(Response<GetExamsObject> response) {
         final ArrayList<ExamObject> exams1ist = response.body().getExams();
         if (exams1ist != null && exams1ist.size() > 0) {
-            getStudyMaterial(exams1ist.get(0).getName());
-            ArrayList<ExamObject> exams = exams1ist;
-            spinnerAdapter = new ExamsAdapter(StudyMaterialActivity.this, R.layout.drop_down_item_select_exam,
-                    exams);
-            spinnerAdapter.setDropDownViewResource(R.layout.drop_down_item_select_exam);
-            subjectNameSpinner.setAdapter(spinnerAdapter);
-            subjectNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                    getStudyMaterial(exams1ist.get(position).getName());
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                }
-            });
+            getStudyMaterial();
         }
     }
 

@@ -48,21 +48,21 @@
 
     </RelativeLayout>
 
-    <Spinner
-        android:id="@+id/subjectNameSpinner"
+    <com.talentsprint.android.esa.views.OpenSansStrongTextView
+        android:id="@+id/subjectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_curve"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:overlapAnchor="false"/>
+        android:textColor="@color/textTitleColor"
+        android:textSize="15dp"/>
 
     <View
         android:layout_width="@dimen/indicator_width"
         android:layout_height="5dp"
-        android:layout_alignLeft="@+id/subjectNameSpinner"
-        android:layout_below="@+id/subjectNameSpinner"
+        android:layout_alignLeft="@+id/subjectText"
+        android:layout_below="@+id/subjectText"
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimary"/>
 
@@ -70,7 +70,7 @@
         android:id="@+id/topicsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/subjectNameSpinner"
+        android:layout_below="@+id/subjectText"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="20dp"/>

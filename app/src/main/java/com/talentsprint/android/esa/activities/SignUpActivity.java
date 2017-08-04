@@ -140,6 +140,7 @@ public class SignUpActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent navigate = new Intent(SignUpActivity.this, TermsAndConditionsActivity.class);
+                navigate.putExtra(AppConstants.CONTENT, 1);
                 startActivity(navigate);
             }
 

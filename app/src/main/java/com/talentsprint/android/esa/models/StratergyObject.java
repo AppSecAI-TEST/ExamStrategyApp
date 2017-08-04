@@ -82,6 +82,15 @@ public class StratergyObject implements Serializable {
     public class Stratergy {
         private ArrayList<MonthTasks> monthTasks;
         private String month;
+        private long monthLong;
+
+        public long getMonthLong() {
+            return monthLong;
+        }
+
+        public void setMonthLong(long monthLong) {
+            this.monthLong = monthLong;
+        }
 
         public ArrayList<MonthTasks> getMonthTasks() {
             return monthTasks;
@@ -104,7 +113,6 @@ public class StratergyObject implements Serializable {
         public String status;
         public String taskId;
         public String title;
-        public String contentUrl;
         public long duration;
         public String type;
         public String articleId;
@@ -116,6 +124,15 @@ public class StratergyObject implements Serializable {
         public String contentType;
         public String subject;
         public boolean isPremium;
+        public ArticleInfo articleInfo;
+
+        public ArticleInfo getArticleInfo() {
+            return articleInfo;
+        }
+
+        public void setArticleInfo(ArticleInfo articleInfo) {
+            this.articleInfo = articleInfo;
+        }
 
         public boolean isPremium() {
             return isPremium;
@@ -211,14 +228,6 @@ public class StratergyObject implements Serializable {
 
         public void setTitle(String title) {
             this.title = title;
-        }
-
-        public String getContentUrl() {
-            return contentUrl;
-        }
-
-        public void setContentUrl(String contentUrl) {
-            this.contentUrl = contentUrl;
         }
 
         public long getDuration() {

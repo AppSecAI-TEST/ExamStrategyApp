@@ -1,6 +1,9 @@
 package com.talentsprint.android.esa.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -95,8 +98,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
             public void onFailure(Call<GetExamsObject> call, Throwable t) {
                 if (dashboardInterface != null)
                     dashboardInterface.showProgress(false);
-                if (getActivity() != null)
+                if (getActivity() != null) {
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
             }
         });
     }
@@ -159,8 +164,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
             public void onFailure(Call<GetExamsObject> call, Throwable t) {
                 if (dashboardInterface != null)
                     dashboardInterface.showProgress(false);
-                if (getActivity() != null)
+                if (getActivity() != null) {
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
             }
         });
     }
@@ -171,8 +178,8 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
         ArrayList<String> examsToAdd = new ArrayList<String>();
         for (int i = 0; i < addedExams.size(); i++) {
             ExamObject examObject = addedExams.get(i);
-            if (examObject.getId() != null&&!examObject.isPreviouslyAdded()) {
-                examsToAdd.add(examObject.getName()+","+examObject.getDate() + "," + examObject.getId());
+            if (examObject.getId() != null && !examObject.isPreviouslyAdded()) {
+                examsToAdd.add(examObject.getName() + "," + examObject.getDate() + "," + examObject.getId());
             }
         }
         if (examsToAdd.size() > 0) {
@@ -354,7 +361,10 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
                 @Override
                 public void onClick(View view) {
                     if (addedExamObject.isPreviouslyAdded()) {
-                        deleteExams(addedExamObject);
+                        if (!addedExamObject.isNextExam())
+                            deleteExams(addedExamObject);
+                        else
+                            showDialogue(addedExamObject);
                     } else {
                         removeExamFromList(addedExamObject);
                     }
@@ -374,6 +384,36 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
             });
         }
 
+        private void showDialogue(final ExamObject addedExamObject) {
+            final Dialog finishDialogue;
+            finishDialogue = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar);
+            finishDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(150, 0, 0, 0)));
+            finishDialogue.setContentView(R.layout.dialogue_exam_delete);
+            TextView yes = finishDialogue.findViewById(R.id.yes);
+            TextView cancel = finishDialogue.findViewById(R.id.cancel);
+            View mainView = finishDialogue.findViewById(R.id.mainView);
+            finishDialogue.show();
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finishDialogue.dismiss();
+                    deleteExams(addedExamObject);
+                }
+            });
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finishDialogue.dismiss();
+                }
+            });
+            mainView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finishDialogue.dismiss();
+                }
+            });
+        }
+
         private void removeExamFromList(ExamObject addedExamObject) {
             addedExams.remove(addedExamObject);
             notifyDataSetChanged();
@@ -388,11 +428,16 @@ public class MyExamsFragment extends Fragment implements View.OnClickListener, C
                 dashboardInterface.showProgress(true);
                 Bundle bundle = new Bundle();
                 bundle.putFloat(AppConstants.X_VALUE, add.getX());
+                try {
+                    bundle.putLong(AppConstants.DATE_LONG, AppUtils.getLongFromYYYMMDD(addedExamObject.getDate()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 int[] postions = new int[2];
                 add.getLocationInWindow(postions);
                 bundle.putFloat(AppConstants.Y_VALUE, postions[1]);
                 try {
-                    bundle.putLong(AppConstants.DATE_LONG, AppUtils.getLongFromDDMMYYY(addedExamObject.getDate()));
+                    bundle.putLong(AppConstants.DATE_FUTURE, AppUtils.getLongFromYYYMMDD(addedExamObject.getExamDate()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

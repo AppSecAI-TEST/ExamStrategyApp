@@ -12,6 +12,7 @@ public class PreviousAnswers extends RealmObject {
     @PrimaryKey
     private String id;
     private RealmList<RealmString> answers;
+    private long timer;
 
     public String getId() {
         return id;
@@ -29,4 +30,11 @@ public class PreviousAnswers extends RealmObject {
         this.answers = answers;
     }
 
+    public long getTimer() {
+        return timer;
+    }
+
+    public void setTimer(long timer) {
+        this.timer = timer;
+    }
 }

@@ -25,6 +25,8 @@
         android:layout_below="@+id/subjectText"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@+id/subjectTopicText"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Sub Topic"
         android:textColor="@color/gray_dark"
         android:textSize="15dp"/>

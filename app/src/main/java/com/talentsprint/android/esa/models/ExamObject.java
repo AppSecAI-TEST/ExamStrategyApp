@@ -12,6 +12,26 @@ public class ExamObject {
     private String name;
     private String date;
     private boolean isPreviouslyAdded;
+    private boolean isNextExam;
+    private String examDate;
+
+    public String getExamDate() {
+        if (examDate == null || examDate.length() == 0)
+            setExamDate(date);
+        return examDate;
+    }
+
+    public void setExamDate(String examDate) {
+        this.examDate = examDate;
+    }
+
+    public boolean isNextExam() {
+        return isNextExam;
+    }
+
+    public void setNextExam(boolean nextExam) {
+        isNextExam = nextExam;
+    }
 
     public String getId() {
         return id;

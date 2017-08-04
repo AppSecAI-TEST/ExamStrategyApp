@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.onesignal.OneSignal;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.PreferenceManager;
+import com.talentsprint.android.esa.utils.ServiceManager;
 
 public class SplashActivity extends Activity {
 
@@ -25,24 +27,35 @@ public class SplashActivity extends Activity {
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-            @Override
-            public void idsAvailable(String userId, String registrationId) {
-                PreferenceManager.saveString(SplashActivity.this, AppConstants.ONE_SIGNAL_ID, registrationId);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Intent navigate = new Intent(SplashActivity.this, DashboardActivity.class);
-                            startActivity(navigate);
-                            finish();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, 3000);
+        if (PreferenceManager.getString(SplashActivity.this, AppConstants.ONE_SIGNAL_ID, "").equalsIgnoreCase("")) {
+            if (!new ServiceManager(SplashActivity.this).isNetworkAvailable()) {
+                Toast.makeText(this, "Network not available", Toast.LENGTH_SHORT).show();
             }
-        });
+            OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+                    @Override
+                    public void idsAvailable(String userId, String registrationId) {
+                        PreferenceManager.saveString(SplashActivity.this, AppConstants.ONE_SIGNAL_ID, registrationId);
+                        navigateToHome();
+                    }
+            });
+        } else {
+            navigateToHome();
+            }
+    }
+
+    private void navigateToHome() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Intent navigate = new Intent(SplashActivity.this, DashboardActivity.class);
+                    startActivity(navigate);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500);
     }
 }

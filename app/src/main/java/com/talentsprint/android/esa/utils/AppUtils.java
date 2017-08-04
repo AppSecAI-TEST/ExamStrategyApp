@@ -33,6 +33,13 @@ public class AppUtils {
     public static long getLongFromYYYMMDD(String date) throws Exception {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date d = format.parse(date);
+        d.setHours(11);
+        return d.getTime();
+    }
+
+    public static long getLongFromMMMMMYY(String date) throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("MMMMM yyyy");
+        Date d = format.parse(date);
         return d.getTime();
     }
 

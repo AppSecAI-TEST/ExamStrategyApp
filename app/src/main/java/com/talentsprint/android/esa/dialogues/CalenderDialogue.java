@@ -33,7 +33,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     private float x_value, y_value;
     private View main_content;
     private View pointerView;
-    private long selectedDateLong;
+    private long selectedDateLong, futureDateLong = 0;
     private CalenderInterface calenderInterface;
 
     public CalenderDialogue() {
@@ -56,6 +56,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
         View view = inflater.inflate(R.layout.fragment_dialogue_calender, container);
         x_value = getArguments().getFloat(AppConstants.X_VALUE);
         y_value = getArguments().getFloat(AppConstants.Y_VALUE);
+        futureDateLong = getArguments().getLong(AppConstants.DATE_FUTURE, 0);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = view.findViewById(R.id.container);
         main_content = view.findViewById(R.id.main_content);
@@ -128,7 +129,7 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
 
         @Override
         public Fragment getItem(int position) {
-            return CalenderFragment.newInstance(position, x_value, y_value, selectedDateLong);
+            return CalenderFragment.newInstance(position, x_value, y_value, selectedDateLong, futureDateLong);
         }
 
         @Override

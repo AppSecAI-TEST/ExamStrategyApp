@@ -73,8 +73,19 @@ public class QuizResultFragment extends Fragment implements View.OnClickListener
 
     private void setValues() throws Exception {
         testTopic.setText(testResultsObject.getTestproperties().getSubject());
-        testSubTopic.setText(testResultsObject.getTestproperties().getTopic() + " | " + testResultsObject.getTestproperties()
-                .getSubTopic());
+        String topicsString = "";
+        if (testResultsObject.getTestproperties().getTopic() != null && testResultsObject.getTestproperties().getTopic().length
+                () > 0) {
+            topicsString = testResultsObject.getTestproperties().getTopic();
+            if (testResultsObject.getTestproperties().getSubTopic() != null && testResultsObject.getTestproperties().getSubTopic()
+                    .length
+                            () > 0)
+                topicsString = topicsString + " | " + testResultsObject.getTestproperties()
+                        .getSubTopic();
+        } else {
+            topicsString = "";
+        }
+        testSubTopic.setText(topicsString);
         percentage.setText(testResultsObject.getScore());
         timeTaken.setText(testResultsObject.getTimeTaken());
         total.setText(Integer.toString(testResultsObject.getTotal()));

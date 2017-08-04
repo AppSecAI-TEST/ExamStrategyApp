@@ -148,6 +148,7 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
         RequestBody profilePicBody = null;
         RequestBody oneSignalIdBody = null;
         RequestBody emailBody = null;
+        RequestBody nameBody = null;
         if (fbId != null)
             fbIdBody = RequestBody.create(MediaType.parse("text/plain"), fbId);
         if (profilePic != null)
@@ -156,11 +157,13 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
             oneSignalIdBody = RequestBody.create(MediaType.parse("text/plain"), oneSignalId);
         if (email != null)
             emailBody = RequestBody.create(MediaType.parse("text/plain"), email);
+        if (name != null)
+            nameBody = RequestBody.create(MediaType.parse("text/plain"), name);
         JsonObject body = new JsonObject();
         if (isFacebook) {
-            getHomeDetails = apiService.loginFb(fbIdBody, profilePicBody, oneSignalIdBody);
+            getHomeDetails = apiService.loginFb(fbIdBody, profilePicBody, oneSignalIdBody, nameBody);
         } else {
-            getHomeDetails = apiService.loginGoogle(emailBody, profilePicBody, oneSignalIdBody);
+            getHomeDetails = apiService.loginGoogle(emailBody, profilePicBody, oneSignalIdBody, nameBody);
         }
         body.addProperty(ApiUrls.ONE_SIGNAL, oneSignalId);
         if (profilePic != null)
@@ -228,7 +231,7 @@ public class LoginActivity extends FragmentActivity implements LoginInterface, G
                                     String fbUserId = json.optString("id");
                                     String fbUserFirstName = json.optString("name");
                                     String fbUserEmail = json.optString("email");
-                                    String fbUserProfilePics = "http://graph.facebook.com/" + fbUserId + "/picture?type=large";
+                                    String fbUserProfilePics = "https://graph.facebook.com/" + fbUserId + "/picture?type=large";
                                     loginUser(true, fbUserId, fbUserFirstName, fbUserEmail, fbUserProfilePics);
                                 }
                             }

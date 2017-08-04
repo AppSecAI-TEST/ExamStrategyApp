@@ -16,6 +16,7 @@ import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
+import com.talentsprint.android.esa.utils.ServiceManager;
 
 import java.util.Map;
 
@@ -49,7 +50,10 @@ public class SignInMobileFragment extends Fragment {
             public void onClick(View view) {
                 if (mobileEdtTxt.getText().toString().trim().length() == 10) {
                     AppUtils.closeKeyboard(singUp, getActivity());
-                    sendCheckMobiOtp();
+                    if (new ServiceManager(getActivity()).isNetworkAvailable())
+                        sendCheckMobiOtp();
+                    else
+                        Toast.makeText(getActivity(), "Network not available", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Enter a valid number", Toast.LENGTH_SHORT).show();
                 }

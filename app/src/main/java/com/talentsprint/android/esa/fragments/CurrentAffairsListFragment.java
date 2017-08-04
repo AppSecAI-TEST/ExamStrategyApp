@@ -72,7 +72,7 @@ public class CurrentAffairsListFragment extends Fragment {
             CurrentAffairsObject currentAffairsObject = affairsObjectList.get(position);
             holder.topicName.setText(currentAffairsObject.getTitle());
             holder.subTopicName.setText(currentAffairsObject.getShortDescription());
-            if (currentAffairsObject.getImageUrl() != null)
+            if (currentAffairsObject.getImageUrl() != null && currentAffairsObject.getImageUrl().trim().length() > 0)
                 Picasso.with(getActivity()).load(currentAffairsObject.getImageUrl()).
                         transform(new CircleTransform())
                         .into(holder.topicImage);

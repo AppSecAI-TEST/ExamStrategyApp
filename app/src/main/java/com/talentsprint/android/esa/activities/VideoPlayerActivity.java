@@ -11,17 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.google.gson.JsonObject;
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.TalentSprintApp;
-import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.ServiceManager;
-import com.talentsprint.android.esa.utils.TalentSprintApi;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class VideoPlayerActivity extends Activity {
 
@@ -69,45 +62,8 @@ public class VideoPlayerActivity extends Activity {
                     return false;
                 }
             });
-            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    completeTask();
-                }
-            });
         }
     }
-
-    private void completeTask() {
-        showProgress(true);
-        TalentSprintApi apiService =
-                ApiClient.getCacheClient().create(TalentSprintApi.class);
-        Call<JsonObject> getExams = apiService.taskComplete(getIntent().getStringExtra(AppConstants.TASK_ID), getIntent()
-                .getStringExtra(AppConstants.ARTICLE));
-        getExams.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                showProgress(false);
-                if (response.isSuccessful()) {
-                    finish();
-                } else {
-                    Toast.makeText(VideoPlayerActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                try {
-                    showProgress(false);
-                    Toast.makeText(VideoPlayerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public void showProgress(boolean isShow) {
         if (isShow) {
             progressBar.setVisibility(View.VISIBLE);

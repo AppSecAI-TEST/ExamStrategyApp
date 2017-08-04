@@ -7,4 +7,6 @@ package com.talentsprint.android.esa.interfaces;
 public interface StudyMaterialActivityInterface {
 
     public void showProgress(boolean isShow);
+
+    public void doubleBack();
 }

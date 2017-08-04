@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talentsprint.android.esa.R;
+import com.talentsprint.android.esa.utils.AppConstants;
 
 public class TermsAndConditionsActivity extends Activity implements View.OnClickListener {
 
@@ -27,7 +28,11 @@ public class TermsAndConditionsActivity extends Activity implements View.OnClick
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         setContentView(R.layout.activity_terms_and_conditions);
         findViews();
-        webView.loadUrl("https://www.talentsprint.com/terms-conditions.dpl");
+        if (getIntent().getIntExtra(AppConstants.CONTENT, 0) == 1) {
+            loadTermsConditions();
+        } else {
+            loadPrivacyPolicy();
+        }
     }
 
     private void findViews() {
@@ -53,25 +58,33 @@ public class TermsAndConditionsActivity extends Activity implements View.OnClick
         if (view == back) {
             onBackPressed();
         } else if (view == privacyPolicy) {
-            webView.loadUrl("https://www.talentsprint.com/privacy-policy.dpl");
-            privacyPolicy.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.textTitleColor));
-            termsConditions.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.textTitleColor40Opc));
-            privacyView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.colorPrimary));
-            termsView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.colorPrimary40Opc));
+            loadPrivacyPolicy();
         } else if (view == termsConditions) {
-            webView.loadUrl("https://www.talentsprint.com/terms-conditions.dpl");
-            termsConditions.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.textTitleColor));
-            privacyPolicy.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.textTitleColor40Opc));
-            termsView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.colorPrimary));
-            privacyView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
-                    R.color.colorPrimary40Opc));
+            loadTermsConditions();
         }
+    }
+
+    private void loadTermsConditions() {
+        webView.loadUrl("https://www.talentsprint.com/terms-conditions.dpl");
+        termsConditions.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.textTitleColor));
+        privacyPolicy.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.textTitleColor40Opc));
+        termsView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.colorPrimary));
+        privacyView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.colorPrimary40Opc));
+    }
+
+    private void loadPrivacyPolicy() {
+        webView.loadUrl("https://www.talentsprint.com/privacy-policy.dpl");
+        privacyPolicy.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.textTitleColor));
+        termsConditions.setTextColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.textTitleColor40Opc));
+        privacyView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.colorPrimary));
+        termsView.setBackgroundColor(ContextCompat.getColor(TermsAndConditionsActivity.this,
+                R.color.colorPrimary40Opc));
     }
 }

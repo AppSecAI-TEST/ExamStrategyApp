@@ -43,13 +43,15 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
     public CalenderFragment() {
     }
 
-    public static CalenderFragment newInstance(int sectionNumber, float x_value, float y_value, long selectedDateLong) {
+    public static CalenderFragment newInstance(int sectionNumber, float x_value, float y_value, long selectedDateLong, long
+            futureDateLong) {
         CalenderFragment fragment = new CalenderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putFloat(AppConstants.X_VALUE, x_value);
         args.putFloat(AppConstants.Y_VALUE, y_value);
         args.putLong(AppConstants.DATE_LONG, selectedDateLong);
+        args.putLong(AppConstants.DATE_FUTURE, futureDateLong);
         fragment.setArguments(args);
         return fragment;
     }
@@ -108,8 +110,12 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
 
     @NonNull
     private ArrayList<CalenderObject> prepareDaysList() {
+        long futureDate = getArguments().getLong(AppConstants.DATE_FUTURE);
+        long todayMillis = 0;
         //Logic for displaying calender. Please recheck before changing - Anudeep
         Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 1);
+        todayMillis = cal.getTimeInMillis();
         //Getting selected calender
         Calendar selectedCalender = Calendar.getInstance();
         selectedCalender.setTimeInMillis(cal.getTimeInMillis());
@@ -149,6 +155,9 @@ public class CalenderFragment extends Fragment implements View.OnClickListener {
             if (i < daysInweek1 - 1) {
                 calenderObject.setThisMonth(false);
             } else if (i > maxDays + daysInweek1 - 2) {
+                calenderObject.setThisMonth(false);
+            } else if (futureDate > 0 && (calenderObject.getTimeMillis() < todayMillis || calenderObject.getTimeMillis() >
+                    futureDate)) {
                 calenderObject.setThisMonth(false);
             } else {
                 calenderObject.setThisMonth(true);

@@ -13,6 +13,8 @@ public interface DashboardActivityInterface {
 
     public void examAdded();
 
+    public void setStatus(String status);
+
     public TalentSprintApi getApiService();
 
     public void setExamDate(String examDate);

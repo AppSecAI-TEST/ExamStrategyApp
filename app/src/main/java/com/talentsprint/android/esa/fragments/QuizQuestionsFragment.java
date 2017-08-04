@@ -121,6 +121,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
                         previousAnswers.getAnswers()) {
                     answersList.add(answer.getString());
                 }
+                totalTimeForQuestions = previousAnswers.getTimer();
                 currentQuestion = answersList.size() - 1;
                 if (currentQuestion < totalQuestionsSize - 1) {
                     currentQuestion++;
@@ -181,6 +182,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
             PreviousAnswers answers = new PreviousAnswers();
             answers.setAnswers(realmAnswers);
             answers.setId(taskId);
+            answers.setTimer(totalTimeForQuestions);
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(answers);
             realm.commitTransaction();
@@ -218,10 +220,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == finishTest) {
-            if (answersList.size() > 0)
-                showFinishDialogue();
-            else
-                Toast.makeText(getActivity(), "Answer a question to submit", Toast.LENGTH_SHORT).show();
+            showFinishDialogue();
         }
     }
 
@@ -269,7 +268,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         dashboardInterface.showProgress(true);
         if (answersList.size() != totalQuestionsSize) {
             ArrayList<QuestionsObject.Question> questionArrayList = questionsObject.getQuestions();
-            for (int i = answersList.size() - 1; i < totalQuestionsSize; i++) {
+            for (int i = answersList.size(); i < totalQuestionsSize; i++) {
                 answersList.add(questionArrayList.get(i).getId() + "," + 0 + "," + 0);
             }
         }
@@ -294,7 +293,8 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
                     quizResultFragment.setArguments(bundle);
                     answersSubmited = true;
                     realm.beginTransaction();
-                    previousAnswers.deleteFromRealm();
+                    if (previousAnswers != null)
+                        previousAnswers.deleteFromRealm();
                     realm.commitTransaction();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .add(R.id.fragment_container, quizResultFragment, AppConstants.QUIZ_RESULT)

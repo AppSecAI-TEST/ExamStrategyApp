@@ -139,10 +139,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     saveProfile();
                     nameEdtTxt.clearFocus();
                     AppUtils.closeKeyboard(edit, getActivity());
-                    logout.setText("LOGOUT");
-                    nameLyt.setVisibility(View.GONE);
-                    name.setVisibility(View.VISIBLE);
-                    name.setText(nameEdtTxt.getText());
                 }
             } else {
                 logoutUser();
@@ -178,6 +174,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 dashboardInterface.showProgress(false);
                 if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Profile updated", Toast.LENGTH_SHORT).show();
+                    logout.setText("LOGOUT");
+                    nameLyt.setVisibility(View.GONE);
+                    name.setVisibility(View.VISIBLE);
+                    name.setText(nameEdtTxt.getText());
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     getActivity().onBackPressed();

@@ -80,14 +80,16 @@ public interface TalentSprintApi {
     Call<JsonObject> loginFb(
             @Part(ApiUrls.FACEBOOK_ID) RequestBody fbId,
             @Part(ApiUrls.PROFILE_PIC_URL) RequestBody profilePic,
-            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
+            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId,
+            @Part(ApiUrls.NAME) RequestBody name);
 
     @Multipart
     @POST(ApiUrls.LOGIN)
     Call<JsonObject> loginGoogle(
             @Part(ApiUrls.MAIL_ID) RequestBody mailId,
             @Part(ApiUrls.PROFILE_PIC_URL) RequestBody profilePic,
-            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
+            @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId,
+            @Part(ApiUrls.NAME) RequestBody name);
 
     @Multipart
     @POST(ApiUrls.LOGIN)
@@ -95,7 +97,7 @@ public interface TalentSprintApi {
             @Part(ApiUrls.MOBILE) RequestBody mobile,
             @Part(ApiUrls.ONE_SIGNAL) RequestBody oneSignalId);
 
-    @POST(ApiUrls.REGISTER)
+    @GET(ApiUrls.REGISTER)
     Call<JsonObject> registerUser(@Query(ApiUrls.MAIL_ID) String mailId, @Query(ApiUrls.NAME) String name, @Query(ApiUrls
             .MOBILE) String mobile);
 
@@ -106,7 +108,7 @@ public interface TalentSprintApi {
     Call<JSONObject> logoutUser();
 
     @GET(ApiUrls.GET_SUBJECTS)
-    Call<GetSubjectsObject> getSubjects(@Query(ApiUrls.EXAM_NAME) String examName);
+    Call<GetSubjectsObject> getSubjects();
 
     @GET(ApiUrls.GET_TOPICS)
     Call<TopicsObject> getTopics(@Query(ApiUrls.EXAM_NAME) String examName,

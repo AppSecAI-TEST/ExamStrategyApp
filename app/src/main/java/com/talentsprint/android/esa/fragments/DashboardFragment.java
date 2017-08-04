@@ -1,9 +1,7 @@
 package com.talentsprint.android.esa.fragments;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -22,19 +20,22 @@ import android.widget.Toast;
 
 import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
-import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.CurrentAffairsInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
+import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.models.HomeObject;
 import com.talentsprint.android.esa.models.NotificationsObject;
 import com.talentsprint.android.esa.models.PreviousAnswers;
 import com.talentsprint.android.esa.models.TaskObject;
+import com.talentsprint.android.esa.models.TestReviewObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.PreferenceManager;
+import com.talentsprint.android.esa.utils.ServiceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 import com.talentsprint.android.esa.views.CirclePageIndicator;
 
@@ -126,7 +127,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                             }
                         }, 1000);
                     } else if (isAdded()) {
-                        setValues();
+                        try {
+                            setValues();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -141,7 +146,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         });
     }
 
-    private void setValues() {
+    private void setValues() throws Exception {
         CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getChildFragmentManager(), homeObject
                 .getCurrentAffairs());
         currentAffairsViewPager.setAdapter(adapter);
@@ -169,6 +174,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 View inflatedLayout = getActivity().getLayoutInflater().inflate(R.layout.include_intermediate_dashboard, null,
                         false);
                 todaysTasksLyt.addView(inflatedLayout);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getDashBoard(1);
+                    }
+                }, 10000);
             } else if (status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
                 //calenderView.setVisibility(View.VISIBLE);
                 dashboardInterface.isStratergyReady(true);
@@ -179,6 +191,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             }
         }
         dashboardInterface.setExamDate(nextExamDate.getText().toString());
+        dashboardInterface.setStatus(homeObject.getStatus());
     }
 
     private void findViews(View fragmentView) {
@@ -208,6 +221,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             openMyExams();
         } else if (view == assessText) {
             if (assessText.getText().toString().trim().equalsIgnoreCase(AppConstants.RESUME_TEST)) {
+                startQuiz("0");
+
             } else {
                 openQuiz("0");
             }
@@ -232,9 +247,22 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void openMyExams() {
+    private void startQuiz(String taskId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstants.TASK_ID, taskId);
+        QuizQuestionsFragment quizQuestionsFragment = new QuizQuestionsFragment();
+        quizQuestionsFragment.setArguments(bundle);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+                .add(R.id.fragment_container, quizQuestionsFragment, AppConstants.QUIZ_QUESTIONS)
+                .addToBackStack(null).commit();
+    }
+
+    private void openMyExams() {
+        if (new ServiceManager(getActivity()).isNetworkAvailable())
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+        else
+            Toast.makeText(getActivity(), "Network not available", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -268,29 +296,20 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     }
 
     private void openContent(TaskObject taskObject) {
-        if (taskObject != null && taskObject.getContentUrl() != null) {
-            if (taskObject.getContentUrl().contains(AppConstants.PDF)) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taskObject.getContentUrl()));
-                try {
-                    getActivity().startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), "No application found to open PDF", Toast.LENGTH_SHORT).show();
-                }
-            } else if (taskObject.getContentUrl().contains(AppConstants.MP4)) {
-                Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
-                navigate.putExtra(AppConstants.URL, taskObject.getContentUrl());
-                navigate.putExtra(AppConstants.TASK_ID, taskObject.getTaskId());
-                navigate.putExtra(AppConstants.ARTICLE, taskObject.getArticleId());
-                startActivity(navigate);
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putString(AppConstants.URL, taskObject.getContentUrl());
-                StrategyContentDisplayFragment quizInstructionsFragment = new StrategyContentDisplayFragment();
-                quizInstructionsFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.CONTENT)
-                        .addToBackStack(null).commit();
-            }
+        if (taskObject.getArticleInfo() != null) {
+            ArticlesObject.Articles article = new ArticlesObject().new Articles();
+            article.setType(taskObject.getType());
+            article.setTitle(taskObject.getTitle());
+            article.setTaskId(taskObject.getTaskId());
+            article.setArticleInfo(taskObject.getArticleInfo());
+            StudyMaterialArticleView studyMaterialArticlesListFragment = new StudyMaterialArticleView();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.ARTICLE, article);
+            bundle.putBoolean(AppConstants.DASHBOARD, true);
+            studyMaterialArticlesListFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, studyMaterialArticlesListFragment, AppConstants.ARTICLE)
+                    .addToBackStack(null).commit();
         }
     }
 
@@ -412,7 +431,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 public void onClick(View view) {
                     if (!taskObject.isPremium() || PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
                             .equalsIgnoreCase(AppConstants.PREMIUM)) {
-                        if (taskObject.getStatus() == null || !taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED))
+                        if (taskObject.getStatus() == null || !taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)) {
                             switch (taskObject.getType()) {
                                 case AppConstants.NON_VIDEO:
                                     openContent(taskObject);
@@ -430,6 +449,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                                     openContent(taskObject);
                                     break;
                             }
+                        } else if (taskObject.getStatus() != null && taskObject.getStatus().equalsIgnoreCase(AppConstants
+                                .COMPLETED)
+                                && taskObject.getType()
+                                .equalsIgnoreCase(AppConstants.TEST)) {
+                            if (taskObject.getTaskId() != null && taskObject.getTaskId().length() > 0)
+                                getReviewAnswers(taskObject.getTaskId());
+                        }
                     } else {
                         openContact(taskObject.getTitle());
                     }
@@ -442,15 +468,62 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             if (status != null) {
                 switch (status) {
                     case AppConstants.OVERDUE:
-                        return R.drawable.error_dialogue;
+                        return R.drawable.over_due;
                     case AppConstants.COMPLETED:
                         return R.drawable.tick_circle;
+                    case AppConstants.NOT_READY:
+                        return R.drawable.not_ready;
+                    case AppConstants.NOT_STARTED:
+                        return R.drawable.error_dialogue;
+                    case AppConstants.IN_PROGRESS:
+                        return R.drawable.inprogress;
+                    case AppConstants.NOT_STARTED_SMALL:
+                        return R.drawable.error_dialogue;
+                    case AppConstants.NOT_READY_SMALL:
+                        return R.drawable.not_ready;
+                    case AppConstants.IN_PROGRESS_SMALL:
+                        return R.drawable.inprogress;
                     default:
                         return R.drawable.empty;
                 }
             } else {
                 return R.drawable.empty;
             }
+        }
+
+        private void getReviewAnswers(String taskId) {
+            dashboardInterface.showProgress(true);
+            TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
+            long totalTime = 0;
+            Call<TestReviewObject> stratergy = apiService.getReviewAnswers(taskId);
+            stratergy.enqueue(new Callback<TestReviewObject>() {
+                @Override
+                public void onResponse(Call<TestReviewObject> call, Response<TestReviewObject> response) {
+                    dashboardInterface.showProgress(false);
+                    if (response.isSuccessful()) {
+                        TestReviewObject testResultsObject = response.body();
+                        QuestionsReviewFragment questionsReviewFragment = new QuestionsReviewFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(AppConstants.QUIZ_RESULT, testResultsObject);
+                        questionsReviewFragment.setArguments(bundle);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragment_container, questionsReviewFragment, AppConstants.QUIZ_QUESTIONS)
+                                .addToBackStack(null).commit();
+                    } else {
+                        Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TestReviewObject> call, Throwable t) {
+                    if (dashboardInterface != null)
+                        dashboardInterface.showProgress(false);
+                    if (getActivity() != null)
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         private void openContact(String title) {

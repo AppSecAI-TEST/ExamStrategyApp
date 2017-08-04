@@ -2,6 +2,7 @@ package com.talentsprint.android.esa.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -40,19 +41,37 @@ public class StudyMaterialTopicActivity extends FragmentActivity implements Stud
                 examName.setText(topicsObject.getExam().toUpperCase());
             else
                 examName.setText("");
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(AppConstants.TOPICS, topicsObject);
-            StudyMaterialTopicsFragment studyMaterialTopicsFragment = new StudyMaterialTopicsFragment();
-            studyMaterialTopicsFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, studyMaterialTopicsFragment, AppConstants.DASHBOARD).commit();
+            openTopics();
         }
+        subjectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popAllFragments();
+                openTopics();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+    }
+
+    private void openTopics() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.TOPICS, topicsObject);
+        StudyMaterialTopicsFragment studyMaterialTopicsFragment = new StudyMaterialTopicsFragment();
+        studyMaterialTopicsFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, studyMaterialTopicsFragment, AppConstants.DASHBOARD).commit();
+    }
+
+    private void popAllFragments() {
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 
     private void findViews() {
@@ -75,5 +94,10 @@ public class StudyMaterialTopicActivity extends FragmentActivity implements Stud
             progressBarView.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void doubleBack() {
+        onBackPressed();
     }
 }

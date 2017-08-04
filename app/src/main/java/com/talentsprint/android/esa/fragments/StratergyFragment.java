@@ -1,9 +1,6 @@
 package com.talentsprint.android.esa.fragments;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,13 +16,15 @@ import android.widget.Toast;
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder;
 import com.talentsprint.android.esa.R;
-import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.dialogues.FilterDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.FiltersInterface;
+import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.models.StratergyObject;
+import com.talentsprint.android.esa.models.TestReviewObject;
+import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.PreferenceManager;
@@ -160,6 +159,20 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
     private void updateStratergy(StratergyObject stratergy) {
         if (stratergy.getStrategy() != null && stratergy.getStrategy().size() > 0) {
+            for (int k = 0; k < stratergy.getStrategy().size(); k++) {
+                try {
+                    StratergyObject.Stratergy stratergyItem = stratergy.getStrategy().get(k);
+                    stratergyItem.setMonthLong(AppUtils.getLongFromMMMMMYY(stratergyItem.getMonth()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Collections.sort(stratergy.getStrategy(), new Comparator<StratergyObject.Stratergy>() {
+                @Override
+                public int compare(StratergyObject.Stratergy monthTasks, StratergyObject.Stratergy t1) {
+                    return (int) (t1.getMonthLong() - monthTasks.getMonthLong());
+                }
+            });
             if (stratergy.getStrategy() != null)
                 Collections.reverse(stratergy.getStrategy());
             stratergyObject.getStrategy().addAll(0, stratergy.getStrategy());
@@ -171,6 +184,20 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
 
     private void prepareStratergy(boolean isScrollToDate) {
         ArrayList<StratergyObject.Stratergy> stratergyArrayList = stratergyObject.getStrategy();
+        for (int k = 0; k < stratergyArrayList.size(); k++) {
+            try {
+                StratergyObject.Stratergy stratergy = stratergyArrayList.get(k);
+                stratergy.setMonthLong(AppUtils.getLongFromMMMMMYY(stratergy.getMonth()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Collections.sort(stratergyArrayList, new Comparator<StratergyObject.Stratergy>() {
+            @Override
+            public int compare(StratergyObject.Stratergy monthTasks, StratergyObject.Stratergy t1) {
+                return (int) (t1.getMonthLong() - monthTasks.getMonthLong());
+            }
+        });
         LinkedHashMap<String, ArrayList<StratergyObject.Task>> taskHashMap = new LinkedHashMap<String,
                 ArrayList<StratergyObject.Task>>();
         dateRowNumber = 0;
@@ -364,10 +391,22 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
     int getStatusImage(String status) {
         if (status != null) {
             switch (status) {
-                case "Overdue":
-                    return R.drawable.error_dialogue;
-                case "Completed":
+                case AppConstants.OVERDUE:
+                    return R.drawable.over_due;
+                case AppConstants.COMPLETED:
                     return R.drawable.tick_circle;
+                case AppConstants.NOT_READY:
+                    return R.drawable.not_ready;
+                case AppConstants.NOT_STARTED:
+                    return R.drawable.error_dialogue;
+                case AppConstants.IN_PROGRESS:
+                    return R.drawable.inprogress;
+                case AppConstants.NOT_STARTED_SMALL:
+                    return R.drawable.error_dialogue;
+                case AppConstants.NOT_READY_SMALL:
+                    return R.drawable.not_ready;
+                case AppConstants.IN_PROGRESS_SMALL:
+                    return R.drawable.inprogress;
                 default:
                     return R.drawable.empty;
             }
@@ -412,30 +451,20 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
     }
 
     private void openContent(StratergyObject.Task taskObject) {
-        if (taskObject != null && taskObject.getContentUrl() != null) {
-            String contentUrl = taskObject.getContentUrl();
-            if (contentUrl.contains(AppConstants.PDF)) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
-                try {
-                    getActivity().startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), "No application found to open PDF", Toast.LENGTH_SHORT).show();
-                }
-            } else if (contentUrl.contains(AppConstants.MP4)) {
-                Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
-                navigate.putExtra(AppConstants.URL, contentUrl);
-                navigate.putExtra(AppConstants.TASK_ID, taskObject.getTaskId());
-                navigate.putExtra(AppConstants.ARTICLE, taskObject.getArticleId());
-                startActivity(navigate);
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putString(AppConstants.URL, contentUrl);
-                StrategyContentDisplayFragment quizInstructionsFragment = new StrategyContentDisplayFragment();
-                quizInstructionsFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, quizInstructionsFragment, AppConstants.CONTENT)
-                        .addToBackStack(null).commit();
-            }
+        if (taskObject.getArticleInfo() != null) {
+            ArticlesObject.Articles article = new ArticlesObject().new Articles();
+            article.setType(taskObject.getType());
+            article.setTitle(taskObject.getTitle());
+            article.setTaskId(taskObject.getTaskId());
+            article.setArticleInfo(taskObject.getArticleInfo());
+            StudyMaterialArticleView studyMaterialArticlesListFragment = new StudyMaterialArticleView();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppConstants.ARTICLE, article);
+            bundle.putBoolean(AppConstants.DASHBOARD, true);
+            studyMaterialArticlesListFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, studyMaterialArticlesListFragment, AppConstants.ARTICLE)
+                    .addToBackStack(null).commit();
         }
     }
 
@@ -552,9 +581,49 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                         } else {
                             openContact(taskObject.getTitle());
                         }
+                    } else if (taskObject.getStatus() != null && taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)
+                            && taskObject.getType()
+                            .equalsIgnoreCase(AppConstants.TEST)) {
+                        if (taskObject.getTaskId() != null && taskObject.getTaskId().length() > 0)
+                            getReviewAnswers(taskObject.getTaskId());
                     }
                 }
             });
+        }
+
+        private void getReviewAnswers(String taskId) {
+            dashboardInterface.showProgress(true);
+            TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
+            long totalTime = 0;
+            Call<TestReviewObject> stratergy = apiService.getReviewAnswers(taskId);
+            stratergy.enqueue(new Callback<TestReviewObject>() {
+                @Override
+                public void onResponse(Call<TestReviewObject> call, Response<TestReviewObject> response) {
+                    dashboardInterface.showProgress(false);
+                    if (response.isSuccessful()) {
+                        TestReviewObject testResultsObject = response.body();
+                        QuestionsReviewFragment questionsReviewFragment = new QuestionsReviewFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(AppConstants.QUIZ_RESULT, testResultsObject);
+                        questionsReviewFragment.setArguments(bundle);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragment_container, questionsReviewFragment, AppConstants.QUIZ_QUESTIONS)
+                                .addToBackStack(null).commit();
+                    } else {
+                        Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                        getActivity().onBackPressed();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TestReviewObject> call, Throwable t) {
+                    if (dashboardInterface != null)
+                        dashboardInterface.showProgress(false);
+                    if (getActivity() != null)
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         private void openContact(String title) {

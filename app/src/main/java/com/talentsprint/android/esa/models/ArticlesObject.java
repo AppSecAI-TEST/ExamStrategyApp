@@ -57,20 +57,19 @@ public class ArticlesObject implements Serializable {
 
     public class Articles implements Serializable {
         public String shortDescription;
-        public String title;
         public String imageUrl;
-        public String contentUrl;
         public String type;
-        public String id;
-        public String teacherName;
         public String accessType;
+        public String title;
+        public String taskId;
+        public ArticleInfo articleInfo;
 
-        public String getShortDescription() {
-            return shortDescription;
+        public String getTaskId() {
+            return taskId;
         }
 
-        public void setShortDescription(String shortDescription) {
-            this.shortDescription = shortDescription;
+        public void setTaskId(String taskId) {
+            this.taskId = taskId;
         }
 
         public String getTitle() {
@@ -79,6 +78,22 @@ public class ArticlesObject implements Serializable {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public ArticleInfo getArticleInfo() {
+            return articleInfo;
+        }
+
+        public void setArticleInfo(ArticleInfo articleInfo) {
+            this.articleInfo = articleInfo;
+        }
+
+        public String getShortDescription() {
+            return shortDescription;
+        }
+
+        public void setShortDescription(String shortDescription) {
+            this.shortDescription = shortDescription;
         }
 
         public String getImageUrl() {
@@ -97,22 +112,6 @@ public class ArticlesObject implements Serializable {
             this.type = type;
         }
 
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getTeacherName() {
-            return teacherName;
-        }
-
-        public void setTeacherName(String teacherName) {
-            this.teacherName = teacherName;
-        }
-
         public String getAccessType() {
             return accessType;
         }
@@ -121,12 +120,6 @@ public class ArticlesObject implements Serializable {
             this.accessType = accessType;
         }
 
-        public String getContentUrl() {
-            return contentUrl;
-        }
-
-        public void setContentUrl(String contentUrl) {
-            this.contentUrl = contentUrl;
-        }
     }
+
 }

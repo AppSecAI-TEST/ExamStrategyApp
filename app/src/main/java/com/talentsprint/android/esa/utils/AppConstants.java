@@ -74,4 +74,11 @@ public class AppConstants {
     public static final String COMPLETED = "Completed";
     public static final String OVERDUE = "Overdue";
     public static final String RESUME_TEST = "RESUME TEST";
+    public static final String DATE_FUTURE = "dateFuture";
+    public static final String NOT_READY = "Not Ready";
+    public static final String NOT_READY_SMALL = "Not ready";
+    public static final String NOT_STARTED = "Not Started";
+    public static final String IN_PROGRESS = "In Progress";
+    public static final String IN_PROGRESS_SMALL = "In progress";
+    public static final String NOT_STARTED_SMALL = "Not started";
 }

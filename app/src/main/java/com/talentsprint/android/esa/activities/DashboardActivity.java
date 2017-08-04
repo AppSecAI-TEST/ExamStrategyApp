@@ -30,6 +30,7 @@ import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.PreferenceManager;
+import com.talentsprint.android.esa.utils.ServiceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
 
 public class DashboardActivity extends FragmentActivity implements DashboardActivityInterface, View.OnClickListener {
@@ -40,6 +41,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     private View progressBarView;
     private String examDate;
     private boolean isStratergyReady;
+    private String status;
     private TalentSprintApi apiService;
 
     @Override
@@ -92,6 +94,11 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
                 .replace(R.id.fragment_container, new DashboardFragment(), AppConstants.DASHBOARD).commit();
     }
 
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     private void popAllFragments() {
         FragmentManager fm = getSupportFragmentManager();
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
@@ -125,7 +132,7 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             if (tag.equalsIgnoreCase(AppConstants.QUIZ_RESULT)) {
                 examAdded();
                 return;
-            } else if (tag.equalsIgnoreCase(AppConstants.MY_EXAMS)) {
+            } else if (tag.equalsIgnoreCase(AppConstants.MY_EXAMS) || tag.equalsIgnoreCase(AppConstants.ARTICLE)) {
                 if (TalentSprintApp.refreshDashBorad) {
                     examAdded();
                     TalentSprintApp.refreshDashBorad = false;
@@ -153,8 +160,11 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
     }
 
     private void openMyExams() {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+        if (new ServiceManager(this).isNetworkAvailable())
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new MyExamsFragment(), AppConstants.MY_EXAMS).addToBackStack(null).commit();
+        else
+            Toast.makeText(this, "Network not available", Toast.LENGTH_SHORT).show();
     }
 
     private void showMenu() {
@@ -235,9 +245,17 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
         studyMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent navigate = new Intent(DashboardActivity.this, StudyMaterialActivity.class);
-                startActivity(navigate);
                 menuItem.dismiss();
+                if (status != null && status.equalsIgnoreCase(AppConstants.STRATERGY_IS_READY)) {
+                    Intent navigate = new Intent(DashboardActivity.this, StudyMaterialActivity.class);
+                    startActivity(navigate);
+                } else if (status != null && status.equalsIgnoreCase(AppConstants.EXAM_NOT_SET))
+                    showAddExamPopUp("Please set the exam");
+                else if (status != null && status.equalsIgnoreCase(AppConstants.ASESMENT_NOT_TAKEN))
+                    showAddExamPopUp("Please write the Assessment test");
+                else if (status != null && status.equalsIgnoreCase(AppConstants.PREPARING_STRATERGY))
+                    showAddExamPopUp("Please wait for a while");
+
             }
         });
         nextExamDateView.setOnClickListener(new View.OnClickListener() {
@@ -321,6 +339,31 @@ public class DashboardActivity extends FragmentActivity implements DashboardActi
             }
         });
         menuItem.show();
+    }
+
+    private void showAddExamPopUp(String message) {
+        final Dialog finishDialogue;
+        finishDialogue = new Dialog(DashboardActivity.this, android.R.style.Theme_Black_NoTitleBar);
+        finishDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(150, 0, 0, 0)));
+        finishDialogue.setContentView(R.layout.dialogue_exam_not_set);
+        TextView yes = finishDialogue.findViewById(R.id.yes);
+        TextView contentText = finishDialogue.findViewById(R.id.contentText);
+        contentText.setText(message);
+        View mainView = finishDialogue.findViewById(R.id.mainView);
+        finishDialogue.show();
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishDialogue.dismiss();
+            }
+        });
+        mainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishDialogue.dismiss();
+            }
+        });
+
     }
 
     private void navigateToProfile() {

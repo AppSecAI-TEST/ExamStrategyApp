@@ -11,9 +11,25 @@ public class TaskObject implements Serializable {
     private String title;
     private String type;
     private boolean isPremium;
-    private String articleId;
-    private String contentUrl;
     private String status;
+    private ArticleInfo articleInfo;
+    private String description;
+
+    public ArticleInfo getArticleInfo() {
+        return articleInfo;
+    }
+
+    public void setArticleInfo(ArticleInfo articleInfo) {
+        this.articleInfo = articleInfo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getStatus() {
         return status;
@@ -47,14 +63,6 @@ public class TaskObject implements Serializable {
         this.type = type;
     }
 
-    public String getContentUrl() {
-        return contentUrl;
-    }
-
-    public void setContentUrl(String contentUrl) {
-        this.contentUrl = contentUrl;
-    }
-
     public boolean isPremium() {
         return isPremium;
     }
@@ -63,11 +71,4 @@ public class TaskObject implements Serializable {
         isPremium = premium;
     }
 
-    public String getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(String articleId) {
-        this.articleId = articleId;
-    }
 }

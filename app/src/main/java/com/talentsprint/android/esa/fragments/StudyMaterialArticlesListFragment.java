@@ -1,8 +1,5 @@
 package com.talentsprint.android.esa.fragments;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.talentsprint.android.esa.R;
-import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.CircleTransform;
@@ -58,6 +53,12 @@ public class StudyMaterialArticlesListFragment extends Fragment {
         topicsRecyclerView = fragmentView.findViewById(R.id.topicsRecyclerView);
         subjectTopicText = fragmentView.findViewById(R.id.subjectTopicText);
         subjectSubTopicText = fragmentView.findViewById(R.id.subjectSubTopicText);
+        subjectTopicText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void openToLogin(ArticlesObject.Articles article) {
@@ -85,34 +86,13 @@ public class StudyMaterialArticlesListFragment extends Fragment {
     }
 
     private void openContent(ArticlesObject.Articles article) {
-        String contentUrl = article.getContentUrl();
-        if (contentUrl != null) {
-            if (contentUrl.contains(AppConstants.PDF)) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentUrl));
-                try {
-                    getActivity().startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), "No application found to open content", Toast.LENGTH_SHORT).show();
-                }
-            } else if (contentUrl.contains(AppConstants.MP4)) {
-                Intent navigate = new Intent(getActivity(), VideoPlayerActivity.class);
-                navigate.putExtra(AppConstants.URL, contentUrl);
-                navigate.putExtra(AppConstants.TASK_ID, article.getId());
-                navigate.putExtra(AppConstants.ARTICLE, article.getId());
-                startActivity(navigate);
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putString(AppConstants.URL, contentUrl);
-                bundle.putString(AppConstants.TOPICS, articlesObject.getTopic());
-                bundle.putString(AppConstants.SUB_TOPIC, articlesObject.getSubTopic());
-                StudyMaterialContentDisplayFragment fragment = new StudyMaterialContentDisplayFragment();
-                fragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, fragment, AppConstants.CONTENT)
-                        .addToBackStack(null).commit();
-            }
-        }
-
+        StudyMaterialArticleView studyMaterialArticlesListFragment = new StudyMaterialArticleView();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.ARTICLE, article);
+        studyMaterialArticlesListFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, studyMaterialArticlesListFragment, AppConstants.ARTICLE)
+                .addToBackStack(null).commit();
     }
 
     public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
