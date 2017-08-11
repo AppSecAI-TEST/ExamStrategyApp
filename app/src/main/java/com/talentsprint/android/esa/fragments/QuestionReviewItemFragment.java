@@ -105,7 +105,7 @@ public class QuestionReviewItemFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.optionText.loadData(optionsList.get(position),"text/html","UTF-8");
+            holder.optionText.setText(optionsList.get(position));
             if (optionsSelectedPosition == position && position == correctPosition) {
                 holder.mainView.setBackgroundResource(R.drawable.color_accent_runded_full_rect_stroke);
                 holder.tick.setVisibility(View.VISIBLE);
@@ -128,7 +128,7 @@ public class QuestionReviewItemFragment extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public ImageView tick;
-            public WebView optionText;
+            public TextView optionText;
             public View mainView;
 
             public MyViewHolder(View view) {

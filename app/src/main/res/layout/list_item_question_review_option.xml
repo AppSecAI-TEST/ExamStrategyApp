@@ -7,10 +7,10 @@
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingTop="6dp">
 
 
-    <WebView
+    <com.talentsprint.android.esa.views.OpenSansTextView
         android:id="@+id/optionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
