@@ -12,6 +12,7 @@ public class TaskObject implements Serializable {
     private String type;
     private boolean isPremium;
     private String status;
+    private String contentUrl;
     private ArticleInfo articleInfo;
     private String description;
 
@@ -71,4 +72,11 @@ public class TaskObject implements Serializable {
         isPremium = premium;
     }
 
+    public String getContentUrl() {
+        return contentUrl;
+    }
+
+    public void setContentUrl(String contentUrl) {
+        this.contentUrl = contentUrl;
+    }
 }

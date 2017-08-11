@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.TalentSprintApp;
 import com.talentsprint.android.esa.fragments.AlertsFragment;
 import com.talentsprint.android.esa.fragments.DashboardFragment;

@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.FiltersInterface;
 import com.talentsprint.android.esa.models.StratergyObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.HashMap;
 import java.util.List;

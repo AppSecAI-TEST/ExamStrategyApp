@@ -72,9 +72,9 @@
     <string name="register_tc_pp">By registering a new account, you agree with our\nTerms and Conditions AND our Privacy policy</string>
     <string name="results">RESULTS</string>
     <string name="explanation">EXPLANATION</string>
-    <string name="facebook_app_id">252580991902290</string>
+    <string name="facebook_app_id">221006148425273</string>
     <string name="fb_login_protocol_scheme">fb252580991902290</string>
-    <string name="check_mobi_api_key">A8575482-F5BC-4109-A6B6-AE6307D0D0C7</string>
+    <string name="check_mobi_api_key">9ED33565-10FF-477F-8203-939EDEF54BA9</string>
     <string name="premium_resource_content">This content can be accessed only by Premium\nUsers. Please contact Talentsprint for
         premium\noffers to buy the full package</string>
 </resources>

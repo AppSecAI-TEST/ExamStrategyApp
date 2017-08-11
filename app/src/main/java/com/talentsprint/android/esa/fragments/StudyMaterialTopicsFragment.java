@@ -10,8 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
 import com.talentsprint.android.esa.models.SubTopicsObject;
 import com.talentsprint.android.esa.models.TopicsObject;

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.NotificationsObject;
 import com.talentsprint.android.esa.models.PreviousAnswers;
@@ -23,6 +22,7 @@ import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.CircleTransform;
 import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
+import com.talentsprint.apps.talentsprint.R;
 
 import org.json.JSONObject;
 

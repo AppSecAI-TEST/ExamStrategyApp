@@ -11,7 +11,7 @@ public class HomeObject implements Serializable {
     private String nextExam;
     private String nextExamDate;
     private String status;
-    private ArrayList<CurrentAffairsObject> currentAffairs;
+    private ArrayList<CurrentAffairsListObject.CurrentAffairArticles> currentAffairs;
     private ArrayList<TaskObject> tasklist;
 
     public String getNextExam() {
@@ -38,13 +38,6 @@ public class HomeObject implements Serializable {
         this.status = status;
     }
 
-    public ArrayList<CurrentAffairsObject> getCurrentAffairs() {
-        return currentAffairs;
-    }
-
-    public void setCurrentAffairs(ArrayList<CurrentAffairsObject> currentAffairs) {
-        this.currentAffairs = currentAffairs;
-    }
 
     public ArrayList<TaskObject> getTasklist() {
         return tasklist;
@@ -52,5 +45,13 @@ public class HomeObject implements Serializable {
 
     public void setTasklist(ArrayList<TaskObject> tasklist) {
         this.tasklist = tasklist;
+    }
+
+    public ArrayList<CurrentAffairsListObject.CurrentAffairArticles> getCurrentAffairs() {
+        return currentAffairs;
+    }
+
+    public void setCurrentAffairs(ArrayList<CurrentAffairsListObject.CurrentAffairArticles> currentAffairs) {
+        this.currentAffairs = currentAffairs;
     }
 }

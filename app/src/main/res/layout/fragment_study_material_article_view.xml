@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.DashboardActivity">
+    >
 
     <com.talentsprint.android.esa.views.OpenSansStrongTextView
         android:id="@+id/subjectTopicText"
@@ -127,7 +127,7 @@
                 android:gravity="center"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:text="Finished"
+                android:text="Mark as complete"
                 android:textColor="#2c2b2b"
                 android:textSize="14dp"/>
         </LinearLayout>

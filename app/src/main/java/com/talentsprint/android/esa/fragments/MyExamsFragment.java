@@ -21,9 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.google.gson.JsonObject;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.TalentSprintApp;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;

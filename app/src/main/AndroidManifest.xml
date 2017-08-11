@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.talentsprint.android.esa">
+          package="com.talentsprint.apps.talentsprint">
 
     <application
-        android:name=".TalentSprintApp"
+        android:name="com.talentsprint.android.esa.TalentSprintApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,11 +15,11 @@
             android:value="DISABLE"/>
 
         <activity
-            android:name=".activities.DashboardActivity"
+            android:name="com.talentsprint.android.esa.activities.DashboardActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.talentsprint.android.esa.activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -30,26 +30,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.StudyMaterialActivity"
+            android:name="com.talentsprint.android.esa.activities.StudyMaterialActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.StudyMaterialTopicActivity"
+            android:name="com.talentsprint.android.esa.activities.StudyMaterialTopicActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.CurrentAffairsActivity"
+            android:name="com.talentsprint.android.esa.activities.CurrentAffairsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.CurrentAffairsTopicsActivity"
+            android:name="com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.TermsAndConditionsActivity"
+            android:name="com.talentsprint.android.esa.activities.TermsAndConditionsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.talentsprint.android.esa.activities.LoginActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name="com.talentsprint.android.esa.activities.SignUpActivity"
             android:screenOrientation="portrait">
         </activity>
 
@@ -74,12 +74,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.VideoPlayerActivity"
+            android:name="com.talentsprint.android.esa.activities.VideoPlayerActivity"
             android:configChanges="orientation|screenSize">
         </activity>
 
         <service
-            android:name=".services.NotificationExtenderBareBones"
+            android:name="com.talentsprint.android.esa.services.NotificationExtenderBareBones"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.onesignal.NotificationExtender"/>

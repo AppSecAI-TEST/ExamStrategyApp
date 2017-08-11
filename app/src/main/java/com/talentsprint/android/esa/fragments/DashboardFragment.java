@@ -17,8 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.activities.CurrentAffairsTopicsActivity;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
@@ -147,8 +146,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     }
 
     private void setValues() throws Exception {
-        CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getChildFragmentManager(), homeObject
-                .getCurrentAffairs());
+        CurrentAffairsFragmentAdapter adapter = new CurrentAffairsFragmentAdapter(getChildFragmentManager(), homeObject.getCurrentAffairs().get(0).getArticles());
         currentAffairsViewPager.setAdapter(adapter);
         indicator.setViewPager(currentAffairsViewPager);
         String status = homeObject.getStatus();
@@ -268,7 +266,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     @Override
     public void currentAffairsSelected() {
         Intent navigate = new Intent(getActivity(), CurrentAffairsTopicsActivity.class);
-        navigate.putExtra(AppConstants.CURRENT_AFFAIRS, homeObject.getCurrentAffairs());
+        navigate.putExtra(AppConstants.CURRENT_AFFAIRS, homeObject.getCurrentAffairs().get(0).getArticles());
         navigate.putExtra(AppConstants.POSITION, currentAffairsViewPager.getCurrentItem());
         startActivity(navigate);
     }
@@ -305,10 +303,19 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
             StudyMaterialArticleView studyMaterialArticlesListFragment = new StudyMaterialArticleView();
             Bundle bundle = new Bundle();
             bundle.putSerializable(AppConstants.ARTICLE, article);
+
             bundle.putBoolean(AppConstants.DASHBOARD, true);
             studyMaterialArticlesListFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, studyMaterialArticlesListFragment, AppConstants.ARTICLE)
+                    .addToBackStack(null).commit();
+        }else {
+            StrategyContentDisplayFragment strategyContentDisplayFragment = new StrategyContentDisplayFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(AppConstants.URL,taskObject.getContentUrl());
+            strategyContentDisplayFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, strategyContentDisplayFragment, AppConstants.ARTICLE)
                     .addToBackStack(null).commit();
         }
     }
@@ -409,10 +416,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 holder.statusImage.setImageResource(R.drawable.empty);
             if (taskObject.getType() != null)
                 switch (taskObject.getType()) {
-                    case AppConstants.NON_VIDEO:
-                        holder.topicName.setText("Non-Video");
-                        holder.topicImage.setImageResource(R.drawable.word_of_the_day);
-                        break;
                     case AppConstants.VIDEO:
                         holder.topicName.setText("Video");
                         holder.topicImage.setImageResource(R.drawable.video);
@@ -431,30 +434,25 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
                 public void onClick(View view) {
                     if (!taskObject.isPremium() || PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
                             .equalsIgnoreCase(AppConstants.PREMIUM)) {
-                        if (taskObject.getStatus() == null || !taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)) {
+                        if (taskObject.getStatus() != null) {
                             switch (taskObject.getType()) {
-                                case AppConstants.NON_VIDEO:
-                                    openContent(taskObject);
-                                    break;
                                 case AppConstants.VIDEO:
-                                    openContent(taskObject);
-                                    break;
-                                case AppConstants.VIDEO1:
+
                                     openContent(taskObject);
                                     break;
                                 case AppConstants.TEST:
-                                    openQuiz(taskObject.getTaskId());
+                                    if(!taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)) {
+                                        openQuiz(taskObject.getTaskId());
+                                    } else {
+                                        getReviewAnswers(taskObject.getTaskId());
+                                    }
                                     break;
                                 case AppConstants.WORD_OF_THE_DAY:
-                                    openContent(taskObject);
+                                    if(!taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)) {
+                                        openContent(taskObject);
+                                    }
                                     break;
                             }
-                        } else if (taskObject.getStatus() != null && taskObject.getStatus().equalsIgnoreCase(AppConstants
-                                .COMPLETED)
-                                && taskObject.getType()
-                                .equalsIgnoreCase(AppConstants.TEST)) {
-                            if (taskObject.getTaskId() != null && taskObject.getTaskId().length() > 0)
-                                getReviewAnswers(taskObject.getTaskId());
                         }
                     } else {
                         openContact(taskObject.getTitle());

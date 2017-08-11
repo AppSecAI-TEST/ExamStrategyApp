@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "387035461246",
-    "firebase_url": "https://examstratergyappdev.firebaseio.com",
-    "project_id": "examstratergyappdev",
-    "storage_bucket": "examstratergyappdev.appspot.com"
+    "project_number": "597839187123",
+    "firebase_url": "https://talentsprint-exam-strategy-app.firebaseio.com",
+    "project_id": "talentsprint-exam-strategy-app",
+    "storage_bucket": "talentsprint-exam-strategy-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:387035461246:android:0614a9eca67b27fc",
+        "mobilesdk_app_id": "1:597839187123:android:3a73d9bf0104f524",
         "android_client_info": {
-          "package_name": "com.talentsprint.android.esa"
+          "package_name": "com.talentsprint.apps.talentsprint"
         }
       },
       "oauth_client": [
         {
-          "client_id": "387035461246-8itboe02lmf6ob7mptgp8a3blg3u5ami.apps.googleusercontent.com",
+          "client_id": "597839187123-k25ejo63uv18virqhko1go84djd1vnri.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvkF56zxDg5C2LH74tN5apoFntKFz6yRM"
+          "current_key": "AIzaSyAGJowM3kPy5CaCTwPYOQojjBfOaEfJVo0"
         }
       ],
       "services": {

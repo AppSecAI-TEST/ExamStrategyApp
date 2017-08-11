@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 /**
  * A simple {@link Fragment} subclass.

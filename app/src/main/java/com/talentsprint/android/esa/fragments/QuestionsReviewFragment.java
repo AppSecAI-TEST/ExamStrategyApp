@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.TestReviewObject;

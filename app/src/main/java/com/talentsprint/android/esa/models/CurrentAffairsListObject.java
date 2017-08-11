@@ -2,6 +2,7 @@ package com.talentsprint.android.esa.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Anudeep Reddy on 7/10/2017.
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class CurrentAffairsListObject implements Serializable {
     private String topicName;
-    private ArrayList<CurrentAffairArticles> currentAffairArticles;
+    private List<CurrentAffairArticles> currentAffairArticles;
 
     public String getTopicName() {
         return topicName;
@@ -19,11 +20,11 @@ public class CurrentAffairsListObject implements Serializable {
         this.topicName = topicName;
     }
 
-    public ArrayList<CurrentAffairArticles> getCurrentAffairArticles() {
+    public List<CurrentAffairArticles> getCurrentAffairArticles() {
         return currentAffairArticles;
     }
 
-    public void setCurrentAffairArticles(ArrayList<CurrentAffairArticles> currentAffairArticles) {
+    public void setCurrentAffairArticles(List<CurrentAffairArticles> currentAffairArticles) {
         this.currentAffairArticles = currentAffairArticles;
     }
 

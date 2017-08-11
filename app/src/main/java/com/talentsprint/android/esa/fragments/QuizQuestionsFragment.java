@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.PreviousAnswers;
@@ -58,6 +57,7 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
     private Realm realm;
     private boolean answersSubmited = false;
     private PreviousAnswers previousAnswers;
+    private int extraTimeTaken = 0;
 
     public QuizQuestionsFragment() {
         // Required empty public constructor
@@ -143,6 +143,9 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
                 totalTimeForQuestions--;
                 if (totalTimeForQuestions < 0) {
                     totalTimer.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                }
+                if(totalTimeForQuestions == -1) {
+                    extraTimeTaken++;
                 }
                 long roundedNumber = Math.abs(totalTimeForQuestions);
                 if (roundedNumber < 60) {
@@ -274,7 +277,10 @@ public class QuizQuestionsFragment extends Fragment implements View.OnClickListe
         }
         TalentSprintApi apiService = ApiClient.getCacheClient(false).create(TalentSprintApi.class);
         long totalTime = 0;
-        if (totalTimeForQuestions > 0) {
+        if(extraTimeTaken == 1) {
+            totalTime = questionsObject.getTestTime() - totalTimeForQuestions;
+        }
+        else if (totalTimeForQuestions > 0) {
             totalTime = questionsObject.getTestTime() - totalTimeForQuestions;
         } else {
             totalTime = questionsObject.getTestTime() + totalTimeForQuestions;

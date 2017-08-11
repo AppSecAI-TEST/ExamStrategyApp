@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.ArrayList;
 
@@ -76,7 +76,9 @@ public class CurrentAffairsViewPagerFragment extends Fragment {
         public Fragment getItem(int position) {
             WebviewDisplayFragment item = new WebviewDisplayFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(AppConstants.URL, currentAffairs.get(position).getContentUrl());
+            bundle.putString("title",currentAffairs.get(position).getTitle());
+            bundle.putString("imageURL",currentAffairs.get(position).getImageUrl());
+            bundle.putString("description",currentAffairs.get(position).getDescription());
             item.setArguments(bundle);
             return item;
         }

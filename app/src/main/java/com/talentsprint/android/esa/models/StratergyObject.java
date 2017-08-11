@@ -124,10 +124,19 @@ public class StratergyObject implements Serializable {
         public String contentType;
         public String subject;
         public boolean isPremium;
+        public String contentUrl;
         public ArticleInfo articleInfo;
 
         public ArticleInfo getArticleInfo() {
             return articleInfo;
+        }
+
+        public String getContentUrl() {
+            return contentUrl;
+        }
+
+        public void setContentUrl(String contentUrl) {
+            this.contentUrl = contentUrl;
         }
 
         public void setArticleInfo(ArticleInfo articleInfo) {

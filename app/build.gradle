@@ -4,15 +4,15 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.talentsprint.android.esa"
+        applicationId "com.talentsprint.apps.talentsprint"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 103
+        versionName "2.0.103beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [onesignal_app_id               : "b1c90130-f492-49d9-b2e9-3e5ba7b6cc93",
+        manifestPlaceholders = [onesignal_app_id               : "2fdd5f49-45c9-4cdd-b9be-310e9f8d86ef",
                                 // Project number pulled from dashboard, local value is ignored.
-                                onesignal_google_project_number: "REMOTE"]
+                                onesignal_google_project_number: "597839187123"]
     }
     buildTypes {
         release {
@@ -51,6 +51,7 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'com.google.firebase:firebase-core:10.0.1'
     compile 'com.google.android.gms:play-services-auth:10.0.1'
+
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'realm-android'

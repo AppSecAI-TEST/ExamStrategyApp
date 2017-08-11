@@ -12,11 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.models.CurrentAffairsListObject;
 import com.talentsprint.android.esa.models.CurrentAffairsObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.CircleTransform;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.ArrayList;
 import java.util.List;

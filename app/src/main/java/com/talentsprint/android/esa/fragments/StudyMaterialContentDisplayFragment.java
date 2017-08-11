@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 /**
  * A simple {@link Fragment} subclass.

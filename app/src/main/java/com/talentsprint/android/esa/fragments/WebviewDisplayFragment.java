@@ -5,17 +5,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-
-import com.talentsprint.android.esa.R;
-import com.talentsprint.android.esa.utils.AppConstants;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.talentsprint.apps.talentsprint.R;
+import com.squareup.picasso.Picasso;
+import com.talentsprint.android.esa.utils.RoundedCornerTransformation;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class WebviewDisplayFragment extends Fragment {
 
-    WebView webViewContainer;
+    ImageView webViewContainer;
+    TextView title;
+    TextView description;
 
     public WebviewDisplayFragment() {
         // Required empty public constructor
@@ -25,8 +28,13 @@ public class WebviewDisplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_webview_display, container, false);
+        title = fragmentView.findViewById(R.id.title);
+        description = fragmentView.findViewById(R.id.description);
         webViewContainer = fragmentView.findViewById(R.id.webViewContainer);
-        webViewContainer.loadUrl(getArguments().getString(AppConstants.URL));
+        Picasso.with(getActivity()).load(getArguments().getString("imageURL")).
+                transform(new RoundedCornerTransformation(5, 0, RoundedCornerTransformation.CornerType.ALL)).into(webViewContainer);
+        title.setText(getArguments().getString("title"));
+        description.setText(getArguments().getString("description"));
         return fragmentView;
     }
 

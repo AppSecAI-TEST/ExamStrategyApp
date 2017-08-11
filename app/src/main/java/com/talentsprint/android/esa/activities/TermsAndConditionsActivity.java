@@ -8,8 +8,7 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.utils.AppConstants;
 
 public class TermsAndConditionsActivity extends Activity implements View.OnClickListener {

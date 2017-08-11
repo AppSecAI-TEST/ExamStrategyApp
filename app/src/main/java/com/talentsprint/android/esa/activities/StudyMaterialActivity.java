@@ -17,8 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.models.ExamObject;
 import com.talentsprint.android.esa.models.GetExamsObject;
 import com.talentsprint.android.esa.models.GetSubjectsObject;

@@ -14,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.QuestionsObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

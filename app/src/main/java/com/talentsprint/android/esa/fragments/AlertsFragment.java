@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;

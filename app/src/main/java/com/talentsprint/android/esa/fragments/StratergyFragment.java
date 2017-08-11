@@ -12,10 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.dialogues.CalenderDialogue;
 import com.talentsprint.android.esa.dialogues.FilterDialogue;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
@@ -459,11 +458,20 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             article.setArticleInfo(taskObject.getArticleInfo());
             StudyMaterialArticleView studyMaterialArticlesListFragment = new StudyMaterialArticleView();
             Bundle bundle = new Bundle();
+            bundle.putString("status",taskObject.getStatus());
             bundle.putSerializable(AppConstants.ARTICLE, article);
             bundle.putBoolean(AppConstants.DASHBOARD, true);
             studyMaterialArticlesListFragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, studyMaterialArticlesListFragment, AppConstants.ARTICLE)
+                    .addToBackStack(null).commit();
+        }else {
+            StrategyContentDisplayFragment strategyContentDisplayFragment = new StrategyContentDisplayFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(AppConstants.URL,taskObject.getContentUrl());
+            strategyContentDisplayFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, strategyContentDisplayFragment, AppConstants.ARTICLE)
                     .addToBackStack(null).commit();
         }
     }
@@ -547,7 +555,15 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (taskObject.getStatus() == null || !(taskObject.getStatus().equals("Completed"))) {
+
+                    if (taskObject.getStatus() != null && taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)
+                            && taskObject.getType()
+                            .equalsIgnoreCase(AppConstants.TEST)) {
+                        if (taskObject.getTaskId() != null && taskObject.getTaskId().length() > 0)
+                            getReviewAnswers(taskObject.getTaskId());
+                    }
+                   if (taskObject.getStatus() != null) {
+
                         boolean isOpenTask = (!taskObject.isPremium()
                                 && taskObject.getDate().equalsIgnoreCase(todaysDate)) ||
                                 (PreferenceManager.getString(getActivity(), AppConstants.USER_TYPE, "")
@@ -566,26 +582,17 @@ public class StratergyFragment extends Fragment implements View.OnClickListener,
                                                 AppUtils.getLongFromYYYMMDD(taskObject.getDate());
                                         long days7 = 1000 * 60 * 60 * 24 * 7;
                                         //checking if the task date is between -7 to 0
-                                        if (differenceLong < days7 && differenceLong > 0)
-                                            openQuiz(taskObject);
-                                        else
+                                        if (!(differenceLong < days7 && differenceLong > 0))
                                             Toast.makeText
                                                     (getActivity(), "Task not accessible", Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
                                     }
                                     break;
-                                case AppConstants.WORD_OF_THE_DAY:
-                                    openContent(taskObject);
-                                    break;
+
                             }
                         } else {
                             openContact(taskObject.getTitle());
                         }
-                    } else if (taskObject.getStatus() != null && taskObject.getStatus().equalsIgnoreCase(AppConstants.COMPLETED)
-                            && taskObject.getType()
-                            .equalsIgnoreCase(AppConstants.TEST)) {
-                        if (taskObject.getTaskId() != null && taskObject.getTaskId().length() > 0)
-                            getReviewAnswers(taskObject.getTaskId());
                     }
                 }
             });

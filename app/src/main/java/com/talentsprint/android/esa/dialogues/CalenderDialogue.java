@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.fragments.CalenderFragment;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.Calendar;
 
@@ -118,6 +118,9 @@ public class CalenderDialogue extends DialogFragment implements CalenderInterfac
     @Override
     public void selectedDate(long date) {
         calenderInterface.selectedDate(date);
+        Bundle bundle = new Bundle();
+        bundle.putLong("selectedDate",date);
+
         dismiss();
     }
 

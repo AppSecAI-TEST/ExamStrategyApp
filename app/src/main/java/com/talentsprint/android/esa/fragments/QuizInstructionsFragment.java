@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.models.TestPropertiesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.List;
 

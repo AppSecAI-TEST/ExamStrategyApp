@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
 import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
 import com.talentsprint.android.esa.models.ArticlesObject;
@@ -19,6 +18,7 @@ import com.talentsprint.android.esa.models.GetContact;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.TalentSprintApi;
+import com.talentsprint.apps.talentsprint.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;

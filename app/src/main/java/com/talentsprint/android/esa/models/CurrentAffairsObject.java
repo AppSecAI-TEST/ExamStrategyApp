@@ -1,5 +1,7 @@
 package com.talentsprint.android.esa.models;
 
+import com.talentsprint.android.esa.fragments.StrategyContentDisplayFragment;
+
 import java.io.Serializable;
 
 /**
@@ -9,9 +11,19 @@ import java.io.Serializable;
 public class CurrentAffairsObject implements Serializable {
     private String shortDescription;
     private String contentUrl;
+    private String description;
     private String id;
     private String title;
     private String imageUrl;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getShortDescription() {
         return shortDescription;

@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.CalenderInterface;
 import com.talentsprint.android.esa.models.CalenderObject;
 import com.talentsprint.android.esa.utils.AppConstants;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

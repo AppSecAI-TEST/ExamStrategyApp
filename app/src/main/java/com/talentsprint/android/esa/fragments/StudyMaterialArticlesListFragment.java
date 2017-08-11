@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.CircleTransform;
 import com.talentsprint.android.esa.utils.PreferenceManager;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.ArrayList;
 

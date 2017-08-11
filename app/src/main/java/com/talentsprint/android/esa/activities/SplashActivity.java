@@ -8,9 +8,8 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.onesignal.OneSignal;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.PreferenceManager;
 import com.talentsprint.android.esa.utils.ServiceManager;

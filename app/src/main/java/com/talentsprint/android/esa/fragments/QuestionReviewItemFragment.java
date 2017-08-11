@@ -12,8 +12,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.interfaces.QuizInterface;
 import com.talentsprint.android.esa.models.TestReviewObject;
 import com.talentsprint.android.esa.utils.AppConstants;
@@ -106,7 +105,7 @@ public class QuestionReviewItemFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.optionText.setText(optionsList.get(position));
+            holder.optionText.loadData(optionsList.get(position),"text/html","UTF-8");
             if (optionsSelectedPosition == position && position == correctPosition) {
                 holder.mainView.setBackgroundResource(R.drawable.color_accent_runded_full_rect_stroke);
                 holder.tick.setVisibility(View.VISIBLE);
@@ -129,7 +128,7 @@ public class QuestionReviewItemFragment extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public ImageView tick;
-            public TextView optionText;
+            public WebView optionText;
             public View mainView;
 
             public MyViewHolder(View view) {

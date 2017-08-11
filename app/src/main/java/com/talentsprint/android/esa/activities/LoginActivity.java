@@ -25,7 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonObject;
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.fragments.LoginHomeFragment;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
 import com.talentsprint.android.esa.utils.ApiClient;

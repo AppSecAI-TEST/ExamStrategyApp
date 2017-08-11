@@ -13,8 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.activities.LoginActivity;
 import com.talentsprint.android.esa.models.ArticlesObject;
 import com.talentsprint.android.esa.utils.AppConstants;
@@ -83,6 +82,19 @@ public class GotoRegisterFragment extends Fragment {
         title = fragmentView.findViewById(R.id.title);
         subjectTopicText = fragmentView.findViewById(R.id.subjectTopicText);
         subjectSubTopicText = fragmentView.findViewById(R.id.subjectSubTopicText);
+        subjectSubTopicText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        subjectTopicText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void navigateToLogin() {

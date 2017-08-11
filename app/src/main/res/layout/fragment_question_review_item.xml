@@ -90,7 +90,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/centreDivider"
+
             android:gravity="center"
             android:text="Correct Answer :"
             android:textColor="@color/colorAccent"/>

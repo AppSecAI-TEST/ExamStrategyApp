@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.models.AffairsTopicObject;
 import com.talentsprint.android.esa.utils.AppConstants;
 

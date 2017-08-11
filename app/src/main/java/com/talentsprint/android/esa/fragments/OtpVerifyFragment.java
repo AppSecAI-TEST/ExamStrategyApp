@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.checkmobi.sdk.AsyncResponse;
 import com.checkmobi.sdk.CheckMobiService;
 import com.checkmobi.sdk.ValidationType;
 import com.google.gson.JsonObject;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.activities.SignUpActivity;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
 import com.talentsprint.android.esa.utils.ApiClient;

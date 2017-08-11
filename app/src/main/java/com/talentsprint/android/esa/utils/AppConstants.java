@@ -18,10 +18,9 @@ public class AppConstants {
     public static final String PREPARING_STRATERGY = "Preparing Strategy";
     public static final String STRATERGY_IS_READY = "Strategy prepared";
     public static final String NON_VIDEO = "non-video";
-    public static final String VIDEO = "video";
-    public static final String VIDEO1 = "Video";
+    public static final String VIDEO = "Video";
     public static final String TEST = "test";
-    public static final String WORD_OF_THE_DAY = "word-of-the-day";
+    public static final String WORD_OF_THE_DAY = "non-video";
     public static final String COOKIES = "cookies";
     public static final int CALENDER_TODAYS_PAGE_NUMBER = 300;
     public static final int CALENDER_TOTAL_PAGES = 600;

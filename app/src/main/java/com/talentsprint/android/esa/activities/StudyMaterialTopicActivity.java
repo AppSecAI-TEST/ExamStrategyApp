@@ -8,8 +8,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.fragments.StudyMaterialTopicsFragment;
 import com.talentsprint.android.esa.interfaces.StudyMaterialActivityInterface;
 import com.talentsprint.android.esa.models.TopicsObject;

@@ -18,9 +18,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.talentsprint.apps.talentsprint.R;
 import com.google.gson.JsonObject;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.utils.ApiClient;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;

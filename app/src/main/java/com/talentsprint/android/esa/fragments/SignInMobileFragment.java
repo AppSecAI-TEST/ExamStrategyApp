@@ -12,11 +12,11 @@ import android.widget.Toast;
 import com.checkmobi.sdk.AsyncResponse;
 import com.checkmobi.sdk.CheckMobiService;
 import com.checkmobi.sdk.ValidationType;
-import com.talentsprint.android.esa.R;
 import com.talentsprint.android.esa.interfaces.LoginInterface;
 import com.talentsprint.android.esa.utils.AppConstants;
 import com.talentsprint.android.esa.utils.AppUtils;
 import com.talentsprint.android.esa.utils.ServiceManager;
+import com.talentsprint.apps.talentsprint.R;
 
 import java.util.Map;
 

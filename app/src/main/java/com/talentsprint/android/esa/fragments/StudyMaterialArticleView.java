@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-import com.talentsprint.android.esa.R;
+import com.talentsprint.apps.talentsprint.R;
 import com.talentsprint.android.esa.TalentSprintApp;
 import com.talentsprint.android.esa.activities.VideoPlayerActivity;
 import com.talentsprint.android.esa.interfaces.DashboardActivityInterface;
